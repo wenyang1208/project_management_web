@@ -1,0 +1,73 @@
+body {
+    background-color: #A8CAEA;
+    padding: 20px;
+  }
+  .white-frame{
+    background:white;
+    padding: 10px;
+    margin:10px;
+
+  }
+  
+  .cardview {
+    background-color: #E3F6FC;
+    border: 1px solid #E3F6FC;
+    padding: 10px;
+    width: 50%;
+  }
+  
+  .task-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .priority {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  .story-points {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  .tags {
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .menu-bar {
+    position: relative;
+    display: block;
+    width: 5%;
+    padding: 3px;
+}
+
+.menu-bar button {
+    background-color: gray;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-items {
+    display: none;
+    position: absolute;
+    background-color: gray;
+    padding: 5px;
+}
+
+.menu-items a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.menu-bar:hover .menu-items {
+    display: block;
+}
+
+
+  
