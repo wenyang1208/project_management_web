@@ -9,11 +9,17 @@ body {
 
   }
   
+  .card-views {
+    display: flex; 
+    justify-content: space-between; 
+  }
+  
   .cardview {
     background-color: #E3F6FC;
     border: 1px solid #E3F6FC;
     padding: 10px;
-    width: 50%;
+    width: 48%; 
+    box-sizing: border-box; 
   }
   
   .task-name {
@@ -21,17 +27,7 @@ body {
     font-weight: bold;
   }
   
-  .priority {
-    font-size: 16px;
-    font-weight: normal;
-  }
-  
-  .story-points {
-    font-size: 16px;
-    font-weight: normal;
-  }
-  
-  .tags {
+  .priority, .story-points, .tags {
     font-size: 16px;
     font-weight: normal;
   }
@@ -69,5 +65,23 @@ body {
     display: block;
 }
 
-
+.button-container {
+    text-align: right; 
+    margin-top: 5px; 
+  }
+  
+.add-button, .delete-button {
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+    width: 40px;
+    text-align: center;
+    line-height: center; 
+    margin-left: auto;
+    display: block;
+}
   
