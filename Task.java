@@ -15,7 +15,7 @@ public class Task {
         Urgent
     }
     private Tag tag;
-    public enum Tag{
+    public enum Tag{ // need to change as can have multiple tags
         FrontEnd,
         BackEnd,
         API,
@@ -59,5 +59,18 @@ public class Task {
         this.status = status;
         this.numericalStoryPoint = numericalStoryPoint;
         this.currentStage = currentStage;
+    }
+
+    @Override
+    public String toString() {
+        return "Task name: " + name + "\n" +
+                "Category: " + category + "\n" +
+                "Assignee:" + assignee + "\n" +
+                "Priority:" + priority + "\n" +
+                "Tag: " + tag + "\n" +
+                "Description: " + description + "\n" +
+                "Status: " + status + "\n" +
+                "Numerical Story Point: " + numericalStoryPoint + "\n" +
+                "Current Stage: " + currentStage + "\n";
     }
 }
