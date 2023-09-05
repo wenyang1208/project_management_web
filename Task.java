@@ -1,10 +1,20 @@
+import com.sun.source.tree.BreakTree;
 
 public class Task {
     private String name;
     private Category category;
     public enum Category{
-        Story,
-        Bug
+        Story("Story"),
+        Bug("Bug");
+
+        private final String stringCategory;
+        private Category(String stringCategory) {
+            this.stringCategory = stringCategory;
+        }
+        public String getStringCategory(){
+            return stringCategory;
+        }
+
     }
     private String assignee;
     private Priority priority;
@@ -63,7 +73,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task name: " + name + "\n" +
+        return "\nTask name: " + name + "\n" +
                 "Category: " + category + "\n" +
                 "Assignee:" + assignee + "\n" +
                 "Priority:" + priority + "\n" +
