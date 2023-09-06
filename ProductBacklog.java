@@ -75,7 +75,43 @@ public class ProductBacklog {
         return this.tasks;
     }
     public ArrayList<ArrayList<Task>> deleteTask(){
-        ArrayList<Task> tasks = new ArrayList<>();
+        
+        System.out.println("Current Tasks in the Product Backlog:");
+        for (int i = 0; i < tasks.size(); i++) {
+            ArrayList<Task> taskList = tasks.get(i);
+            for (int j = 0; j < taskList.size(); j++) {
+                Task task = taskList.get(j);
+                System.out.println((i + 1) + "." + (j + 1) + ") " + task.toString());
+            }
+        }
+
+        System.out.print("Enter the index of the task you want to delete: ");
+        int taskIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+            System.out.println("Invalid task index. No task deleted.");
+            return tasks; 
+        }
+
+        ArrayList<Task> taskList = tasks.get(taskIndex);
+
+        if (taskList.isEmpty()) {
+            System.out.println("No tasks in the selected category to delete.");
+            return tasks; 
+        }
+
+        System.out.print("Enter the index of the task in the selected category to delete: ");
+        int subTaskIndex = Integer.parseInt(scanner.nextLine()) - 1;
+
+        if (subTaskIndex < 0 || subTaskIndex >= taskList.size()) {
+            System.out.println("Invalid subtask index. No task deleted.");
+            return tasks; 
+        }
+
+        Task deletedTask = taskList.remove(subTaskIndex);
+        System.out.println("Task deleted successfully:\n" + deletedTask.toString());
+        
+        // ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(this.tasks);
         return this.tasks;
     }
