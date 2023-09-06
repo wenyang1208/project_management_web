@@ -1,19 +1,19 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ProductBacklog {
     Scanner scanner = new Scanner(System.in);
-    private ArrayList<Task> tasks;
+    private ArrayList<ArrayList<Task>> tasks;
     private Task task;
 
     public ProductBacklog() {
-        this.tasks = new ArrayList<>();
+        this.tasks = new ArrayList<ArrayList<Task>>();
     }
-    public ArrayList<Task> addTask(){
+    public ArrayList<ArrayList<Task>> addTask(){
         ArrayList<Task> tasks = new ArrayList<>();
         System.out.println("Name of Task");
         String newName = scanner.nextLine();
+
 
         System.out.println("Category of Task");
         for (int i = 0; i < Task.Category.values().length; i++){
@@ -27,33 +27,74 @@ public class ProductBacklog {
         String newAssignee = scanner.nextLine();
 
 
-        tasks.add(new Task(newName, newCategory, newAssignee, Task.Priority.Low, Task.Tag.BackEnd, "lol", Task.Status.In_Progress, 1, Task.CurrentStage.Testing));
+        System.out.println("Priority of Task");
+        for (int i = 0; i < Task.Priority.values().length; i++){
+            System.out.println((i+1) + ") " + Task.Priority.values()[i].getStringPriority());
+        }
+        selection = Integer.parseInt(scanner.nextLine());
+        Task.Priority newPriority = Task.Priority.values()[selection-1];
+
+
+        System.out.println("Tag of Task");
+        ArrayList<Task.Tag> tags = new ArrayList<>();
+        for (int i = 0; i < Task.Tag.values().length; i++){
+            System.out.println((i+1) + ") " + Task.Tag.values()[i].getStringTag());
+        }
+        System.out.println((Task.Tag.values().length + 1)+ ") Stop Adding");
+        selection = Integer.parseInt(scanner.nextLine());
+        while(selection != Task.Tag.values().length + 1){
+            tags.add(Task.Tag.values()[selection-1]);
+            selection = Integer.parseInt(scanner.nextLine());
+        }
+
+
+        System.out.println("Description of Task");
+        String newDescription = scanner.nextLine();
+
+
+        System.out.println("Numerical Story Point of Task");
+        int num = Integer.parseInt(scanner.nextLine());
+        while(num < 1 && num > 10 ){
+            num = Integer.parseInt(scanner.nextLine());
+        }
+        int newNumericalStoryPoint = num;
+
+
+        System.out.println("Current Stage of Task");
+        for (int i = 0; i < Task.CurrentStage.values().length; i++){
+            System.out.println((i+1) + ") " + Task.CurrentStage.values()[i].getStringCurrentStage());
+        }
+        selection = Integer.parseInt(scanner.nextLine());
+        Task.CurrentStage newCurrentStage = Task.CurrentStage.values()[selection-1];
+
+
+        tasks.add(new Task(newName, newCategory, newAssignee, newPriority, tags, newDescription, Task.Status.Not_Started, newNumericalStoryPoint, newCurrentStage));
         System.out.println("\nAdding task...\n");
-        this.tasks = tasks;
+        this.tasks.add(tasks);
         System.out.println(this.tasks);
         return this.tasks;
     }
-    public ArrayList<Task> deleteTask(){
+    public ArrayList<ArrayList<Task>> deleteTask(){
         ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(this.tasks);
         return this.tasks;
     }
-    public ArrayList<Task> editTask(){
+    public ArrayList<ArrayList<Task>> editTask(){
         ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(this.tasks);
         return this.tasks;
     }
-    public ArrayList<Task> sortTask(){
+    public ArrayList<ArrayList<Task>> sortTask(){
         ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(this.tasks);
         return this.tasks;
     }
-    public ArrayList<Task> filterTask(){
+    public ArrayList<ArrayList<Task>> filterTask(){
         ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(this.tasks);
         return this.tasks;
     }
-    public ArrayList<Task> save(){
+    public ArrayList<ArrayList<Task>> save(){
         ArrayList<Task> tasks = new ArrayList<>();
         System.out.println(this.tasks);
         return this.tasks;

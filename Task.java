@@ -1,4 +1,4 @@
-import com.sun.source.tree.BreakTree;
+import java.util.ArrayList;
 
 public class Task {
     private String name;
@@ -14,48 +14,75 @@ public class Task {
         public String getStringCategory(){
             return stringCategory;
         }
-
     }
     private String assignee;
     private Priority priority;
     public enum Priority{
-        Low,
-        Medium,
-        Important,
-        Urgent
+        Low("Low"),
+        Medium("Medium"),
+        Important("Important"),
+        Urgent("Urgent");
+        private final String stringPriority;
+        private Priority(String stringPriority) {
+            this.stringPriority = stringPriority;
+        }
+        public String getStringPriority(){
+            return stringPriority;
+        }
     }
-    private Tag tag;
+    private ArrayList<Tag> tag;
     public enum Tag{ // need to change as can have multiple tags
-        FrontEnd,
-        BackEnd,
-        API,
-        Database,
-        Framework,
-        Testing,
-        UI,
-        UX
+        FrontEnd("Front End"),
+        BackEnd("Back End"),
+        API("API"),
+        Database("Database"),
+        Framework("Framework"),
+        Testing("Testing"),
+        UI("UI"),
+        UX("UX");
+        private final String stringTag;
+        private Tag(String stringTag) {
+            this.stringTag = stringTag;
+        }
+        public String getStringTag(){
+            return stringTag;
+        }
     }
     private String description;
     private Status status;
     public enum Status{
-        Not_Started,
-        In_Progress,
-        Completed
+        Not_Started("Not Started"),
+        In_Progress("In Progress"),
+        Completed("Completed");
+        private final String stringStatus;
+        private Status(String stringStatus) {
+            this.stringStatus = stringStatus;
+        }
+        public String getStringStatus(){
+            return stringStatus;
+        }
     }
     private int numericalStoryPoint;
     private CurrentStage currentStage;
     public enum CurrentStage{
-        Planning,
-        Development,
-        Testing,
-        Integration
+        Planning("Planning"),
+        Development("Development"),
+        Testing("Testing"),
+        Integration("Integration");
+        private final String stringCurrentStage;
+        private CurrentStage(String stringCurrentStage) {
+            this.stringCurrentStage = stringCurrentStage;
+        }
+        public String getStringCurrentStage(){
+            return stringCurrentStage;
+        }
     }
 
     public Task(String name,
                 Category category,
                 String assignee,
                 Priority priority,
-                Tag tag,
+                ArrayList<Tag> tag,
                 String description,
                 Status status,
                 int numericalStoryPoint,
@@ -75,8 +102,8 @@ public class Task {
     public String toString() {
         return "\nTask name: " + name + "\n" +
                 "Category: " + category + "\n" +
-                "Assignee:" + assignee + "\n" +
-                "Priority:" + priority + "\n" +
+                "Assignee: " + assignee + "\n" +
+                "Priority: " + priority + "\n" +
                 "Tag: " + tag + "\n" +
                 "Description: " + description + "\n" +
                 "Status: " + status + "\n" +
