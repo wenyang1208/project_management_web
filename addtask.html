@@ -231,6 +231,110 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 
 
+
+
+
+
+
+
+
+
+.tags-container {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+  }
+  
+ 
+  .tags {
+    background-color: #4472c4; 
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+ 
+  }
+
+
+  .tags.tags1{
+    background-color: #AF4A93; /*Frontend*/
+    color: white;
+  }
+
+  .tags.tags1::before {
+    content: "FrontEnd"; /*Set the content for tag1*/
+  }
+
+  .tags.tags2{
+    background-color: #EE8306; /*Backend*/
+    color: white;
+  }
+
+  .tags.tags2::before {
+    content: "BackEnd"; /*Set the content for tag2*/
+  }
+
+  .tags.tags3{
+    background-color: #DFCC22; /*API*/
+    color: white;
+  }
+
+  .tags.tags3::before {
+    content: "API"; /*Set the content for tag3*/
+  }
+
+  .tags.tags4{
+    background-color: #3EC133; /*Database*/
+    color: white;
+  }
+  .tags.tags4::before {
+    content: "Database";/*Set the content for tag4*/
+  }
+ 
+  .tags.tags5{
+    background-color: #B4D0F9; /*Framework*/
+    color: white;
+  }
+
+  .tags.tags5::before {
+    content: "Framework"; /*Set the content for tag5*/
+  }
+
+  .tags.tags6{
+    background-color: #9747FF; /*Testing*/
+    color: white;
+  }
+
+  .tags.tags6::before {
+    content: "Testing";/*Set the content for tag6*/
+  }
+
+  .tags.tags7{
+    background-color: #959AA1; /*UI*/
+    color: white;
+  }
+
+  .tags.tags7::before {
+    content: "UI"; /*Set the content for tag7*/
+  }
+
+  .tags.tags8{
+    background-color: #964B00; /*UX*/
+    color: white;
+  }
+
+  .tags.tags8::before {
+    content: "UX"; /*Set the content for tag8*/
+  }
+
+
+
+  
+
+
+
 </style>
 </head>
 <body>
@@ -316,11 +420,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
           <a href="#">Testing</a>
           <a href="#">UI</a>
           <a href="#">UX</a>
-
         </div>
       </div>
-   
- 
     <a href="prodBacklog.html" class="cancel">Delete</a>
      
 
@@ -330,6 +431,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
+
 </script>
 
 </body>
