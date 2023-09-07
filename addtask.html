@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the add task - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  top: 23px;
+  width: 99%;
+  height: 500px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 900px;
+  padding: 30px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=description] {
+  width: 60%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.form-container input[type=text], .form-container input[type="task name"] {
+  width: 60%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+}
+
+
+/* Set a style for the save button */
+.form-container .btn {
+  background-color: #5b76cf;
+  color: rgb(242, 243, 248);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  position: fixed;
+  right: 60px;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* the delete button */
+.form-container .cancel {
+  background-color: rgb(71, 98, 173);
+  color: rgb(242, 243, 248);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  position: fixed;
+  right: 60px;
+  top: 415px;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+
+/* tags button */
+.dropbtn {
+  background-color: rgb(71, 98, 173);
+  color: rgb(242, 243, 248);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+  
+}
+
+.dropup {
+  position: fixed;
+  display: inline-block;
+  right: 60px;
+  top: 360px;
+}
+
+.dropup-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  bottom: 50px;
+  z-index: 1;
+}
+
+.dropup-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropup-content a:hover {background-color: #ccc}
+
+.dropup:hover .dropup-content {
+  display: block;
+}
+
+.dropup:hover .dropbtn {
+  background-color: #2980B9;
+}
+
+
+.value-button {
+  display: inline-block;
+}
+
+
+
+</style>
+</head>
+<body>
+<button class="open-button" onclick="openForm()">Add new task</button>
+
+<div class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+    <h1><input type="task name" placeholder="Enter task name" name="name" ></h1>
+
+    <label for="asignee"><b>Asignee</b></label>
+    <select name="asignee" id="asignees">
+    </select>
+    
+    <label for="story point"><b>&emsp;&emsp;&emsp;&emsp;Story point</b></label> 
+    <button onclick="increment()">+</button>
+    <div class="value-button" id="decrease" onclick="decreaseValue()"></div>
+    <input type="number" id="number" value="0" />
+    <div class="value-button" id="increase" onclick="increaseValue()"></div>
+    <button onclick="decrement()">-</button>
+
+
+    <br>
+    <br>
+    <label for="priority"><b>Priority</b></label>
+    <select name="priority" id="priorities">
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="important">Important</option>
+      <option value="urgent">Urgent</option>
+    </select>
+    
+
+    <label for="status"><b>&emsp;&emsp;&emsp;&emsp;Status</b></label> 
+
+    <input type="checkbox" id="ns" name="ns" value="Not Started">
+    <label for="ns"> Not Started </label>
+    <b>&emsp;&emsp;</b><input type="checkbox" id="ip" name="ip" value="In Progress">
+    <label for="ip"> In Progress </label>
+    <b>&emsp;&emsp;</b><input type="checkbox" id="c" name="c" value="Completed">
+    <label for="c"> Completed</label><br>
+
+    
+    <br>
+    <br>
+    <label for="stage"><b>Stage of task</b></label>
+    <select name="stage" id="stages">
+        <option value="planning">Planning</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="integration">Integration</option>
+      </select>
+
+    <br>
+    <br>
+    <label for="description"><b>Task description</b></label>
+    <input type="description" placeholder="Enter description" name="desc" >
+
+    <button type="submit" class="btn">Save</button>
+    <div class="dropup">
+      <button class="dropbtn">Tags</button>
+      <div class="dropup-content">
+        <a href="#">FrontEnd</a>
+        <a href="#">BackEnd</a>
+        <a href="#">API</a>
+        <a href="#">Database</a>
+        <a href="#">Framework</a>
+        <a href="#">Testing</a>
+        <a href="#">UI</a>
+        <a href="#">UX</a>
+
+      </div>
+    </div>
+ 
+    <button type="button" class="cancel" onclick="closeForm()">Delete</button>
+  </form>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+
+</body>
+</html>
+
+
