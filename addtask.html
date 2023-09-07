@@ -68,6 +68,7 @@ body {
   width: 20%;
   position: fixed;
   right: 60px;
+  top: 300px;
   margin-bottom:10px;
   opacity: 0.8;
 }
@@ -214,21 +215,32 @@ body {
 	background: white;
 }
 
-.container {
+.threedots {
+  position: fixed; 
+  right: 300px;
+}
+
+.category {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  bottom: 50px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
-.dropup {
-  position: fixed;
-  display: inline-block;
-  right: 60px;
-  top: 360px;
+.category label {
+  color: black;
+  padding: 10px 30px;
+  text-decoration: none;
+  display: block;
 }
+
+.category label:hover {background-color: #ddd;}
+
+.threedots:hover .category{display: block;}
+
+
 
 </style>
 </head>
@@ -241,20 +253,19 @@ body {
       <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
     </div>
     <div class="threedots">
-      <div class="bar1"></div>
-      <div class="bar2"></div>
-      <div class="bar3"></div>
+      <a class ="dotsbutton" href = "#"><img src="threedots.png" width=20px height = 30px></a>
+      <div class="category">
+        <label class="container">Bug
+          <input type="radio" checked="checked" name="radio">
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Story
+          <input type="radio" name="radio">
+          <span class="checkmark"></span>
+        </label>
+        </div>
     </div>
-    <div class="category">
-    <label class="container">Bug
-      <input type="radio" checked="checked" name="radio">
-      <span class="checkmark"></span>
-    </label>
-    <label class="container">Story
-      <input type="radio" name="radio">
-      <span class="checkmark"></span>
-    </label>
-    </div>
+    
 
     <h1><input type="task name" placeholder="Enter task name" name="name" ></h1>
 
