@@ -3,8 +3,22 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+/* body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;} */
+
+body {
+    background-color: #A8CAEA;
+    padding: 20px;
+}
+
+.white-frame {
+    background: white;
+    height: 3000px;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 900px; /* Limit the width of the white frame */
+    margin: 0 auto; /* Center the white frame horizontally */
+}
 
 /* Button used to open the add task - fixed at the bottom of the page */
 .open-button {
@@ -18,17 +32,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
   bottom: 23px;
   right: 28px;
   width: 280px;
-}
-
-/* The popup form - hidden by default */
-.form-popup {
-  display: none;
-  position: fixed;
-  top: 23px;
-  width: 99%;
-  height: 500px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
 }
 
 /* Add styles to the form container */
@@ -82,6 +85,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   top: 415px;
   margin-bottom:10px;
   opacity: 0.8;
+  text-decoration: none;
 }
 
 
@@ -141,9 +145,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 </head>
 <body>
-<button class="open-button" onclick="openForm()">Add new task</button>
-
-<div class="form-popup" id="myForm">
+<div class="white-frame">
+<!-- <div class="form-popup" id="myForm"> -->
   <form action="/action_page.php" class="form-container">
     <h1><input type="task name" placeholder="Enter task name" name="name" ></h1>
 
@@ -211,15 +214,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
       </div>
     </div>
  
-    <button type="button" class="cancel" onclick="closeForm()">Delete</button>
+    <a href="prodBacklog.html" class="cancel">Delete</a>
+
   </form>
 </div>
+<!-- </div> -->
 
 <script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
