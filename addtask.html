@@ -3,22 +3,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-/* body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;} */
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
 
-body {
-    background-color: #A8CAEA;
-    padding: 20px;
-}
-
-.white-frame {
-    background: white;
-    height: 3000px;
-    padding: 20px;
-    border-radius: 5px;
-    max-width: 900px; /* Limit the width of the white frame */
-    margin: 0 auto; /* Center the white frame horizontally */
-}
 
 /* Button used to open the add task - fixed at the bottom of the page */
 .open-button {
@@ -72,6 +59,8 @@ body {
   margin-bottom:10px;
   opacity: 0.8;
 }
+
+
 
 /* the delete button */
 .form-container .cancel {
@@ -207,12 +196,12 @@ body {
 
 /* Style the indicator (dot/circle) */
 .container .checkmark:after {
- 	top: 9px;
-	left: 9px;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: white;
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
 }
 
 .threedots {
@@ -245,8 +234,7 @@ body {
 </style>
 </head>
 <body>
-<div class="white-frame">
-<!-- <div class="form-popup" id="myForm"> -->
+
   <form action="/action_page.php" class="form-container">
 
     <div class="previous-page">
@@ -315,28 +303,29 @@ body {
     <br>
     <label for="description"><b>Task description</b></label>
     <input type="description" placeholder="Enter description" name="desc" >
+   
+      <button type="submit" class="btn">Save</button>
+      <div class="dropup">
+        <button class="dropbtn">Tags</button>
+        <div class="dropup-content">
+          <a href="#">FrontEnd</a>
+          <a href="#">BackEnd</a>
+          <a href="#">API</a>
+          <a href="#">Database</a>
+          <a href="#">Framework</a>
+          <a href="#">Testing</a>
+          <a href="#">UI</a>
+          <a href="#">UX</a>
 
-    <button type="submit" class="btn">Save</button>
-    <div class="dropup">
-      <button class="dropbtn">Tags</button>
-      <div class="dropup-content">
-        <a href="#">FrontEnd</a>
-        <a href="#">BackEnd</a>
-        <a href="#">API</a>
-        <a href="#">Database</a>
-        <a href="#">Framework</a>
-        <a href="#">Testing</a>
-        <a href="#">UI</a>
-        <a href="#">UX</a>
-
+        </div>
       </div>
-    </div>
+   
  
     <a href="prodBacklog.html" class="cancel">Delete</a>
+     
 
   </form>
-</div>
-<!-- </div> -->
+
 <script>
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
