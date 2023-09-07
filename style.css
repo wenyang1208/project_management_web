@@ -140,198 +140,77 @@ body {
   font-size: 16px;
   cursor: pointer;
 }
+.sort-container {
+  text-align: right; 
+  position: absolute;
+  top:70px;
+  right:50px;
+}
+
 .sort {
-  background-color: #4472c4;
-  border: none;
   color: white;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  position: fixed;
-  right: 0px;
-  top: 150px;
 }
 .sort1 {
-  background-color: #222b35;
-  border: none;
   color: #06b0f0;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 180px;
 }
 .sort2 {
-  background-color: #222b35;
-  border: none;
   color: #FFBF00;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 210px;
 }
 .sort3 {
-  background-color: #222b35;
-  border: none;
   color: #06b050;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 240px;
 }
 
 .sort4 {
-  background-color: #222b35;
-  border: none;
   color: #ff0000;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 270px;
 }
-
+.tag-container {
+  text-align: right; 
+  position: absolute;
+  top:240px;
+  right:50px;
+}
 .tag {
-  background-color: #4472c4;
-  border: none;
   color: white;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  position: fixed;
-  right: 0px;
-  top: 300px;
+
 }
 .tag1 {
-  background-color: #222b35;
-  border: none;
   color: #959AA1;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 330px;
 }
 .tag2 {
-  background-color: #222b35;
   color: #FFBF00;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 360px;
 }
 .tag3 {
-  background-color: #222b35;
-  border: none;
   color: #FFFF00;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 390px;
 }
 .tag4 {
-  background-color: #222b35;
-  border: none;
   color: #92d051;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 410px;
 }
 .tag5 {
-  background-color: #222b35;
-  border: none;
   color: #06b0f0;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 440px;
 }
 .tag6 {
-  background-color: #222b35;
-  border: none;
   color: #5a2e81;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 470px;
 }
 .tag7 {
-  background-color: #222b35;
-  border: none;
   color: white;
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 500px;
 }
 .tag8 {
-  background-color: #222b35;
-  border: none;
   color: #AA7942;
+}
+.sort,.sort1,.sort2,.sort3,.sort4,.tag,.tag1,.tag2,.tag3,.tag4,.tag5,.tag6,.tag7,.tag8 {
+  border: none;
   width: 200px;
   height: 30px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
+  position: relative;
+  display: block;
+}
+.sort,.tag {
+  background-color: #4472c4;
+}
+.sort1,.sort2,.sort3,.sort4,.tag1,.tag2,.tag3,.tag4,.tag5,.tag6,.tag7,.tag8 {
+  background-color: #222b35;
   cursor: pointer;
-  position: fixed;
-  right: 0px;
-  top: 530px;
 }
