@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
@@ -14,9 +15,20 @@ public class Application {
         users.add(new User("Amy", "amy@email.com", "12345"));
         users.add(new User("Bob", "bob@email.com", "44e44"));
 
-        String enteredUsername = "Amy";
-        String enteredUserEmail = "amy@email.com";
-        String enteredPassword = "12345";
+        Scanner myObj = new Scanner(System.in);
+        
+        System.out.println("Enter username:");
+        String enteredUsername = myObj.nextLine();
+
+        System.out.println("Enter email");
+        String enteredUserEmail = myObj.nextLine();
+
+        System.out.println("Enter password:");
+        String enteredPassword = myObj.nextLine();
+
+        // String enteredUsername = "Amy";
+        // String enteredUserEmail = "amy@email.com";
+        // String enteredPassword = "12345";
 
         boolean isLoggedIn = login(users, enteredUsername, enteredUserEmail, enteredPassword);
 
@@ -25,6 +37,8 @@ public class Application {
         }else{
             System.out.println("Login failed.");
         }
+
+        myObj.close();
 
     }
 
