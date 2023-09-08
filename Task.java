@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Task {
     private String name;
@@ -17,6 +19,8 @@ public class Task {
     }
     private String assignee;
     private Priority priority;
+    private HashMap<Integer, Priority> priorityList = new HashMap<>();
+
     public enum Priority{
         Low("Low"),
         Medium("Medium"),
@@ -81,7 +85,7 @@ public class Task {
     public Task(String name,
                 Category category,
                 String assignee,
-                Priority priority,
+                HashMap<Integer,Priority> priorityList,
                 ArrayList<Tag> tag,
                 String description,
                 Status status,
@@ -90,7 +94,7 @@ public class Task {
         this.name = name;
         this.category = category;
         this.assignee = assignee;
-        this.priority = priority;
+        this.priorityList = priorityList;
         this.tag = tag;
         this.description = description;
         this.status = status;
@@ -98,12 +102,16 @@ public class Task {
         this.currentStage = currentStage;
     }
 
+    public HashMap<Integer,Priority> getPriority() {
+        return priorityList;
+    }
+
     @Override
     public String toString() {
         return "\nTask name: " + name + "\n" +
                 "Category: " + category + "\n" +
                 "Assignee: " + assignee + "\n" +
-                "Priority: " + priority + "\n" +
+                "Priority: " + priorityList + "\n" +
                 "Tag: " + tag + "\n" +
                 "Description: " + description + "\n" +
                 "Status: " + status + "\n" +
