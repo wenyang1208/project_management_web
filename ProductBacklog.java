@@ -198,7 +198,7 @@ public class ProductBacklog {
         } while (selection != 7);
     }
     public void printStatus() {
-        System.out.println("Welcome to FIT2099 supermarket.Supermarket \n");
+        System.out.println("Welcome to FIT2101 Product Backlog! \n");
         consoleMenu();
         System.out.println("\nThank you for visiting FIT2101 Product Backlog!");
     }
