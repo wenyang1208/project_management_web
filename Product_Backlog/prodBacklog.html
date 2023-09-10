@@ -26,7 +26,6 @@
     
       <div class="cardview">
         <a href="task.html">
-          <input type="checkbox" class="delete-checkbox">
           <div class="task-name">Task 1</div>
           <div class="priority">Priority: High</div>
           <div class="story-points">Story Points: 5</div>
@@ -34,12 +33,18 @@
             <div class="tags tags1"></div>
             <div class="tags tags2"></div>
           </div>
+
+          <label class="custom-checkbox hidden-checkbox"> che
+            <input type="checkbox" class="delete-checkbox">
+            <span class="checkmark"></span>
+          </label>
+
         </a>
+    
       </div>
 
       <div class="cardview">
         <a href="task.html">
-          <input type="checkbox" class="delete-checkbox">
           <div class="task-name">Task 1</div>
           <div class="priority">Priority: High</div>
           <div class="story-points">Story Points: 5</div>
@@ -47,9 +52,17 @@
             <div class="tags tags8"></div>
             <div class="tags tags6"></div>
           </div>
+
+          <label class="custom-checkbox hidden-checkbox">che
+            <input type="checkbox" class="delete-checkbox">
+            <span class="checkmark"></span>
+          </label>
+
         </a>
       </div>
     </div>
+
+    
 
     <div class="sort-container">
       <button class="sort">Sort</button>
@@ -80,7 +93,20 @@
 
   </div>
 
- 
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const deleteButton = document.getElementById("delete-button");
+      const checkboxes = document.querySelectorAll(".custom-checkbox");
+  
+      deleteButton.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent the default behavior of the anchor tag
+        checkboxes.forEach(function (checkbox) {
+          checkbox.style.display = "block"; // Set display to "block" to show the checkboxes
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
