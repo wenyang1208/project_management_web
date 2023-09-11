@@ -307,11 +307,16 @@ body {
   border: none;
   width: 200px;
   height: 30px;
-  text-align: center;
   text-decoration: none;
   font-size: 16px;
   position: relative;
   display: block;
+}
+.sort,.sort1,.sort2,.sort3,.sort4,.tag {
+  text-align: center;
+}
+.tag1,.tag2,.tag3,.tag4,.tag5,.tag6,.tag7,.tag8 {
+  text-align:left;
 }
 .sort,.tag {
   background-color: #4472c4;
