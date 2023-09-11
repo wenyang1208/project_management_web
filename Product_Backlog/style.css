@@ -12,14 +12,23 @@ body {
     background-color: #E3F6FC;
     padding:20px;
     margin: 20px, 10px;
-    height:2000px;
+    position: relative;
   }
   
+
   .card-views {
+    width: 75%; /* Set the width to 80% of the parent container */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(48%, 70%));
-    gap: 10px; 
-  } 
+    grid-template-columns: repeat(auto-fill, minmax(48%, 1fr)); /* Adjust column layout as needed */
+    gap: 10px;
+  }
+  
+  /* Media query for smaller screens */
+  @media screen and (max-width: 768px) {
+    .card-views {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* One column for small screens */
+    }
+  }
 
   .card {
     position: relative;
@@ -73,7 +82,7 @@ body {
 
   .tags.tags1{
     background-color: #AF4A93; /*Frontend*/
-    color: white;
+    color: black;
   }
 
   .tags.tags1::before {
@@ -82,7 +91,7 @@ body {
 
   .tags.tags2{
     background-color: #EE8306; /*Backend*/
-    color: white;
+    color: black;
   }
 
   .tags.tags2::before {
@@ -91,7 +100,7 @@ body {
 
   .tags.tags3{
     background-color: #DFCC22; /*API*/
-    color: white;
+    color: black;
   }
 
   .tags.tags3::before {
@@ -100,15 +109,15 @@ body {
 
   .tags.tags4{
     background-color: #3EC133; /*Database*/
-    color: white;
+    color: black;
   }
   .tags.tags4::before {
     content: "Database";
   }
  
   .tags.tags5{
-    background-color: #B4D0F9; /*Framework*/
-    color: white;
+    background-color: #7eb0fa; /*Framework*/
+    color: black;
   }
 
   .tags.tags5::before {
@@ -117,7 +126,7 @@ body {
 
   .tags.tags6{
     background-color: #9747FF; /*Testing*/
-    color: white;
+    color: black;
   }
 
   .tags.tags6::before {
@@ -126,7 +135,7 @@ body {
 
   .tags.tags7{
     background-color: #959AA1; /*UI*/
-    color: white;
+    color: black;
   }
 
   .tags.tags7::before {
@@ -135,7 +144,7 @@ body {
 
   .tags.tags8{
     background-color: #964B00; /*UX*/
-    color: white;
+    color: black;
   }
 
   .tags.tags8::before {
@@ -325,17 +334,6 @@ body {
   background-color: #222b35;
   cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
