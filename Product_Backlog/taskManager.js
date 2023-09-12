@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function(){
         savedTasks.forEach(function (task) {
             const taskItem = document.createElement("div");
             taskItem.innerHTML = `<strong>${task.name}</strong>
-                                    <br>${task.description}
-                                    <br><em>Priority: ${task.priority}</em>`;
+                                    <br><em>Priority: ${task.priority}</em>
+                                    <br>Story Points: ${task.description}`;
             taskList.appendChild(taskItem);
         });
     }
