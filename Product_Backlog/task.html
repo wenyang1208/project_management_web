@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Task</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="task.css">
 </head>
 <body>
 
@@ -21,23 +21,76 @@
           <a href="#">Log out</a>
         </div>
       </div>
-    <button href="#" class="button2">Edit</button>
 
-    <div class="task-frame" id="task detail">
-    
-      <div class="cardview">
-        <a href="#">
-          <div class="task-name">Task 1</div>
-          <div class="priority">Priority: High</div>
-          <div class="story-points">Story Points: 5</div>
-          <div class="tags-container">
-            <div class="tags tags1"></div>
-            <div class="tags tags2"></div>
+    <div class="task-frame flex col">
+      <div class="task-name">...</div>
+      <div class="taskview">
+        <div class="flex col">
+          <div class="assignee">
+            <span class="text">Assignee: </span>
+            <span class="text" id="Assignee">...</span>
           </div>
-        </a>
+          <div class="priority">
+            <span class="text">Priority: </span>
+            <span class="text" id="Priority">...</span>
+          </div>
+          <div class="stage-of-task">
+            <span class="text">Stage of task: </span>
+            <span class="text" id="SOT">...</span>
+          </div>
+        </div>
+        <div class="flex col">
+          <div class="story-points">
+            <span class="text">Story Points: </span>
+            <span class="text" id="Story Points">...</span>
+          </div>
+          <div class="status">
+            <span class="text">Status: </span>
+            <span class="text" id="status">...</span>
+          </div>
+        </div>
+          <div class="tags-container">
+            <div class="tags tags1" id="frontend"></div>
+            <div class="tags tags2" id="backend"></div>
+          </div>
+      </div>
+      <div class="task-description">
+        <div class="text">Task description:</div>
+        <div class="description" id="task-description">Requirements:
+
+          User Registration:
+          
+          Users should be able to register for an account by providing a valid email address and a secure password.
+          Implement client-side and server-side validation to ensure data integrity.
+          Store user registration data securely in our database.
+          User Login:
+          
+          Registered users should be able to log in with their email and password.
+          Implement password hashing and salting for security.
+          Create a session or token-based authentication system.
+          Password Reset:
+          
+          Allow users to request a password reset via email if they forget their password.
+          Generate secure password reset tokens and implement a reset password flow.
+          Authentication Middleware:
+          
+          Implement authentication middleware to protect certain routes and resources.
+          Unauthorized access attempts should be redirected to the login page or return a 401 status code.
+          User Profile:
+          
+          Create a user profile page where users can view and edit their profile information.
+          Implement user authentication checks to ensure users can only edit their own profiles.
+          Security Measures:
+          
+          Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
+          Regularly review and update security libraries and dependencies</div>
+      </div>
+    </div>
+      <div class="button-container">
+        <a href="edittask.html" id="edit-button" class="edit-button">edit</a>
+
       </div>
 
-    </div>
  
     <br>
     
