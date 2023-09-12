@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(){
             const taskItem = document.createElement("div");
             taskItem.innerHTML = `<strong>${task.name}</strong>
                                     <br><em>Priority: ${task.priority}</em>
-                                    <br>Story Points: ${task.description}`;
+                                    <br>Story Points: ${task.storyPoints}`;
             taskList.appendChild(taskItem);
         });
     }

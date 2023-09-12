@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const radioInProgress = document.getElementById("ip");
         const radioCompleted = document.getElementById("c");
 
+        const storyPointsInput = document.getElementById("storyPoints");
+
         // Get task inputs
         const taskName = taskNameInput.value;
         const taskDescription = taskDescriptionInput.value;
@@ -23,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const taskStage = taskStageSelect.value;
         const taskAssignee = taskAssigneeChosen.value;
         let taskStatus = "";
+        const storyPoints = storyPointsInput.value;
 
         // Determine and select Status
         if (radioNotStarted.checked){
@@ -45,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 stage: taskStage, 
                 assignee: taskAssignee, 
                 status: taskStatus,
+                storyPoints: storyPoints
             });
 
             // Save the updated tasks array to local storage
