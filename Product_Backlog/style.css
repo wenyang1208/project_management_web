@@ -70,7 +70,7 @@ main {
     text-decoration: none;
     color: black;
   }
-  
+
   .task-name {
     font-size: 20px;
     font-weight: bold;
@@ -83,11 +83,12 @@ main {
 
   .tags-container {
     position: absolute;
-    top: 10px; 
-    right: 10px; 
+    top: 0;
+    right: 0;
+    max-height: 100%; 
+    overflow-y: auto; 
   }
-  
- 
+
   .tags {
     background-color: #4472c4; 
     color: white;
@@ -96,8 +97,9 @@ main {
     margin-right: 5px;
     margin-bottom: 5px;
     font-size: 14px;
- 
-  }
+
+    display: block;
+  } 
 
 
   .tags.tags1{
