@@ -129,18 +129,18 @@
   </div>
 
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const deleteButton = document.getElementById("delete-button");
-      const checkboxes = document.querySelectorAll(".custom-checkbox");
+  <script src="deleteTask.js">
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   const deleteButton = document.getElementById("delete-button");
+    //   const checkboxes = document.querySelectorAll(".custom-checkbox");
   
-      deleteButton.addEventListener("click", function (e) {
-        e.preventDefault(); // Prevent the default behavior of the anchor tag
-        checkboxes.forEach(function (checkbox) {
-          checkbox.style.display = "block"; // Set display to "block" to show the checkboxes
-        });
-      });
-    });
+    //   deleteButton.addEventListener("click", function (e) {
+    //     e.preventDefault(); // Prevent the default behavior of the anchor tag
+    //     checkboxes.forEach(function (checkbox) {
+    //       checkbox.style.display = "block"; // Set display to "block" to show the checkboxes
+    //     });
+    //   });
+    // });
   </script>
   <script src="sortCardView.js"></script>
   <script src="taskManager.js"></script>
