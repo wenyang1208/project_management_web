@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task</title>
+  <link rel="stylesheet" href="task.css">
+</head>
+<body>
+
+  <div class="white-frame">
+      <div class="previous-page">
+        <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
+      </div>
+      <div class="menu-bar">
+        <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
+        <div class="menu-items" id="menu-items">
+          <a href="prodBacklog.html">Product backlog</a>
+          <a href="#">Scrumboard</a>
+          <a href="#">Team management</a>
+          <a href="#">Profile</a>
+          <a href="#">Reset password</a>
+          <a href="#">Log out</a>
+        </div>
+      </div>
+
+    <div class="task-frame flex col">
+      <div class="task-name" id="task-name">...</div>
+      <div class="taskview">
+        <div class="flex col">
+          <div class="assignee">
+            <span class="text">Assignee: </span>
+            <select name="team-member" id="AssigneeList">
+                <option value="Bob">Bob</option>
+              </select>
+          </div>
+          <div class="priority">
+            <span class="text">Priority: </span>
+            <select name="priority" id="priorities">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="important">Important</option>
+                <option value="urgent">Urgent</option>
+              </select>
+          </div>
+          <div class="stage-of-task">
+            <span class="text">Stage of task: </span>
+            <select name="Stage-of-task" id="SOT">
+                <option value="Planning">Planning</option>
+                <option value="Development">Development</option>
+                <option value="Testing">Testing</option>
+                <option value="Integration">Integration</option>
+              </select>
+          </div>
+        </div>
+        <div class="flex col">
+          <div class="story-points">
+            <span class="text">Story Points: </span>
+            <button class="decrement-button">-</button>
+            <input type="number" class="input-field" id="Story Points" value="0" disabled>
+            <button class="increment-button">+</button>
+          </div>
+          <div class="status">
+            <span class="text">Status: </span>
+            <input type="checkbox" id="ns" name="ns" value="Not Started">
+            <label for="ns"> Not Started </label>
+            <input type="checkbox" id="ip" name="ip" value="In Progress">
+            <label for="ip"> In Progress </label>
+            <input type="checkbox" id="c" name="c" value="Completed">
+            <label for="c"> Completed</label>
+          </div>
+        </div>
+          <div class="tags-container">
+            <div class="tags tags1" id="frontend"></div>
+            <div class="tags tags2" id="backend"></div>
+          </div>
+      </div>
+      <div class="task-description">
+        <div class="text">Task description:</div>
+        <textarea rows="8" columns="50" class="description text" id="task-description">...
+        </textarea>
+      </div>
+    </div>
+
+ 
+    <br>
+    <div class="button-container">
+        <a href="task.html" id="save-button" class="save-button">save</a>
+        <div class="tag-bar" id="tag-bar">
+            <div class="tag-menu" id="tag-menu">
+                <label class="tag1" for="FE"><input type="checkbox" id="FE" name="FE" value="Frontend">Frontend</label>
+                <label class="tag2" for="BE"><input type="checkbox" id="BE" name="BE" value="Backend">Backend</label>
+                <label class="tag3" for="API"><input type="checkbox" id="API" name="API" value="API">API</label>
+                <label class="tag4" for="DB"><input type="checkbox" id="DB" name="DB" value="Database">Database</label>
+                <label class="tag5" for="FW"><input type="checkbox" id="FW" name="FW" value="Framework">Framework</label>
+                <label class="tag6" for="TEST"><input type="checkbox" id="TEST" name="TEST" value="Testing">Testing</label>
+                <label class="tag7" for="UI"><input type="checkbox" id="UI" name="UI" value="UI">UI</label>
+                <label class="tag8" for="UX"><input type="checkbox" id="UX" name="UX" value="UX">UX</label>
+            </div>
+            <div class="tag-button" id="tag-button">Tag</div>
+        </div>
+        <div id="delete-button" class="delete-button">delete</div>
+    </div>
+    
+
+  </div>
+<script src="editTask.js"></script>
+</body>
+</html>
