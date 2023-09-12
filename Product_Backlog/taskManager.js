@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const addTaskButton = document.getElementById("add-button");
     const taskList = document.getElementById("taskList");
 
+    // Testing purposes
+    const clearTaskButton = document.getElementById("clearTasksButton")
+
     // Load tasks from local storage on page load
     const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -22,6 +25,13 @@ document.addEventListener("DOMContentLoaded", function(){
     addTaskButton.addEventListener("click", function () {
         window.location.href = "addtask.html"; // Navigate to the addtask.html page
     });
+
+    // Click for clear all
+    clearTaskButton.addEventListener("click", function(){
+        localStorage.removeItem("tasks");
+        savedTasks.length = 0;
+        displayTasks()
+    })
 
     // Display tasks on page load
     displayTasks();

@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("tasks", JSON.stringify(savedTasks));
 
             // Navigate back to the index.html page
-            window.location.href = "productBacklog.html";
+            window.location.href = "prodBacklog.html";
         }
     });
 });
