@@ -39,6 +39,7 @@ main {
     width: 75%; /* Set the width to 80% of the parent container */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(48%, 1fr)); /* Adjust column layout as needed */
+    grid-template-rows: repeat(auto-fill, minmax(80px,1fr));
     gap: 10px;
   }
   
@@ -296,9 +297,9 @@ main {
   color: #ff0000;
 }
 .tag-container {
-  align-self: flex-end;
-  top:240px;
-  right:50px;
+  top:0px;
+  right: 0px;
+  
 }
 .tag {
   color: white;
@@ -406,14 +407,4 @@ main {
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
-}
-
-.cardview {
-  background-color: #E3F6FC;
-  border: 1px solid #E3F6FC;
-  padding: 10px;
-  box-sizing: border-box;
-  width: 100%;
-  position: relative;
-  margin-bottom: 10px;
 }
