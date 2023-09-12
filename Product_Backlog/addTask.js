@@ -1,9 +1,11 @@
 // To receive the input and display it
 document.addEventListener("DOMContentLoaded", function () {
     const saveTaskButton = document.getElementById("saveTaskButton");
+    const taskForm = document.getElementById("taskForm")
 
     // Click event for "Save" button
-    saveTaskButton.addEventListener("click", function () {
+    saveTaskButton.addEventListener("click", function (event) {
+        event.preventDefault();
         const taskNameInput = document.getElementById("taskName");
         const taskDescriptionInput = document.getElementById("taskDescription");
         const taskPrioritySelect = document.getElementById("taskPriority");
