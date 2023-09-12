@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
+body {background-color:#A8CAEA; font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 
 
@@ -23,9 +23,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Add styles to the form container */
 .form-container {
-  max-width: 900px;
-  padding: 30px;
-  background-color: white;
+  width: 100%;
+  padding: 100px;
+  background-color: rgb(221, 238, 248);
 }
 
 /* Full-width input fields */
@@ -115,7 +115,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   display: block;
 }
 
-.dropup-content a:hover {background-color: #ccc}
+.dropup-content a:hover {background-color: white}
 
 .dropup:hover .dropup-content {
   display: block;
@@ -145,9 +145,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 18px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -164,10 +164,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
 /* Create a custom radio button */
 .checkmark {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
+  top: 11px;
+  left: 10px;
+  height: 20px;
+  width: 20px;
   background-color: #eee;
   border-radius: 50%;
 }
@@ -196,8 +196,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Style the indicator (dot/circle) */
 .container .checkmark:after {
-    top: 9px;
-    left: 9px;
+    top: 7px;
+    left: 6px;
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -206,7 +206,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .threedots {
   position: fixed; 
-  right: 300px;
+  right: 100px;
 }
 
 .category {
@@ -246,88 +246,59 @@ body {font-family: Arial, Helvetica, sans-serif;}
   }
   
  
-  .tags {
-    background-color: #4472c4; 
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-size: 14px;
- 
-  }
 
-
-  .tags.tags1{
+  .tags1{
     background-color: #AF4A93; /*Frontend*/
     color: white;
   }
 
-  .tags.tags1::before {
-    content: "FrontEnd"; /*Set the content for tag1*/
-  }
 
-  .tags.tags2{
+  .tags2{
     background-color: #EE8306; /*Backend*/
     color: white;
   }
 
-  .tags.tags2::before {
-    content: "BackEnd"; /*Set the content for tag2*/
-  }
 
-  .tags.tags3{
+
+  .tags3{
     background-color: #DFCC22; /*API*/
     color: white;
   }
 
-  .tags.tags3::before {
-    content: "API"; /*Set the content for tag3*/
-  }
+ 
 
-  .tags.tags4{
+  .tags4{
     background-color: #3EC133; /*Database*/
     color: white;
   }
-  .tags.tags4::before {
-    content: "Database";/*Set the content for tag4*/
-  }
  
-  .tags.tags5{
+ 
+  .tags5{
     background-color: #B4D0F9; /*Framework*/
     color: white;
   }
 
-  .tags.tags5::before {
-    content: "Framework"; /*Set the content for tag5*/
-  }
 
-  .tags.tags6{
+
+  .tags6{
     background-color: #9747FF; /*Testing*/
     color: white;
   }
 
-  .tags.tags6::before {
-    content: "Testing";/*Set the content for tag6*/
-  }
 
-  .tags.tags7{
+
+  .tags7{
     background-color: #959AA1; /*UI*/
     color: white;
   }
 
-  .tags.tags7::before {
-    content: "UI"; /*Set the content for tag7*/
-  }
 
-  .tags.tags8{
+  .tags8{
     background-color: #964B00; /*UX*/
     color: white;
   }
 
-  .tags.tags8::before {
-    content: "UX"; /*Set the content for tag8*/
-  }
+  
 
 
 
@@ -417,14 +388,23 @@ body {font-family: Arial, Helvetica, sans-serif;}
       <div class="dropup">
         <button class="dropbtn">Tags</button>
         <div class="dropup-content">
-          <a href="#">FrontEnd</a>
-          <a href="#">BackEnd</a>
-          <a href="#">API</a>
-          <a href="#">Database</a>
-          <a href="#">Framework</a>
-          <a href="#">Testing</a>
-          <a href="#">UI</a>
-          <a href="#">UX</a>
+          <div class="tags1">
+          <a href="#">FrontEnd</a></div>
+          <div class="tags2">
+          <a href="#">BackEnd</a></div>
+          <div class="tags3">
+          <a href="#">API</a></div>
+          <div class="tags4">
+          <a href="#">Database</a></div>
+          <div class="tags5">
+          <a href="#">Framework</a></div>
+          <div class="tags6">
+          <a href="#">Testing</a></div>
+          <div class="tags7">
+          <a href="#">UI</a></div>
+          <div class="tags8">
+          <a href="#">UX</a></div>
+
         </div>
       </div>
     </div><!-- </div>  for input div -->
