@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
                                         <br>Priority: ${task.priority}
-                                        <br>Story Points: ${task.storyPoints}
-                                        <br>Tags: ${task.tags}`;
+                                        <br>Story Points: ${task.storyPoints}`;
                 taskList.appendChild(taskCard);
 
 
