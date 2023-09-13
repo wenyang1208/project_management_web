@@ -12,12 +12,16 @@ document.addEventListener("DOMContentLoaded", function(){
     // Function to display tasks
     function displayTasks() {
         taskList.innerHTML = "";
-        savedTasks.forEach(function (task) {
-            const taskItem = document.createElement("div");
-            taskItem.innerHTML = `<strong>${task.name}</strong>
-                                    <br><em>Priority: ${task.priority}</em>
-                                    <br>Story Points: ${task.storyPoints}`;
-            taskList.appendChild(taskItem);
+        savedTasks.forEach(function (task, index) {
+                // Create a task card with a link to view details
+                const taskCard = document.createElement("div");
+                taskCard.classList.add("cardview")
+                taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
+                                        <br>Priority: ${task.priority}
+                                        <br>Story Points: ${task.storyPoints}`;
+                taskList.appendChild(taskCard);
+
+
         });
     }
 
