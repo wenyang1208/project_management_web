@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Click event for "Save" button
     saveTaskButton.addEventListener("click", function (event) {
         event.preventDefault();
-        const taskNameInput = document.getElementById("taskName");
-        const taskDescriptionInput = document.getElementById("taskDescription");
+        const taskNameInput = document.getElementById("task-name");
+        const taskDescriptionInput = document.getElementById("task-description");
         const taskPrioritySelect = document.getElementById("taskPriority");
         const taskStageSelect = document.getElementById("stages");
         const taskAssigneeChosen = document.getElementById("asignees");
@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const radioCompleted = document.getElementById("c");
 
         const storyPointsInput = document.getElementById("storyPoints");
+        const taskTagsInput = document.getElementById("tags")
 
         // Get task inputs
         const taskName = taskNameInput.value;
@@ -26,6 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const taskAssignee = taskAssigneeChosen.value;
         let taskStatus = "";
         const storyPoints = storyPointsInput.value;
+        // nned modify
+        let taskTags = taskTagsInput.value;
+
 
         // Determine and select Status
         if (radioNotStarted.checked){
@@ -48,7 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 stage: taskStage, 
                 assignee: taskAssignee, 
                 status: taskStatus,
-                storyPoints: storyPoints
+                storyPoints: storyPoints, 
+                tags: taskTags,
+                
             });
 
             // Save the updated tasks array to local storage

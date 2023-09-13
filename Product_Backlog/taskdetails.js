@@ -1,12 +1,13 @@
 // taskdetails.js (for taskdetails.html)
 document.addEventListener("DOMContentLoaded", function () {
     const taskNameElement = document.getElementById("taskNameHeader");
-    const taskDescriptionElement = document.getElementById("taskDescription");
+    const taskDescriptionElement = document.getElementById("task-description");
     const taskPriorityElement = document.getElementById("taskPriority");
     const storyPointsElement = document.getElementById("storyPoints");
     const taskAssigneeElement = document.getElementById("asignees");
     const taskStageElement = document.getElementById("stages");
-    const taskStatusElement = document.getElementById("status")
+    const taskStatusElement = document.getElementById("status");
+    const taskTagsElement = document.getElementById("tags");
     // const backButton = document.getElementById("backButton");
 
     // Get the task ID from the URL
@@ -26,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
         taskStageElement.textContent = task.stage;
         taskAssigneeElement.textContent = task.assignee;
         taskStatusElement.textContent = task.status;
+        taskTagsElement.textContent = task.tags;
+
     } else {
         taskNameElement.textContent = "Task not found.";
     }
