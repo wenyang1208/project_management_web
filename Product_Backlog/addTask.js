@@ -56,6 +56,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 tags: taskTags,
                 
             });
+            // // Function to display tasks
+            // function displayTasks() {
+            //     taskList.innerHTML = "";
+            //     savedTasks.forEach(function (task, index) {
+            //             // Create a task card with a link to view details
+            //             const taskCard = document.createElement("div");
+            //             taskCard.classList.add("cardview");
+
+            //             taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
+            //                                     <br>Priority: ${task.priority}
+            //                                     <br>Story Points: ${task.storyPoints}
+            //                                     <br>Tags: ${task.tags}`;
+            //             taskList.appendChild(taskCard);
+
+
+            //     });
+            // }
 
             // Save the updated tasks array to local storage
             localStorage.setItem("tasks", JSON.stringify(savedTasks));
