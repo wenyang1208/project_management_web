@@ -1,7 +1,7 @@
 // taskManager.js for productBacklog.html
 document.addEventListener("DOMContentLoaded", function(){
     const addTaskButton = document.getElementById("add-button");
-    const taskList = document.getElementById("taskList");
+    const taskList = document.getElementById("card-views-container");
 
     // Testing purposes
     const clearTaskButton = document.getElementById("clearTasksButton")
@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function(){
         savedTasks.forEach(function (task, index) {
                 // Create a task card with a link to view details
                 const taskCard = document.createElement("div");
-                taskCard.classList.add("cardview")
+                taskCard.classList.add("cardview");
+
                 taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
                                         <br>Priority: ${task.priority}
                                         <br>Story Points: ${task.storyPoints}`;

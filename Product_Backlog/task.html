@@ -23,38 +23,64 @@
       </div>
 
     <div class="task-frame flex col">
-      <div class="task-name">...</div>
+      <!-- <div class="taskName"></div> -->
+      <h1 id="taskNameHeader"></h1>
+
       <div class="taskview">
         <div class="flex col">
-          <div class="assignee">
+          <!-- <div class="assignee">
             <span class="text">Assignee: </span>
             <span class="text" id="Assignee">...</span>
+          </div> -->
+          <div class="task-info">
+            <span class="info-label">Assignee:</span>
+            <span class="info-value" id="asignees"></span>
           </div>
+
           <div class="priority">
             <span class="text">Priority: </span>
-            <span class="text" id="Priority">...</span>
+            <span class="text" id="taskPriority"></span>
           </div>
-          <div class="stage-of-task">
+
+          <!-- <div class="stage-of-task">
             <span class="text">Stage of task: </span>
-            <span class="text" id="SOT">...</span>
-          </div>
+            <span class="text" id="stages">...</span>
+          </div> -->
+          <div class="task-info">
+            <span class="info-label">Stage of task:</span>
+            <span class="text" id="stages"></span>
         </div>
+
+          <!-- Remap description here -->
+          <div class="task-info">
+            <span class="info-label">Description:</span>
+            <span class="description" id="taskDescription"></span>
+          </div>
+
+        </div>
+
         <div class="flex col">
           <div class="story-points">
             <span class="text">Story Points: </span>
-            <span class="text" id="Story Points">...</span>
+            <span class="text" id="storyPoints"></span>
           </div>
+
           <div class="status">
             <span class="text">Status: </span>
             <span class="text" id="status">...</span>
           </div>
+
         </div>
+
           <div class="tags-container">
             <div class="tags tags1" id="frontend"></div>
             <div class="tags tags2" id="backend"></div>
           </div>
+
       </div>
-      <div class="task-description">
+
+      
+      <!-- <div class="task-description">
         <div class="text">Task description:</div>
         <div class="description" id="task-description">Requirements:
 
@@ -84,7 +110,7 @@
           
           Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
           Regularly review and update security libraries and dependencies</div>
-      </div>
+      </div> -->
     </div>
       <div class="button-container">
         <a href="edittask.html" id="edit-button" class="edit-button">edit</a>
@@ -97,5 +123,6 @@
 
   </div>
 <script src="editTask.js"></script>
+<script src="taskdetails.js"></script>
 </body>
 </html>
