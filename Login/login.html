@@ -71,21 +71,26 @@
             if (!username || !password) {
               event.preventDefault(); // Prevent form submission
               alert("Please fill in both username and password fields.");
-              return;
             }
       
             // You can add more validation logic here
             
-            // just assuming we have a database storing these username emails and passwords
-            // Wenny will figure out how to do it!
-            const user = users.find(u => (u.username === usernameOrEmail) || 
-            (u.email === usernameOrEmail) &&
-            (u.password === password));
+            // Assume you have a user database (users) with username and email fields
+
+            const users = [
+            { userName: "Amy", userEmail: "amy@email.com", passWord: "12345" },
+            { userName: "Bob", userEmail: "bob@email.com", passWord: "44e44" }
+            ];
+
+            const user = users.find(u => (u.userName === username) || 
+            (u.userEmail === username) &&
+            (u.passWord === password));
 
             if (!user){
               event.preventDefault();
               alert("Invalid username/email or password.");
-              return;
+            }else{
+              alert("Login successful. Welcome, " + user.username + "!");
             }
 
           });
