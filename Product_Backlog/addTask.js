@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let taskStatus = "";
         const storyPoints = storyPointsInput.value;
         // nned modify
-        let taskTags = taskTagsInput.value;
+        //let taskTags = taskTagsInput.value;
+        let taskTags = []
 
 
         // Determine and select Status
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add the new task to the savedTasks array
         if (taskName.trim() !== "" && taskStatus!== "") {
             // Load existing tasks from local storage
-            const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            const savedTasks = JSON.parse((localStorage.getItem("tasks"))) || [];
             
             // Add the new task
             savedTasks.push({ name: taskName, 
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 assignee: taskAssignee, 
                 status: taskStatus,
                 storyPoints: storyPoints, 
-                tags: taskTags,
+                tags: taskTags,//taskTags  here should be a arraylist now is undefined/null
                 
             });
             // // Function to display tasks

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 const taskCard = document.createElement("div");
                 taskCard.classList.add("cardview");
 
-                taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
+                taskCard.innerHTML = `<a href="task.html?taskId=${index}"><strong>${task.name}</strong>
                                         <br>Priority: ${task.priority}
                                         <br>Story Points: ${task.storyPoints}`;
                 taskList.appendChild(taskCard);

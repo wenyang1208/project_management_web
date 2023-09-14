@@ -8,11 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskStageElement = document.getElementById("stages");
     const taskStatusElement = document.getElementById("status");
     const taskTagsElement = document.getElementById("tags");
+    const editbutton = document.getElementById("edit-button")
+    const saveTaskButton = document.getElementById("saveTaskButton");
     // const backButton = document.getElementById("backButton");
 
     // Get the task ID from the URL
     const urlParams = new URLSearchParams(window.location.search);
-    const taskId = urlParams.get("id");
+    const taskId = urlParams.get("taskId");
 
     // Load tasks from local storage
     const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -27,11 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
         taskStageElement.textContent = task.stage;
         taskAssigneeElement.textContent = task.assignee;
         taskStatusElement.textContent = task.status;
-        taskTagsElement.textContent = task.tags;
 
     } else {
         taskNameElement.textContent = "Task not found.";
     }
+    editbutton.addEventListener("click",function(event){
+        event.preventDefault()
+        window.location.href=`edittask.html?taskId=${taskId}`
+    })
 
     // Click event for "Back to Backlog" button
     // backButton.addEventListener("click", function () {
