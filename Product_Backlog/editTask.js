@@ -23,13 +23,12 @@ const
   FE = document.getElementById("FE"),
   BE = document.getElementById("BE"),
   API = document.getElementById("API"),
-  DB = document.getElementById("DW"),
+  DB = document.getElementById("DB"),
   FW = document.getElementById("FW"),
   TEST = document.getElementById("TEST"),
   UI = document.getElementById("UI"),
   UX = document.getElementById("UX"),
-  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
-  console.log(tagDisplayList[0].textContent)
+  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
   taskId = urlParams.get("taskId"),
   savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -62,23 +61,19 @@ document.addEventListener("DOMContentLoaded", function () {
       else if (task.status == "Completed"){
         radioCompleted.checked=true;
       }
-     /* task.tags.forEach((taskTag)=>{
+      task.tags.forEach((taskTag)=>{
         if (taskTag == null){
           return;
         }
         else {
-          tagDisplayList.forEach((tag)=>{
-            if (taskTag == tag.textContent){
-              tag.style.display = "block";
-            }
-          });
           tagOptionList.forEach((tag)=>{
             if (taskTag == tag.value) {
               tag.checked = true;
+              tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
             }
           })
         }
-      })*/
+      })
 
   } else {
       taskNameElement.textContent = "Task not found.";
@@ -100,7 +95,7 @@ savebutton.addEventListener("click",function(event){
     else if (radioCompleted.checked==true ) {
       task.status="Completed";
     }
-    /*tagOptionList.forEach((tag) => {
+    tagOptionList.forEach((tag) => {
       if (tag.checked){
         task.tags.push(tag.value)
         console.log(tag.checked)
@@ -111,7 +106,7 @@ savebutton.addEventListener("click",function(event){
             task.tags.splice(index,1);
           }
       }
-    })*/
+    })
 
     task.stage = taskStageElement.value
     task.assignee = AssigneeListElement.value
