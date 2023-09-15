@@ -172,72 +172,55 @@ main {
 .tags.tags1{
     background-color: #AF4A93; /*Frontend*/
     color: black;
+    display: none;
   }
 
-  .tags.tags1::before {
-    content: "FrontEnd"; 
-  }
 
   .tags.tags2{
     background-color: #EE8306; /*Backend*/
     color: black;
+    display: none;
   }
 
-  .tags.tags2::before {
-    content: "BackEnd"; 
-  }
 
   .tags.tags3{
     background-color: #DFCC22; /*API*/
     color: black;
+    display: none;
   }
 
-  .tags.tags3::before {
-    content: "API"; 
-  }
 
   .tags.tags4{
     background-color: #3EC133; /*Database*/
     color: black;
-  }
-  .tags.tags4::before {
-    content: "Database";
+    display: none;
   }
  
   .tags.tags5{
     background-color: #7eb0fa; /*Framework*/
     color: black;
+    display: none;
   }
 
-  .tags.tags5::before {
-    content: "Framework"; 
-  }
 
   .tags.tags6{
     background-color: #9747FF; /*Testing*/
     color: black;
+    display: none;
   }
 
-  .tags.tags6::before {
-    content: "Testing";
-  }
 
   .tags.tags7{
     background-color: #959AA1; /*UI*/
     color: black;
+    display: none; 
   }
 
-  .tags.tags7::before {
-    content: "UI"; 
-  }
 
   .tags.tags8{
     background-color: #964B00; /*UX*/
     color: black;
-  }
-
-  .tags.tags8::before {
-    content: "UX"; 
+    display: none;
   }
 
 

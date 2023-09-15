@@ -97,8 +97,12 @@ savebutton.addEventListener("click",function(event){
     }
     tagOptionList.forEach((tag) => {
       if (tag.checked){
-        task.tags.push(tag.value)
-        console.log(tag.checked)
+        if (task.tags.indexOf(tag.value) != -1){
+          return;
+        }
+        else{
+          task.tags.push(tag.value)
+        }
       }
       else {
           const index = task.tags.indexOf(tag.value)

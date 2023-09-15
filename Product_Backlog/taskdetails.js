@@ -1,4 +1,14 @@
 // taskdetails.js (for taskdetails.html)
+const
+FE = document.getElementById("FE"),
+BE = document.getElementById("BE"),
+API = document.getElementById("API"),
+DB = document.getElementById("DB"),
+FW = document.getElementById("FW"),
+TEST = document.getElementById("TEST"),
+UI = document.getElementById("UI"),
+UX = document.getElementById("UX"),
+tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX];
 document.addEventListener("DOMContentLoaded", function () {
     const taskNameElement = document.getElementById("taskNameHeader");
     const taskDescriptionElement = document.getElementById("task-description");
@@ -29,6 +39,21 @@ document.addEventListener("DOMContentLoaded", function () {
         taskStageElement.textContent = task.stage;
         taskAssigneeElement.textContent = task.assignee;
         taskStatusElement.textContent = task.status;
+        task.tags.forEach((taskTag)=>{
+            console.log(taskTag)
+            if (taskTag == null){
+              return;
+            }
+            else {
+                for (const tag of tagDisplayList){
+                    if (taskTag == tag.textContent){
+                        console.log(tag.textContent)
+                        tag.style.display = "block";
+                        break;
+                    }
+                }
+            }
+          })
 
     } else {
         taskNameElement.textContent = "Task not found.";
