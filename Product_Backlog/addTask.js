@@ -1,6 +1,6 @@
 // To receive the input and display it
 document.addEventListener("DOMContentLoaded", function () {
-    const saveTaskButton = document.getElementById("saveTaskButton");
+    const saveTaskButton = document.getElementById("save-button");
     const taskForm = document.getElementById("taskForm")
 
     // Click event for "Save" button

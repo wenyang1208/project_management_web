@@ -1,448 +1,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  /* Added style */
-  .wide-input{
-    width: 100px;
-  }
-body {background-color:#A8CAEA; font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
-
-
-/* Button used to open the add task - fixed at the bottom of the page */
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: fixed;
-  bottom: 23px;
-  right: 28px;
-  width: 280px;
-}
-
-/* Add styles to the form container */
-.form-container {
-  width: 100%;
-  padding: 100px;
-  background-color: rgb(221, 238, 248);
-}
-
-/* Full-width input fields */
-.form-container input[type=text], .form-container input[type=description] {
-  width: 60%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-
-.form-container input[type=text], .form-container input[type="task name"] {
-  width: 60%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-}
-
-
-/* Set a style for the save button */
-.form-container .btn {
-  background-color: #5b76cf;
-  color: rgb(242, 243, 248);
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 20%;
-  position: fixed;
-  right: 60px;
-  top: 300px;
-  margin-bottom:10px;
-  opacity: 0.8;
-}
-
-
-
-/* the delete button */
-.form-container .cancel {
-  background-color: rgb(71, 98, 173);
-  color: rgb(242, 243, 248);
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 20%;
-  position: fixed;
-  right: 60px;
-  top: 415px;
-  margin-bottom:10px;
-  opacity: 0.8;
-  text-decoration: none;
-}
-
-
-/* tags button */
-.dropbtn {
-  background-color: rgb(71, 98, 173);
-  color: rgb(242, 243, 248);
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-  
-}
-
-.dropup {
-  position: fixed;
-  display: inline-block;
-  right: 60px;
-  top: 360px;
-}
-
-.dropup-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  bottom: 50px;
-  z-index: 1;
-}
-
-.dropup-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropup-content a:hover {background-color: white}
-
-.dropup:hover .dropup-content {
-  display: block;
-}
-
-.dropup:hover .dropbtn {
-  background-color: #2980B9;
-}
-
-
-.value-button {
-  display: inline-block;
-}
-
-
-.bar1, .bar2, .bar3 {
-  width: 5px;
-  height: 5px;
-  background-color: #333;
-  margin: 6px 0;
-  position: relative;
-  left: 850px;
-
-}
-
-.container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 16px;
-  cursor: pointer;
-  font-size: 18px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the browser's default radio button */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-/* Create a custom radio button */
-.checkmark {
-  position: absolute;
-  top: 11px;
-  left: 10px;
-  height: 20px;
-  width: 20px;
-  background-color: #eee;
-  border-radius: 50%;
-}
-
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-/* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.container .checkmark:after {
-    top: 7px;
-    left: 6px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: white;
-}
-
-.threedots {
-  position: fixed; 
-  right: 100px;
-}
-
-.category {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.category label {
-  color: black;
-  padding: 10px 30px;
-  text-decoration: none;
-  display: block;
-}
-
-.category label:hover {background-color: #ddd;}
-
-.threedots:hover .category{display: block;}
-
-
-
-
-
-
-
-
-
-
-
-.tags-container {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
-  }
-  
- 
-
-  .tags1{
-    background-color: #AF4A93; /*Frontend*/
-    color: white;
-  }
-
-
-  .tags2{
-    background-color: #EE8306; /*Backend*/
-    color: white;
-  }
-
-
-
-  .tags3{
-    background-color: #DFCC22; /*API*/
-    color: white;
-  }
-
- 
-
-  .tags4{
-    background-color: #3EC133; /*Database*/
-    color: white;
-  }
- 
- 
-  .tags5{
-    background-color: #B4D0F9; /*Framework*/
-    color: white;
-  }
-
-
-
-  .tags6{
-    background-color: #9747FF; /*Testing*/
-    color: white;
-  }
-
-
-
-  .tags7{
-    background-color: #959AA1; /*UI*/
-    color: white;
-  }
-
-
-  .tags8{
-    background-color: #964B00; /*UX*/
-    color: white;
-  }
-
-  
-
-
-
-  
-
-
-
-</style>
+  <title>Add Task</title>
+  <link rel="stylesheet" href="addtask.css">
 </head>
 <body>
 
-  <form action="/action_page.php" class="form-container" id="taskForm">
-
-    <div class="previous-page">
-      <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
-    </div>
-    <div class="threedots">
-      <a class ="dotsbutton" href = "#"><img src="threedots.png" width=20px height = 30px></a>
-      <div class="category">
-        <label class="container">Bug
-          <input type="radio" checked="checked" name="radio">
-          <span class="checkmark"></span>
-        </label>
-        <label class="container">Story
-          <input type="radio" name="radio">
-          <span class="checkmark"></span>
-        </label>
+  <div class="white-frame">
+      <div class="previous-page">
+        <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
+      </div>
+      <div class="menu-bar">
+        <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
+        <div class="menu-items" id="menu-items">
+          <a href="prodBacklog.html">Product backlog</a>
+          <a href="#">Scrumboard</a>
+          <a href="#">Team management</a>
+          <a href="#">Profile</a>
+          <a href="#">Reset password</a>
+          <a href="#">Log out</a>
         </div>
-    </div>
-    
-    <!-- <h1><input type="task name" placeholder="Enter task name" name="name" ></h1> -->
-    <h1><input type="text" id="task-name" placeholder="Enter task name" ></h1>
+      </div>
 
-    <label for="asignee"><b>Assignee</b></label>
-    <select name="asignee" id="asignees">
-      <!-- For now manually add names -->
-      <option value="" disabled selected>Select an assignee</option>
-      <option value="Alice">Alice</option>
-      <option value="Bob">Bob</option>
-      <option value="Larry">Larry</option>
-      <option value="Zam">Zam</option>
-    </select>
-    
-    <!-- Not done yet for backend -->
-    <label for="story point"><b>&emsp;&emsp;&emsp;&emsp;Story points:   </b></label>
-    <!-- <button onclick="increment()">+</button>
-    <div class="value-button" id="decrease" onclick="decreaseValue()"></div>
-    <input type="number" id="number" value="0" />
-    <div class="value-button" id="increase" onclick="increaseValue()"></div>
-    <button onclick="decrement()">-</button> -->
+    <div class="task-frame flex col">
+      <div class="task-name">
+        <span class="text">Task name: </span>
+        <input type="text" id="task-name" name="task-name" minlength="2">
+      </div>
+      <div class="taskview">
+        <div class="flex col">
+          <div class="assignee">
+            <span class="text">Assignee: </span>
+            <select name="team-member" id="AssigneeList">
+            <option value="" disabled selected>Select an assignee</option>
+              <option value="Alice">Alice</option>
+              <option value="Bob">Bob</option>
+              <option value="Larry">Larry</option>
+              <option value="Zam">Zam</option>
+              </select>
+          </div>
+          <div class="priority">
+            <span class="text">Priority: </span>
+            <select name="priority" id="priorities">
+                <option value="" disabled selected>Select an option</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="Important">Important</option>
+                <option value="Urgent">Urgent</option>
+              </select>
+          </div>
+          <div class="stage-of-task">
+            <span class="text">Stage of task: </span>
+            <select name="Stage-of-task" id="SOT">
+                <option value="" disabled selected>Select an option</option>
+                <option value="Planning">Planning</option>
+                <option value="Development">Development</option>
+                <option value="Testing">Testing</option>
+                <option value="Integration">Integration</option>
+              </select>
+          </div>
+        </div>
+        <div class="flex col">
+          <div class="story-points">
+            <span class="text">Story Points: </span>
+            <button class="decrement-button">-</button>
+            <input type="number" class="input-field" id="StoryPoints" value="0" min="1" max="10" disabled>
+            <button class="increment-button">+</button>
+          </div>
+          <div class="status">
+            <span class="text">Status: </span>
+            <input type="radio" id="Not Started" name="status" value="Not Started">
+            <label for="Not Started"> Not Started </label>
+            <input type="radio" id="In Progress" name="status" value="In Progress">
+            <label for="In Progress"> In Progress </label>
+            <input type="radio" id="Completed" name="status" value="Completed">
+            <label for="Completed"> Completed</label>
+          </div>
+          <div class="category">
+            <span class="text">Category: </span>
+            <input type="radio" id="Story" name="category" value="Story">
+            <label for="Not Started"> Story </label>
+            <input type="radio" id="Bug" name="category" value="Bug">
+            <label for="In Progress"> Bug </label>
+          </div>
+        </div>
+          <div class="tags-container">
+            <div class="tags tags1" id="FE"></div>
+            <div class="tags tags2" id="BE"></div>
+            <div class="tags tags3" id="API"></div>
+            <div class="tags tags4" id="DB"></div>
+            <div class="tags tags5" id="FW"></div>
+            <div class="tags tags6" id="TEST"></div>
+            <div class="tags tags7" id="UI"></div>
+            <div class="tags tags8" id="UX"></div>
 
-    <!-- Using this instead for story point -->
-    <input type="number" id="storyPoints" placeholder="Story points" min="1" max="10" class="wide-input">
-
-
-
-    <br>
-    <br>
-    <label for="priority"><b>Priority</b></label>
-    <!-- <select name="priority" id="priorities"> -->
-    <select name="priority" id="taskPriority">
-      <option value="" disabled selected>Select an option</option>
-      <option value="Low">Low</option>
-      <option value="Medium">Medium</option>
-      <option value="Important">Important</option>
-      <option value="Urgent">Urgent</option>
-    </select>
-    
-
-    <label for="status"><b>&emsp;&emsp;&emsp;&emsp;Status</b></label> 
-
-    <!-- Changed from checkbox to radio
-          Only can select 1 -->
-    <input type="radio" id="ns" name="status" value="Not Started">
-    <label for="ns"> Not Started </label>
-    <b>&emsp;&emsp;</b>
-    <input type="radio" id="ip" name="status" value="In Progress">
-    <label for="ip"> In Progress </label>
-    <b>&emsp;&emsp;</b>
-    <input type="radio" id="c" name="status" value="Completed">
-    <label for="c"> Completed</label><br>
-
-    
-    <br>
-    <br>
-    <label for="stage"><b>Stage of task</b></label>
-    <select name="stage" id="stages">
-        <option value="" disabled selected>Select an option</option>
-        <option value="Planning">Planning</option>
-        <option value="Development">Development</option>
-        <option value="Testing">Testing</option>
-        <option value="Integration">Integration</option>
-      </select>
-
-    <br>
-    <br>
-    <label for="description"><b>Task description</b></label>
-    <!-- <input type="description" placeholder="Enter description" name="desc" > -->
-    <input type="description" id = "task-description" placeholder="Enter description">
-  
-
-    <button type="submit" class="btn" id="saveTaskButton">Save</button>
-    <!-- <button id="saveTaskButton">Save</button> -->
-    <div class="dropup">
-      <button class="dropbtn" id="tags">Tags</button>
-      <div class="dropup-content">
-        <div class="tags1">
-        <a href="#">FrontEnd</a></div>
-        <div class="tags2">
-        <a href="#">BackEnd</a></div>
-        <div class="tags3">
-        <a href="#">API</a></div>
-        <div class="tags4">
-        <a href="#">Database</a></div>
-        <div class="tags5">
-        <a href="#">Framework</a></div>
-        <div class="tags6">
-        <a href="#">Testing</a></div>
-        <div class="tags7">
-        <a href="#">UI</a></div>
-        <div class="tags8">
-        <a href="#">UX</a></div>
-
+          </div>
+      </div>
+      <div class="task-description">
+        <div class="text">Task description:</div>
+        <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
       </div>
     </div>
-    <a href="prodBacklog.html" class="cancel">Delete</a>
-     
 
-  </form>
+ 
+    <br>
+    <div class="button-container">
+        <a href="prodBacklog.html" id="save-button" class="save-button">save</a>
+        <div class="tag-bar" id="tag-bar">
+            <div class="tag-menu" id="tag-menu">
+                <label class="tag1" for="FEoption"><input type="checkbox" id="FEoption" name="tag" value="Frontend">Frontend</label>
+                <label class="tag2" for="BEoption"><input type="checkbox" id="BEoption" name="tag" value="Backend">Backend</label>
+                <label class="tag3" for="APIoption"><input type="checkbox" id="APIoption" name="tag" value="API">API</label>
+                <label class="tag4" for="DBoption"><input type="checkbox" id="DBoption" name="tag" value="Database">Database</label>
+                <label class="tag5" for="FWoption"><input type="checkbox" id="FWoption" name="tag" value="Framework">Framework</label>
+                <label class="tag6" for="TESToption"><input type="checkbox" id="TESToption" name="tag" value="Testing">Testing</label>
+                <label class="tag7" for="UIoption"><input type="checkbox" id="UIoption" name="tag" value="UI">UI</label>
+                <label class="tag8" for="UXoption"><input type="checkbox" id="UXoption" name="tag" value="UX">UX</label>
+            </div>
+            <div class="tag-button" id="tag-button">Tag</div>
+        </div>
+        <div id="delete-button" class="delete-button">delete</div>
+    </div>
+    
 
-<script>
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-
-</script>
-<script src = "addTask.js"></script>
-
+  </div>
+<script src="addTask.js"></script>
 </body>
 </html>
-
-
-
