@@ -29,6 +29,27 @@ body {
     overflow-x: auto; 
     white-space: nowrap; 
   }
+  .pink-frame {
+    background-color: #E8CACA;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+  .green-frame {
+    background-color: #b5dbaf;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+  .flex {
+    display: flex;
+  }
+  .row {
+    flex-direction: row;
+  }
+  .col {
+    flex-direction: column;
+  }
 
   .horizontal-scroll {
     display: inline-flex; 
