@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Save the updated tasks array to local storage
             localStorage.setItem("tasks", JSON.stringify(savedTasks));
+            console.log('hello')
 
             // Navigate back to the index.html page
             window.location.href = "prodBacklog.html";
