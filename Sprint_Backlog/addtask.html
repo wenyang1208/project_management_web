@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Backlog</title>
+  <link rel="stylesheet" href="add.css">
+</head>
+<body>
+
+  <div class="white-frame">
+
+    <div class="header-menu-container">
+      <div class="menu-bar">
+        <button id="menu-button"><img src="../Product_Backlog/menubar.png" width="45%" height="45%"></button>
+        <div class="menu-items" id="menu-items">
+            <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
+            <a href="#">Scrumboard</a>
+            <a href="#">Team management</a>
+            <a href="#">Profile</a>
+            <a href="#">Reset password</a>
+            <a href="#">Log out</a>
+        </div>
+      </div>
+      
+      <header>
+        <h1>Product Backlog</h1>
+      </header>
+
+      
+    </div>
+    
+    <br>
+    <main id="main" class="flex row">
+    <div class="card-views" id="card-views-container">
+    
+      <div class="cardview" id="task1">
+        <a href="task.html">
+          <div class="task-name">Task 1</div>
+          <div class="priority">Priority: High</div>
+          <div class="story-points">Story Points: 5</div>
+          <div class="tags-container">
+            <div class="tags tags1"></div>
+            <div class="tags tags2"></div>
+            <div class="tags tags5"></div>
+            <div class="tags tags3"></div>
+            <div class="tags tags8"></div>
+          </div>
+
+          <label class="custom-checkbox hidden-checkbox">
+            <input type="checkbox" class="delete-checkbox">
+            <span class="checkmark"></span>
+          </label>
+
+        </a>
+    
+      </div>
+      
+      <div class="cardview",id="task2" >
+        <a href="task.html">
+          <div class="task-name">Task 2</div>
+          <div class="priority">Priority: Low</div>
+          <div class="story-points">Story Points: 7</div>
+          <div class="tags-container">
+            <div class="tags tags8"></div>
+            <div class="tags tags6"></div>
+          </div>
+
+          <label class="custom-checkbox hidden-checkbox">
+            <input type="checkbox" class="delete-checkbox">
+            <span class="checkmark"></span>
+          </label>
+        </a>
+      </div>
+
+      <div class="cardview",id="task4" >
+        <a href="task.html">
+          <div class="task-name">Task 4</div>
+          <div class="priority">Priority: Medium</div>
+          <div class="story-points">Story Points: 7</div>
+          <div class="tags-container">
+            <div class="tags tags8"></div>
+            <div class="tags tags6"></div>
+          </div>
+
+          <label class="custom-checkbox hidden-checkbox">
+            <input type="checkbox" class="delete-checkbox">
+            <span class="checkmark"></span>
+          </label>
+        </a>
+      </div>
+
+    </div>
+
+    <sideBar id="sideBar" class="flex col">
+      <div class="sort-container">
+        <button class="sort">Sort</button>
+        <button class="sort1">Newest to Oldest</button>
+        <button class="sort2">Oldest to Newest</button>
+        <button class="sort3">Low to Urgent</button>
+        <button class="sort4">Urgent to Low</button>
+      </div>
+
+      <div class = "tag-container">
+        <button class="tag">Tag</button>
+        <label class="tag1" for="FE"><input type="checkbox" id="FE" name="tag" value="Frontend">Frontend</label>
+        <label class="tag2" for="BE"><input type="checkbox" id="BE" name="tag" value="Backend">Backend</label>
+        <label class="tag3" for="API"><input type="checkbox" id="API" name="tag" value="API">API</label>
+        <label class="tag4" for="DB"><input type="checkbox" id="DB" name="tag" value="Database">Database</label>
+        <label class="tag5" for="FW"><input type="checkbox" id="FW" name="tag" value="Framework">Framework</label>
+        <label class="tag6" for="TEST"><input type="checkbox" id="TEST" name="tag" value="Testing">Testing</label>
+        <label class="tag7" for="UI"><input type="checkbox" id="UI" name="tag" value="UI">UI</label>
+        <label class="tag8" for="UX"><input type="checkbox" id="UX" name="tag" value="UX">UX</label>
+      </div>
+    </sideBar>
+    </main>
+     
+      <br>
+
+      <div class="button-container">
+        <a href="sprint.html" id="add-button" class="add-button">Add</a>
+        <a href="sprint.html" id="discard-button" class="discard-button">Discard</a>        
+      </div>
+
+
+  </div>
+
+
+
+
+</body>
+</html>
+
+
