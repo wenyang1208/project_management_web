@@ -1,335 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  /* Added style */
-  .wide-input{
-    width: 100px;
-  }
-body {background-color:#A8CAEA; font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
-
-
-/* Button used to open the add task - fixed at the bottom of the page */
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: fixed;
-  bottom: 23px;
-  right: 28px;
-  width: 280px;
-}
-
-/* Add styles to the form container */
-.form-container {
-  width: 100%;
-  padding: 100px;
-  background-color: rgb(221, 238, 248);
-}
-
-/* Full-width input fields */
-.form-container input[type=text], .form-container input[type=description] {
-  width: 60%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-
-.form-container input[type=text], .form-container input[type="task name"] {
-  width: 60%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-}
-
-
-/* Set a style for the save button */
-.form-container .btn {
-  background-color: #5b76cf;
-  color: rgb(242, 243, 248);
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 20%;
-  position: fixed;
-  right: 60px;
-  top: 300px;
-  margin-bottom:10px;
-  opacity: 0.8;
-}
-
-
-
-/* the delete button */
-.form-container .cancel {
-  background-color: rgb(71, 98, 173);
-  color: rgb(242, 243, 248);
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 20%;
-  position: fixed;
-  right: 60px;
-  top: 415px;
-  margin-bottom:10px;
-  opacity: 0.8;
-  text-decoration: none;
-}
-
-
-/* tags button */
-.dropbtn {
-  background-color: rgb(71, 98, 173);
-  color: rgb(242, 243, 248);
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-  
-}
-
-.dropup {
-  position: fixed;
-  display: inline-block;
-  right: 60px;
-  top: 360px;
-}
-
-.dropup-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  bottom: 50px;
-  z-index: 1;
-}
-
-.dropup-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropup-content a:hover {background-color: white}
-
-.dropup:hover .dropup-content {
-  display: block;
-}
-
-.dropup:hover .dropbtn {
-  background-color: #2980B9;
-}
-
-
-.value-button {
-  display: inline-block;
-}
-
-
-.bar1, .bar2, .bar3 {
-  width: 5px;
-  height: 5px;
-  background-color: #333;
-  margin: 6px 0;
-  position: relative;
-  left: 850px;
-
-}
-
-.container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 16px;
-  cursor: pointer;
-  font-size: 18px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the browser's default radio button */
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-/* Create a custom radio button */
-.checkmark {
-  position: absolute;
-  top: 11px;
-  left: 10px;
-  height: 20px;
-  width: 20px;
-  background-color: #eee;
-  border-radius: 50%;
-}
-
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-/* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.container .checkmark:after {
-    top: 7px;
-    left: 6px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: white;
-}
-
-.threedots {
-  position: fixed; 
-  right: 100px;
-}
-
-.category {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.category label {
-  color: black;
-  padding: 10px 30px;
-  text-decoration: none;
-  display: block;
-}
-
-.category label:hover {background-color: #ddd;}
-
-.threedots:hover .category{display: block;}
-
-
-
-
-
-
-
-
-
-
-
-.tags-container {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
-  }
-  
- 
-
-  .tags1{
-    background-color: #AF4A93; /*Frontend*/
-    color: white;
-  }
-
-
-  .tags2{
-    background-color: #EE8306; /*Backend*/
-    color: white;
-  }
-
-
-
-  .tags3{
-    background-color: #DFCC22; /*API*/
-    color: white;
-  }
-
- 
-
-  .tags4{
-    background-color: #3EC133; /*Database*/
-    color: white;
-  }
- 
- 
-  .tags5{
-    background-color: #B4D0F9; /*Framework*/
-    color: white;
-  }
-
-
-
-  .tags6{
-    background-color: #9747FF; /*Testing*/
-    color: white;
-  }
-
-
-
-  .tags7{
-    background-color: #959AA1; /*UI*/
-    color: white;
-  }
-
-
-  .tags8{
-    background-color: #964B00; /*UX*/
-    color: white;
-  }
-
-  
-
-
-
-  
-
-
-
-</style>
+  <title>Add Task</title>
+  <link rel="stylesheet" href="addtask.css">
 </head>
 <body>
 
-  <form action="/action_page.php" class="form-container" id="taskForm">
-
-    <div class="previous-page">
-      <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
-    </div>
-    <div class="threedots">
-      <a class ="dotsbutton" href = "#"><img src="threedots.png" width=20px height = 30px></a>
-      <div class="category">
-        <label class="container">Bug
-          <input type="radio" checked="checked" name="radio">
-          <span class="checkmark"></span>
-        </label>
-        <label class="container">Story
-          <input type="radio" name="radio">
-          <span class="checkmark"></span>
-        </label>
+  <div class="white-frame">
+      <div class="previous-page">
+        <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
+      </div>
+      <div class="menu-bar">
+        <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
+        <div class="menu-items" id="menu-items">
+          <a href="prodBacklog.html">Product backlog</a>
+          <a href="#">Scrumboard</a>
+          <a href="#">Team management</a>
+          <a href="#">Profile</a>
+          <a href="#">Reset password</a>
+          <a href="#">Log out</a>
         </div>
     </div>
     
@@ -410,21 +99,21 @@ body {background-color:#A8CAEA; font-family: Arial, Helvetica, sans-serif;}
       <button class="dropbtn" id="tags">Tags</button>
       <div class="dropup-content">
         <div class="tags1">
-        <a href="#" data-tag="FrontEnd">FrontEnd</a></div>
+        <a href="#">FrontEnd</a></div>
         <div class="tags2">
-        <a href="#" data-tag="BackEnd">BackEnd</a></div>
+        <a href="#">BackEnd</a></div>
         <div class="tags3">
-        <a href="#" data-tag="API">API</a></div>
+        <a href="#">API</a></div>
         <div class="tags4">
-        <a href="#" data-tag="Database">Database</a></div>
+        <a href="#">Database</a></div>
         <div class="tags5">
-        <a href="#" data-tag="Framework">Framework</a></div>
+        <a href="#">Framework</a></div>
         <div class="tags6">
-        <a href="#" data-tag="Testing">Testing</a></div>
+        <a href="#">Testing</a></div>
         <div class="tags7">
-        <a href="#" data-tag="UI">UI</a></div>
+        <a href="#">UI</a></div>
         <div class="tags8">
-        <a href="#" data-tag="UX">UX</a></div>
+        <a href="#">UX</a></div>
 
       </div>
     </div>
@@ -440,10 +129,6 @@ function closeForm() {
 
 </script>
 <script src = "addTask.js"></script>
-<script src = "index.js"></script>
 
 </body>
 </html>
-
-
-

@@ -14,6 +14,16 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.header-menu-container {
+  display: flex;
+  align-items: center;
+}
+
+header {
+  margin-left: 20px; 
+}
+
 .task-frame{
     background-color: #E3F6FC;
     padding:20px;

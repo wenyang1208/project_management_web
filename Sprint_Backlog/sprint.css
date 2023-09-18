@@ -1,0 +1,288 @@
+body {
+    background-color: #A8CAEA;
+    padding: 20px;
+  }
+
+.white-frame{
+  background-color: white;
+  padding: 20px;
+  margin: 10px;
+}
+
+.light-blue-frame {
+    background-color: #C5DBF5;
+    padding: 20px;
+    margin: 10px;
+}
+
+.light-blue-card-frame {
+    background-color: #C5DBF5;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 15px;
+}
+
+.dark-blue-frame {
+    background-color: #6589AA;
+    padding: 20px;
+    margin: 10px;
+    overflow-x: auto; 
+    white-space: nowrap; 
+  }
+  .pink-frame {
+    background-color: #E8CACA;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+  .green-frame {
+    background-color: #b5dbaf;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+  .flex {
+    display: flex;
+  }
+  .row {
+    flex-direction: row;
+  }
+  .col {
+    flex-direction: column;
+  }
+
+  .horizontal-scroll {
+    display: inline-flex; 
+    gap: 10px; 
+  }
+
+
+  .card-views {
+    display: grid;
+    gap: 10px;
+  }
+  
+
+  .kanban-card {
+    width: 300px; 
+    background-color: #C5DBF5;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0; 
+    white-space: normal;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+
+.header-menu-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  header {
+    margin-left: 20px; 
+  }
+
+
+  .button-container {
+    text-align: right; 
+    margin-top: 5px; 
+  }
+
+  
+.add-button {
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 19px;
+    margin: 5px;
+    width: 70px;
+    text-align: center;
+    line-height: center; 
+    margin-left: auto;
+    display: block;
+}
+
+  .menu-bar {
+    position: relative;
+    display: inline-block;
+    width: 5%;
+    padding: 3px;
+    z-index: 2;
+  }
+
+
+  .previous-page {
+    padding: 10px;
+  }
+
+
+.previous-page a {
+  background-color: none;
+  color: none;
+  border:none;
+  cursor: pointer;
+  position: inline;
+}
+
+
+.menu-bar button {
+    background-color: gray;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-items {
+    display: none;
+    position: absolute;
+    background-color: gray;
+    padding: 5px;
+}
+
+.menu-items a {
+  display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.menu-bar:hover .menu-items {
+    display: block;
+}
+
+
+.card {
+    position: relative;
+    border: 1px solid #E3F6FC;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  .cardview {
+    background-color: #E3F6FC;
+    border: 1px solid #E3F6FC;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative; 
+    margin-bottom: 10px;
+  }
+
+  .cardview a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .task-name {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .priority, .story-points {
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .tags-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-height: 100%; 
+    overflow-y: auto; 
+  }
+
+  .tags {
+    background-color: #4472c4; 
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+
+    display: block;
+  } 
+
+
+  .tags.tags1{
+    background-color: #AF4A93; 
+    color: black;
+  }
+
+  .tags.tags1::before {
+    content: "FrontEnd"; 
+  }
+
+  .tags.tags2{
+    background-color: #EE8306; 
+    color: black;
+  }
+
+  .tags.tags2::before {
+    content: "BackEnd"; 
+  }
+
+  .tags.tags3{
+    background-color: #DFCC22;
+    color: black;
+  }
+
+  .tags.tags3::before {
+    content: "API"; 
+  }
+
+  .tags.tags4{
+    background-color: #3EC133; 
+    color: black;
+  }
+  .tags.tags4::before {
+    content: "Database";
+  }
+ 
+  .tags.tags5{
+    background-color: #7eb0fa; 
+    color: black;
+  }
+
+  .tags.tags5::before {
+    content: "Framework"; 
+  }
+
+  .tags.tags6{
+    background-color: #9747FF;
+    color: black;
+  }
+
+  .tags.tags6::before {
+    content: "Testing";
+  }
+
+  .tags.tags7{
+    background-color: #959AA1; 
+    color: black;
+  }
+
+  .tags.tags7::before {
+    content: "UI"; 
+  }
+
+  .tags.tags8{
+    background-color: #964B00; 
+    color: black;
+  }
+
+  .tags.tags8::before {
+    content: "UX"; 
+  }
+
+
+
+
+
+

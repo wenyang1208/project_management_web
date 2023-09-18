@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task</title>
+  <link rel="stylesheet" href="sprint.css">
+</head>
+<body>
+
+  <div class="white-frame">
+        <div class="header-menu-container">
+            
+            <div class="previous-page">
+                <a href = "#"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+            </div>
+
+            
+            <div class="menu-bar">
+                <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
+                <div class="menu-items" id="menu-items">
+                    <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
+                    <a href="#">Scrumboard</a>
+                    <a href="#">Team management</a>
+                    <a href="#">Profile</a>
+                    <a href="#">Reset password</a>
+                    <a href="#">Log out</a>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <a href="task.html" id="add-button" class="add-button">Add task</a>
+            </div>
+
+            <header>
+                <h1>Sprint Backlog</h1>
+            </header>
+        </div>
+
+
+    <div class="light-blue-frame">
+        <div class="dark-blue-frame">
+            <div class="horizontal-scroll">
+
+
+                <div class="kanban-column">
+                    <div class="kanban-card">To do</div>
+
+
+
+
+
+
+
+                    
+                    <div class="light-blue-card-frame">
+                        <div class="card-views" id="card-views-container">
+                            <div class="cardview" id="task1">
+                                <a href="task.html">
+                                <div class="task-name">Task 1</div>
+                                <div class="priority">Priority: High</div>
+                                <div class="story-points">Story Points: 5</div>
+                                <div class="tags-container">
+                                    <div class="tags tags1"></div>
+                                    <div class="tags tags3"></div>
+                                    <div class="tags tags8"></div>
+                                </div>
+                                </a>
+                            </div>
+
+                            <div class="cardview" id="task1">
+                                <a href="task.html">
+                                <div class="task-name">Task 2</div>
+                                <div class="priority">Priority: Low</div>
+                                <div class="story-points">Story Points: 3</div>
+                                <div class="tags-container">
+                                    <div class="tags tags1"></div>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+                <div class="kanban-column">
+                    <div class="kanban-card">In Progress</div>
+                    <div class="light-blue-card-frame">
+                        <div class="card-views" id="card-views-container">
+                            <div class="cardview" id="task1">
+                                <a href="task.html">
+                                <div class="task-name">Task 1</div>
+                                <div class="priority">Priority: High</div>
+                                <div class="story-points">Story Points: 5</div>
+                                <div class="tags-container">
+                                    <div class="tags tags1"></div>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="kanban-column">
+                    <div class="kanban-card">Done</div>
+                    <div class="light-blue-card-frame">
+                        <div class="card-views" id="card-views-container">
+                            <div class="cardview" id="task1">
+                                <a href="task.html">
+                                <div class="task-name">Task 1</div>
+                                <div class="priority">Priority: High</div>
+                                <div class="story-points">Story Points: 5</div>
+                                <div class="tags-container">
+                                    <div class="tags tags1"></div>
+                                    <div class="tags tags2"></div>
+                                </div>
+                                </a>
+                            </div>
+                            <div class="cardview" id="task2">
+                                <a href="task.html">
+                                <div class="task-name">Task 2</div>
+                                <div class="priority">Priority: High</div>
+                                <div class="story-points">Story Points: 5</div>
+                                <div class="tags-container">
+                                    <div class="tags tags5"></div>
+                                    <div class="tags tags3"></div>
+                                    <div class="tags tags8"></div>
+                                </div>
+                                </a>
+                            </div>
+                            <div class="cardview" id="task3">
+                                <a href="task.html">
+                                <div class="task-name">Task 3</div>
+                                <div class="priority">Priority: High</div>
+                                <div class="story-points">Story Points: 5</div>
+                                <div class="tags-container">
+                                    <div class="tags tags1"></div>
+                                    <div class="tags tags2"></div>
+                                    <div class="tags tags3"></div>
+                                    <div class="tags tags8"></div>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+              </div>
+        </div>
+    </div>
+    <div class="pink-frame">
+        <h2>Story Points Burndown Chart</h2>
+        <canvas id="lineChart"></canvas>
+    </div>
+    <div class="green-frame">
+        <h2>Total Time Spent</h2>
+        <canvas id="lineChart2"></canvas>
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script>
+    // Get a reference to the canvas element
+    var ctx = document.getElementById('lineChart').getContext('2d');
+  
+    // Define your data as an array of data points
+    var data = {
+      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+      datasets: [{
+        label: 'Expected velocity',
+        data: [50, 45, 40, 25, 20], // Example data points
+        borderColor: 'blue',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      },{
+        label: 'Actual velocity',
+        data: [50, 45, 40, 35, 30], // Example data points
+        borderColor: 'red',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      }]
+    };
+  
+    // Create the line chart
+    var lineChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date' // Set the X-axis label
+        }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Remaining Story Points' // Set the Y-axis label
+        }
+      }]
+    }
+  }
+    });
+    var ctx2 = document.getElementById('lineChart2').getContext('2d');
+  
+    // Define your data as an array of data points
+    var data = {
+      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+      datasets: [{
+        label: 'Task1',
+        data: [0, 0.5, 2, 2.5, 3], // Example data points
+        borderColor: 'blue',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      },{
+        label: 'Task2',
+        data: [0, 2, 2, 3, 4], // Example data points
+        borderColor: 'red',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      }]
+    };
+  
+    // Create the line chart
+    var lineChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: data,
+      options: {
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date' // Set the X-axis label
+        }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Time Spent (hrs)' // Set the Y-axis label
+        }
+      }]
+    }
+  }
+    });
+  </script>
+  
+</body>
+</html>
