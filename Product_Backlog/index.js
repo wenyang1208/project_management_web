@@ -94,5 +94,6 @@ savedButton.addEventListener('click',function(event){
 })
 
 function displayAddedTask(data){
+  window.location.href = "prodBacklog.html";
   console.log(data)
 }
