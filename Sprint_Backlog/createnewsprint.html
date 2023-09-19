@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create new sprint</title>
+  <link rel="stylesheet" href="createnewsprint.css">
+</head>
+<body>
+
+  <div class="light-blue-frame">
+    <div class="previous-page">
+      <a href = "scrumboard.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+  </div>
+
+    <div class="task-frame flex col">
+      <div class="sprint-name">
+        <span class="text">Sprint name: </span>
+        <input type="text" id="sprint" name="sprint" minlength="2">
+      </div>
+      <div class="taskview">
+        <div class="flex col">
+          <div class="startdate">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date">
+          </div>
+          <div class="enddate">
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date">
+          </div>
+
+          <div class="status">
+            <div class="statustitle">
+              <label for="status">Status:</label> <br><br>
+            </div>
+            <input type="checkbox" id="notstarted" name="notstarted" value="Not Started">
+            <label for="notstarted"> Not Started</label><br>
+            <input type="checkbox" id="active" name="active" value="Active">
+            <label for="active"> Active</label><br>
+            <input type="checkbox" id="completed" name="completed" value="Completed">
+            <label for="completed"> Completed</label><br><br>
+          </div>
+        
+        </div>
+
+      </div>
+    </div>
+
+ 
+    <br>
+    <div class="button-container">
+        <a href="scrumboard.html" id="save-button" class="save-button">Add new sprint</a>
+
+        <a href="scrumboard.html" id="delete-button" class="delete-button">Discard</a>
+    </div>
+    
+
+  </div>
+<script src="addTask.js"></script>
+</body>
+</html>
