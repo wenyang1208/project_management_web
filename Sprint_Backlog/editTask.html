@@ -57,9 +57,9 @@
         <div class="flex col">
           <div class="story-points">
             <span class="text">Story Points: </span>
-            <button class="decrement-button">-</button>
-            <input type="number" class="input-field" id="StoryPoints" value="1" min="1" max="10" disabled>
-            <button class="increment-button">+</button>
+            <button class="decrement-button" onclick="decrementStoryPoints()">-</button>
+            <input type="number" class="input-field" id="StoryPoints" value="1" min="1" max="10">
+            <button class="increment-button" onclick="incrementStoryPoints()">+</button>
           </div>
           <div class="status">
             <span class="text">Status: </span>
@@ -96,29 +96,47 @@
       </div>
 
       <div class="accumulatetime">
-
+        
         <div class="log-time-spent">
           <div class="text">Log time spent:</div>
         </div>
-        
-        <table style="display: block;">
-          <tr>
-            <td>Date</td>
-            <td><input type="text" id="date-time-spent"></td>
-          </tr>
-          <tr>
-            <td>Start</td>
-            <td><input type="text" id="start-time-spent"></td>
-          </tr>
-          <tr>
-            <td>End</td>
-            <td><input type="text" id="end-time-spent"></td>
-          </tr>
-        </table>
+
+        <div class="table-button-container">
+          <div class="table-container">
+            <div class="tablebg">
+              <table style="display: block;">
+                <tr>
+                  <td>Date</td>
+                  <td><input type="date" id="date-time-spent"></td>
+                </tr>
+                <tr>
+                  <td>Start</td>
+                  <td><input type="time" id="start-time-spent"></td>
+                </tr>
+                <tr>
+                  <td>End</td>
+                  <td><input type="time" id="end-time-spent"></td>
+                </tr>
+              </table>
+            </div>
+            
+            <div class="add-button-container">
+              <div id="add-button" class="add-button">Add</div>
+            </div>
+          </div>  
+        </div>
+
+        <br>
+
+        <div class="taskview">
+          <div class="accumulationtime">
+            <span class="text">Accumulation of time: </span>
+            <span class="text" id="accumulation-time"></span>
+            <span class="text"> hrs</span>
+          </div>
+        </div>
 
       </div>
-
-
     </div>
 
  
@@ -138,11 +156,28 @@
             </div>
             <div class="tag-button" id="tag-button">Tag</div>
         </div>
-        <a href="sprint.html" id="delete-button" class="delete-button">Delete</a>
+        
     </div>
-    
-
   </div>
-<script src="editTask.js"></script>
+
+  <script>
+    function decrementStoryPoints() {
+      var inputField = document.getElementById("StoryPoints");
+      var currentValue = parseInt(inputField.value);
+      
+      if (currentValue > 1) {
+        inputField.value = currentValue - 1;
+      }
+    }
+
+    function incrementStoryPoints() {
+      var inputField = document.getElementById("StoryPoints");
+      var currentValue = parseInt(inputField.value);
+      
+      if (currentValue < 10) {
+        inputField.value = currentValue + 1;
+      }
+    }
+  </script>
 </body>
 </html>
