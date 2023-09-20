@@ -70,6 +70,13 @@
             <input type="radio" id="Completed" name="status" value="Completed">
             <label for="Completed"> Completed</label>
           </div>
+          <div class="category">
+            <span class="text">Category: </span>
+            <input type="radio" id="Story" name="category" value="Story">
+            <label for="Not Started"> Story </label>
+            <input type="radio" id="Bug" name="category" value="Bug">
+            <label for="In Progress"> Bug </label>
+          </div>
         </div>
           <div class="tags-container">
             <div class="tags tags1" id="FE"></div>
@@ -87,12 +94,37 @@
         <div class="text">Task description:</div>
         <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
       </div>
+
+      <div class="accumulatetime">
+
+        <div class="log-time-spent">
+          <div class="text">Log time spent:</div>
+        </div>
+        
+        <table style="display: block;">
+          <tr>
+            <td>Date</td>
+            <td><input type="text" id="date-time-spent"></td>
+          </tr>
+          <tr>
+            <td>Start</td>
+            <td><input type="text" id="start-time-spent"></td>
+          </tr>
+          <tr>
+            <td>End</td>
+            <td><input type="text" id="end-time-spent"></td>
+          </tr>
+        </table>
+
+      </div>
+
+
     </div>
 
  
     <br>
     <div class="button-container">
-        <a href="task.html" id="save-button" class="save-button">save</a>
+        <a href="task.html" id="save-button" class="save-button">Save</a>
         <div class="tag-bar" id="tag-bar">
             <div class="tag-menu" id="tag-menu">
                 <label class="tag1" for="FEoption"><input type="checkbox" id="FEoption" name="tag" value="Frontend">Frontend</label>
@@ -106,7 +138,7 @@
             </div>
             <div class="tag-button" id="tag-button">Tag</div>
         </div>
-        <div id="delete-button" class="delete-button">delete</div>
+        <a href="sprint.html" id="delete-button" class="delete-button">Delete</a>
     </div>
     
 

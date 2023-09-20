@@ -380,3 +380,13 @@ select:focus option {
     align-items: end;
     position: relative;
 }
+
+.accumulatetime {
+  width: 100%;
+  display: grid;
+  /* margin-bottom: 10px; */
+}
+
+table {
+  margin-top: 10px;
+}
