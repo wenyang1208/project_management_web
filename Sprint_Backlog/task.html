@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task</title>
+  <link rel="stylesheet" href="task.css">
+</head>
+<body>
+
+  <div class="white-frame">
+      <div class="previous-page">
+        <a href = "sprint.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+      </div>
+      <div class="menu-bar">
+        <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
+        <div class="menu-items" id="menu-items">
+          <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
+          <a href="#">Scrumboard</a>
+          <a href="#">Team management</a>
+          <a href="#">Profile</a>
+          <a href="#">Reset password</a>
+          <a href="#">Log out</a>
+        </div>
+      </div>
+
+    <div class="task-frame flex col">
+      <!-- <div class="taskName"></div> -->
+      <h1 id="taskNameHeader"></h1>
+
+      <div class="taskview">
+        <div class="flex col">
+          <!-- <div class="assignee">
+            <span class="text">Assignee: </span>
+            <span class="text" id="Assignee">...</span>
+          </div> -->
+          <div class="task-info">
+            <span class="info-label">Assignee:</span>
+            <span class="info-value" id="asignees"></span>
+          </div>
+
+          <div class="priority">
+            <span class="text">Priority: </span>
+            <span class="text" id="taskPriority"></span>
+          </div>
+
+          <!-- <div class="stage-of-task">
+            <span class="text">Stage of task: </span>
+            <span class="text" id="stages">...</span>
+          </div> -->
+          <div class="task-info">
+            <span class="info-label">Stage of task:</span>
+            <span class="text" id="stages"></span>
+        </div>
+
+          <!-- Remap description here
+          <div class="task-description">
+            <div class="text">Task description:</div>
+            <div class="description" id="task-description"></div>
+          </div>-->
+
+        </div>
+
+        <div class="flex col">
+          <div class="story-points">
+            <span class="text">Story Points: </span>
+            <span class="text" id="storyPoints"></span>
+          </div>
+
+          <div class="status">
+            <span class="text">Status: </span>
+            <span class="text" id="status">...</span>
+          </div>
+
+        </div>
+
+          <div class="tags-container">
+            <div class="tags tags1" id="FE">Frontend</div>
+            <div class="tags tags2" id="BE">Backend</div>
+            <div class="tags tags3" id="API">API</div>
+            <div class="tags tags4" id="DB">Database</div>
+            <div class="tags tags5" id="FW">Framework</div>
+            <div class="tags tags6" id="TEST">Testing</div>
+            <div class="tags tags7" id="UI">UI</div>
+            <div class="tags tags8" id="UX">UX</div>
+          </div>
+
+      </div>
+
+      
+      <div class="task-description">
+        <div class="text">Task description:</div>
+        <div class="description" id="task-description">Requirements:
+
+          User Registration:
+          
+          Users should be able to register for an account by providing a valid email address and a secure password.
+          Implement client-side and server-side validation to ensure data integrity.
+          Store user registration data securely in our database.
+          User Login:
+          
+          Registered users should be able to log in with their email and password.
+          Implement password hashing and salting for security.
+          Create a session or token-based authentication system.
+          Password Reset:
+          
+          Allow users to request a password reset via email if they forget their password.
+          Generate secure password reset tokens and implement a reset password flow.
+          Authentication Middleware:
+          
+          Implement authentication middleware to protect certain routes and resources.
+          Unauthorized access attempts should be redirected to the login page or return a 401 status code.
+          User Profile:
+          
+          Create a user profile page where users can view and edit their profile information.
+          Implement user authentication checks to ensure users can only edit their own profiles.
+          Security Measures:
+          
+          Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
+          Regularly review and update security libraries and dependencies</div>
+      </div>
+    </div>
+      <div class="button-container">
+        <!-- <div id="edit-button" class="edit-button">edit</div> -->
+        <a href="editTask.html" id="edit-button" class="edit-button">edit</a>
+
+      </div>
+
+ 
+    <br>
+    
+
+  </div>
+
+</body>
+</html>
