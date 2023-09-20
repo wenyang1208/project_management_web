@@ -92,35 +92,22 @@
 
           User Registration:
           
-          Users should be able to register for an account by providing a valid email address and a secure password.
-          Implement client-side and server-side validation to ensure data integrity.
-          Store user registration data securely in our database.
-          User Login:
-          
-          Registered users should be able to log in with their email and password.
-          Implement password hashing and salting for security.
-          Create a session or token-based authentication system.
-          Password Reset:
-          
-          Allow users to request a password reset via email if they forget their password.
-          Generate secure password reset tokens and implement a reset password flow.
-          Authentication Middleware:
-          
-          Implement authentication middleware to protect certain routes and resources.
-          Unauthorized access attempts should be redirected to the login page or return a 401 status code.
-          User Profile:
-          
-          Create a user profile page where users can view and edit their profile information.
-          Implement user authentication checks to ensure users can only edit their own profiles.
-          Security Measures:
-          
           Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
           Regularly review and update security libraries and dependencies</div>
       </div>
+
+      <div class="taskview">
+        <div class="accumulationtime">
+          <span class="text">Accumulation of time: </span>
+          <span class="text" id="accumulation-time"></span>
+          <span class="text"> hrs</span>
+        </div>
+      </div>
+
     </div>
       <div class="button-container">
-        <!-- <div id="edit-button" class="edit-button">edit</div> -->
-        <a href="editTask.html" id="edit-button" class="edit-button">edit</a>
+        <a href="editTask.html" id="edit-button" class="edit-button">Edit</a>
+        <a href="sprint.html" id="delete-button" class="delete-button">Delete</a>
 
       </div>
 
