@@ -28,6 +28,8 @@ const
   TEST = document.getElementById("TEST"),
   UI = document.getElementById("UI"),
   UX = document.getElementById("UX"),
+  increment = document.getElementById("increment"),
+  decrement = document.getElementById("decrement"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
   taskId = urlParams.get("taskId"),
@@ -79,6 +81,27 @@ document.addEventListener("DOMContentLoaded", function () {
       taskNameElement.textContent = "Task not found.";
   }
 });
+increment.addEventListener("click",function(){
+  if (storyPointsElement.value != storyPointsElement.max){
+    storyPointsElement.value = (parseInt(storyPointsElement.value)+1).toString()
+  }
+})
+decrement.addEventListener("click",function(){
+  if (storyPointsElement.value != storyPointsElement.min){
+    storyPointsElement.value = (parseInt(storyPointsElement.value)-1).toString()
+  }
+})
+function checkTag() {
+  tagOptionList.forEach(tag => {
+    if (tag.checked == true){
+      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+    }
+    else {
+      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
+    }
+  })}
+const check = setInterval(checkTag,10)
+
 savebutton.addEventListener("click",function(event){
   event.preventDefault()
   if (taskId !== null && taskId >= 0 && taskId < savedTasks.length) {
