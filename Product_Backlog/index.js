@@ -29,9 +29,12 @@ incrementButton.addEventListener("click", function () {
 
   // select tags
 const tag = []
+const displayTag = []
+const tagsDisplay = document.querySelectorAll('.tags1, .tags2, .tags3, .tags4, .tags5, .tags6, .tags7, .tags8');
 const tags = document.querySelectorAll('.tag1, .tag2, .tag3, .tag4, .tag5, .tag6, .tag7, .tag8');
+
 tags.forEach(tagLink => {
-  tagLink.addEventListener('click', function(event){
+  tagLink.addEventListener('change', function(event){
     event.preventDefault();
     const select = tagLink.textContent
     tag.push(select)
