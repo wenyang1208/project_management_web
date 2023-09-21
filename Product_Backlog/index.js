@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded',function(){
-  fetch('http://localhost:5000/getAll')
+ 
+  fetch('http://localhost:5500/getAll')
 
   // parse the JSON data from the response
   .then(response => response.json())
@@ -8,37 +9,54 @@ document.addEventListener('DOMContentLoaded',function(){
   .then(data => console.log(data)); 
 });
 
-// select tags
+// story points:
+const decrementButton = document.querySelector(".decrement-button");
+const incrementButton = document.querySelector(".increment-button");
+const storyPointsInput = document.getElementById("StoryPoints");
+decrementButton.addEventListener("click", function () {
+  const currentValue = parseInt(storyPointsInput.value);
+  if (currentValue > 1) {
+    storyPointsInput.value = currentValue - 1;
+  }
+});
+
+incrementButton.addEventListener("click", function () {
+  const currentValue = parseInt(storyPointsInput.value);
+  if (currentValue < 10) {
+    storyPointsInput.value = currentValue + 1;
+  }
+});
+
+  // select tags
 const tag = []
-const tags = document.querySelectorAll('.dropup-content a');
+const tags = document.querySelectorAll('.tag1, .tag2, .tag3, .tag4, .tag5, .tag6, .tag7, .tag8');
 tags.forEach(tagLink => {
   tagLink.addEventListener('click', function(event){
     event.preventDefault();
-    const select = this.getAttribute('data-tag')
-    console.log(select)
-    console.log("asdoijaosfoijoij")
+    const select = tagLink.textContent
     tag.push(select)
   })
 });
 
 
 // save
-const savedButton = document.getElementById('saveTaskButton')
+const savedButton = document.getElementById('save-button')
 savedButton.addEventListener('click',function(event){
 
-  const taskName = document.querySelector('#task-name');
+  const taskName = document.querySelector('#task');
   const taskDescription = document.querySelector('#task-description');
-  const assignees = document.querySelector('#asignees');
-  const storyPoints = document.querySelector('#storyPoints');
-  const taskPriorities = document.querySelector('#taskPriority');
-  const stages = document.querySelector("#stages");
+  const assignees = document.querySelector('#AssigneeList');
+  // const storyPoints = document.querySelector('#storyPoints');
+  const taskPriorities = document.querySelector('#priorities');
+  const stages = document.querySelector("#SOT");
   const statuses = document.querySelectorAll('input[name="status"]');
- 
+  const categories = document.querySelectorAll('input[name="category"]');
+
 
   const name = taskName.value;
   const description = taskDescription.value;
   const assignee = assignees.value;
-  const storyPoint = parseInt(storyPoints.value); 
+  const storyPoint = parseInt(storyPointsInput.value); 
   const taskPriority = taskPriorities.value;
   const stage = stages.value;
   
@@ -49,6 +67,14 @@ savedButton.addEventListener('click',function(event){
     }
   });
 
+  var category = "";
+  categories.forEach(radio => {
+    if (radio.checked) {
+      category = radio.value;
+    }
+  });
+
+
   var taskTag = []
   tag.forEach(e => {
     taskTag.push(e)
@@ -57,11 +83,12 @@ savedButton.addEventListener('click',function(event){
   taskName.value = "";
   taskDescription.value = "";
   assignees.value = "";
-  storyPoints.value = "";
+  storyPointsInput.value = "";
   taskPriorities.value = "";
   stages.value = "";
   statuses.value = "";
   tag.length = 0;
+  categories.value = "";
 
   const taskDetail = {
     name : name,
@@ -71,11 +98,12 @@ savedButton.addEventListener('click',function(event){
     taskPriority: taskPriority,
     stage: stage,
     status: status,
-    taskTag: taskTag
+    taskTag: taskTag,
+    category : category
   }
   // making network HTTP requests, the url is where the request is sent to
   // second arg: options objects
-  fetch('http://localhost:5000/insert',{
+  fetch('http://localhost:5500/insert',{
 
   // the request body will contain JSON data
     headers:{
@@ -89,11 +117,5 @@ savedButton.addEventListener('click',function(event){
     body: JSON.stringify(taskDetail)
   })
   .then(response => response.json())
-  .then(data => displayAddedTask(data['data']))
-
+  // .then(window.location.href = "prodBacklog.html")
 })
-
-function displayAddedTask(data){
-  window.location.href = "prodBacklog.html";
-  console.log(data)
-}
