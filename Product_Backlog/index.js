@@ -32,14 +32,36 @@ const tag = []
 const displayTag = []
 const tagsDisplay = document.querySelectorAll('.tags1, .tags2, .tags3, .tags4, .tags5, .tags6, .tags7, .tags8');
 const tags = document.querySelectorAll('.tag1, .tag2, .tag3, .tag4, .tag5, .tag6, .tag7, .tag8');
+console.log(tags)
+// const tags = document.querySelectorAll('#FEoption, #BEoption, #APIoption, #DBoption, #FWoption, #TESToption, #UIoption, #UXoption');
 
 tags.forEach(tagLink => {
+  // console.log(tagLink)
+  // console.log(tagLink.firstElementChild)
   tagLink.addEventListener('change', function(event){
-    event.preventDefault();
     const select = tagLink.textContent
-    tag.push(select)
+    if (event.target.checked === true){
+      console.log(event.target.checked)
+      event.preventDefault();
+      // const select = tagLink.textContent
+      tag.push(select)
+    } 
+    else{
+      // Checkbox is unchecked, remove from the 'tag' array
+      const index = tag.indexOf(select);
+      if (index !== -1) {
+        tag.splice(index, 1); // Remove one item at the found index
+      }
+    }
   })
 });
+
+// tags.forEach(tagLink => {
+//   console.log(tagLink.checked)
+//   if(tagLink.checked){    
+//     const select = tagLink.textContent
+//     tag.push(select)}
+//   });
 
 
 // save
