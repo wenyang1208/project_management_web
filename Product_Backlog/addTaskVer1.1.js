@@ -27,23 +27,16 @@ incrementButton.addEventListener("click", function () {
   }
 });
 
-  // select tags
+// select tags
 const tag = []
-const displayTag = []
-const tagsDisplay = document.querySelectorAll('.tags1, .tags2, .tags3, .tags4, .tags5, .tags6, .tags7, .tags8');
 const tags = document.querySelectorAll('.tag1, .tag2, .tag3, .tag4, .tag5, .tag6, .tag7, .tag8');
-console.log(tags)
-// const tags = document.querySelectorAll('#FEoption, #BEoption, #APIoption, #DBoption, #FWoption, #TESToption, #UIoption, #UXoption');
 
 tags.forEach(tagLink => {
-  // console.log(tagLink)
-  // console.log(tagLink.firstElementChild)
   tagLink.addEventListener('change', function(event){
     const select = tagLink.textContent
     if (event.target.checked === true){
       console.log(event.target.checked)
       event.preventDefault();
-      // const select = tagLink.textContent
       tag.push(select)
     } 
     else{
@@ -56,14 +49,6 @@ tags.forEach(tagLink => {
   })
 });
 
-// tags.forEach(tagLink => {
-//   console.log(tagLink.checked)
-//   if(tagLink.checked){    
-//     const select = tagLink.textContent
-//     tag.push(select)}
-//   });
-
-
 // save
 const savedButton = document.getElementById('save-button')
 savedButton.addEventListener('click',function(event){
@@ -71,7 +56,6 @@ savedButton.addEventListener('click',function(event){
   const taskName = document.querySelector('#task');
   const taskDescription = document.querySelector('#task-description');
   const assignees = document.querySelector('#AssigneeList');
-  // const storyPoints = document.querySelector('#storyPoints');
   const taskPriorities = document.querySelector('#priorities');
   const stages = document.querySelector("#SOT");
   const statuses = document.querySelectorAll('input[name="status"]');

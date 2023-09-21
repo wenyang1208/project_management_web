@@ -43,6 +43,22 @@ class database{
         }
     }
 
+    async getDataById(id) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = "SELECT * FROM task_details WHERE id = ?;";
+
+                connection.query(query, [id], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async insertNewData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag){
         try{
             const tags = taskTag.join(',');
@@ -79,6 +95,27 @@ class database{
             {   
                 // "DELETE" query, other applicable queries: "INSERT","UPDATE","SELECT"
                 const query = "DELETE FROM task_details WHERE id = ?;";
+
+                // send SQL queries to the MySQL database associated with your connection and get results 
+                connection.query(query, [id], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results.affectedRows);
+                })
+            });
+            return response === 1 ? true : false;
+        }catch(error){
+            console.log(error);
+            return false;
+        }
+    }
+
+    async updateData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag){
+        try{
+            id = parseInt(id, 10); 
+            const response = await new Promise((resolve,reject) =>
+            {   
+                // "DELETE" query, other applicable queries: "INSERT","UPDATE","SELECT"
+                const query = "UPDATE names SET name = ? WHERE id = ?";
 
                 // send SQL queries to the MySQL database associated with your connection and get results 
                 connection.query(query, [id], (err, results) => {

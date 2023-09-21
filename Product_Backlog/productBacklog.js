@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded',function(){
     
           // Create a link
           const link = document.createElement("a");
-          link.href = "task.html";
+          link.href = `task.html?id=${id}`;
     
           // Create task details
           const taskNameDiv = document.createElement("div");

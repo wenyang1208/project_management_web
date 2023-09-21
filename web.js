@@ -14,7 +14,6 @@ app.use(express.urlencoded({extended : false}))
 // create
 app.post('/insert', (request,response) => {
     console.log(request.body);
-    console.log('hi')
     const { name, assignee, storyPoint, taskPriority, stage, status, description, taskTag} = request.body
     const db = dbService.getServiceInstance();
     const result = db.insertNewData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag);
@@ -24,7 +23,7 @@ app.post('/insert', (request,response) => {
     .catch(err => console.log(err))
 });
 
-// read
+// read all
 app.get('/getAll', (request, response) => {
     const db = dbService.getServiceInstance();
     // test when making API call, reach backend\
@@ -34,7 +33,28 @@ app.get('/getAll', (request, response) => {
     .catch(err => console.log(err))
 })
 
+// read by id
+app.get('/getById/:id', (request, response) => {
+    const { id } = request.params;
+    const db = dbService.getServiceInstance();
+    // delete by id
+    const result = db.getDataById(id);
+    result
+    .then(data => response.json({data: data}))
+    .catch(err => console.log(err))
+})
+
 // update
+app.patch('/update', (request, response) => {
+    const { id, name } = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.updateNameById(id, name);
+    
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+});
 
 // delete
 app.delete('/delete/:id', (request, response) => {

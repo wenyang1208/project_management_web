@@ -30,7 +30,7 @@ const
   UX = document.getElementById("UX"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
-  taskId = urlParams.get("taskId"),
+  taskId = urlParams.get("id"),
   savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 
@@ -117,6 +117,7 @@ savebutton.addEventListener("click",function(event){
     savedTasks[taskId] = task
     localStorage.setItem("tasks",JSON.stringify(savedTasks))
 
-  window.location.href = `task.html?taskId=${taskId}`
+  // window.location.href = `task.html?id=${taskId}`
   }
+  window.location.href = `task.html?id=${taskId}`
 })
