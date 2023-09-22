@@ -1,6 +1,10 @@
 // taskManager.js for productBacklog.html
 const addTaskButton = document.getElementById("add-button");
 const taskList = document.getElementById("card-views-container");
+const NewToOld = document.getElementById("Newest-To-Oldest")
+const OldToNew = document.getElementById("Oldest-To-Newest")
+const UrgentToLow = document.getElementById("Urgent-To-Low")
+const LowToUrgent = document.getElementById("Low-To-Urgent")
 
 // Testing purposes
 const clearTaskButton = document.getElementById("clearTasksButton")
@@ -8,9 +12,9 @@ const clearTaskButton = document.getElementById("clearTasksButton")
 // Load tasks from local storage on page load
 const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-function displayTasks() {
+function displayTasks(taskData) {
     taskList.innerHTML = "";
-    savedTasks.forEach(function (task, index) {
+    taskData.forEach(function (task, index) {
         // Create a task card with a link to view details
         const taskCard = document.createElement("div");
         taskCard.classList.add("cardview");
@@ -123,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // Function to display tasks
 
     // Display tasks on page load
-    displayTasks();
+    displayTasks(savedTasks);
 })
     // Click event for "Add Task" button
     addTaskButton.addEventListener("click", function () {
@@ -131,11 +135,40 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     // Click for clear all
-    clearTaskButton.addEventListener("click", function(){
-        localStorage.removeItem("tasks");
-        savedTasks.length = 0;
-        displayTasks()
-    })
-function filter() {
-    
+    //clearTaskButton.addEventListener("click", function(){
+    //    localStorage.removeItem("tasks");
+    //    savedTasks.length = 0;
+    //    displayTasks()
+   // })
+NewToOld.addEventListener("click",function(){
+    const taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
+    displayTasks(taskArray.reverse())
+})
+OldToNew.addEventListener("click",function(){
+    const taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
+    displayTasks(taskArray)
+})
+const displayPriority = {
+    "Low":1,
+    "Medium":2,
+    "Important":3,
+    "Urgent":4
 }
+UrgentToLow.addEventListener("click",function(){
+    const taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
+    const newTaskArray = taskArray.sort((a,b)=>{
+        const priorityA = displayPriority[a.priority]
+        const priorityB = displayPriority[b.priority]
+        return priorityB - priorityA
+    })
+    displayTasks(newTaskArray)
+})
+LowToUrgent.addEventListener("click",function(){
+    const taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
+    const newTaskArray = taskArray.sort((a,b)=>{
+        const priorityA = displayPriority[a.priority]
+        const priorityB = displayPriority[b.priority]
+        return priorityA - priorityB
+    })
+    displayTasks(newTaskArray)
+})
