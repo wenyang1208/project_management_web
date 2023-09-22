@@ -119,7 +119,7 @@ main {
   }
 
   .tags.tags1::before {
-    content: "FrontEnd"; 
+    content: "Frontend"; 
   }
 
   .tags.tags2{
@@ -128,7 +128,7 @@ main {
   }
 
   .tags.tags2::before {
-    content: "BackEnd"; 
+    content: "Backend"; 
   }
 
   .tags.tags3{

@@ -136,3 +136,6 @@ document.addEventListener("DOMContentLoaded", function(){
         savedTasks.length = 0;
         displayTasks()
     })
+function filter() {
+    
+}

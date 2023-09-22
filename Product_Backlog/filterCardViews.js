@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cardViews = document.querySelectorAll(".cardview");
   
     // Iterate through card views and toggle their display based on selected tags
-    cardViews.forEach(function (cardView) {
+    cardViews.forEach(cardView => {
       const tags = cardView.querySelectorAll(".tags"); // Get all tags within the card view
       let showCard = false;
       let tagContent = []
