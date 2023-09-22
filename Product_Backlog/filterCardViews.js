@@ -26,19 +26,22 @@ document.addEventListener("DOMContentLoaded", function () {
     cardViews.forEach(function (cardView) {
       const tags = cardView.querySelectorAll(".tags"); // Get all tags within the card view
       let showCard = false;
+      let tagContent = []
   
       tags.forEach(function (tag) {
         if (tag) {
             var pseudoElementContent = window.getComputedStyle(tag, '::before').content;
             pseudoElementContent = pseudoElementContent.replace(/['"]+/g, '');
             const tagText = pseudoElementContent.toLowerCase();
-            for (const selectedTag of selectedTags){
-                if (selectedTag.toLowerCase() === tagText) {
-                    showCard = true;
-                  }
-            }
+            tagContent.push(tagText)
+            //for (const selectedTag of selectedTags){
+            //    if (selectedTag.toLowerCase() === tagText) {
+            //        showCard = true;
+            //      }
+            //}
           }
       });
-      cardView.style.display = showCard ? "block" : "none";
+      const bool = selectedTags.every(tag => tagContent.includes(tag))
+      cardView.style.display = bool ? "none" : "block";
     });
   }

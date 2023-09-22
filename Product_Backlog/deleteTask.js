@@ -18,11 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Remove the task card
             const taskCard = checkbox.closest(".cardview");
             if (taskCard) {
+              const taskId = taskCard.id;
+              removeTaskFromStorage(taskId);
               taskCard.remove();
             }
-  
-            const taskId = taskCard.id;
-            removeTaskFromStorage(taskId);
           }
         });
       });
@@ -32,8 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function removeTaskFromStorage(taskId) {
     const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     
-    const updatedTasks = savedTasks.filter(function (task) {
-      return task.id !== taskId;
+    const updatedTasks = savedTasks.filter(task => {
+      task.id != taskId;
     });
 
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));

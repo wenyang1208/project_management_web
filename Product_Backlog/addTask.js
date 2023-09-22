@@ -1,37 +1,88 @@
 // To receive the input and display it
+const decrementButton = document.querySelector(".decrement-button");
+const incrementButton = document.querySelector(".increment-button");
+const 
+  taskNameElement = document.getElementById("task-name"),
+  taskDescriptionElement = document.getElementById("task-description"),
+  taskPriorityElement = document.getElementById("priorities"),
+  storyPointsElement = document.getElementById("StoryPoints"),
+  AssigneeListElement = document.getElementById("AssigneeList"),
+  radioNotStarted = document.getElementById("Not Started"),
+  radioInProgress = document.getElementById("In Progress"),
+  radioCompleted = document.getElementById("Completed"),
+  taskStageElement = document.getElementById("SOT"),
+  taskTagsElement = document.getElementById("tags-container"),
+  tagsOptionsElement = document.getElementById("tag-menu"),
+  savebutton = document.getElementById("save-button"),
+  FEoption = document.getElementById("FEoption"),
+  BEoption = document.getElementById("BEoption"),
+  APIoption = document.getElementById("APIoption"),
+  DBoption = document.getElementById("DBoption"),
+  FWoption = document.getElementById("FWoption"),
+  TESToption = document.getElementById("TESToption"),
+  UIoption = document.getElementById("UIoption"),
+  UXoption = document.getElementById("UXoption"),
+  tagOptionList = [FEoption,BEoption,APIoption,DBoption,FWoption,TESToption,UIoption,UXoption],
+  FE = document.getElementById("FE"),
+  BE = document.getElementById("BE"),
+  API = document.getElementById("API"),
+  DB = document.getElementById("DB"),
+  FW = document.getElementById("FW"),
+  TEST = document.getElementById("TEST"),
+  UI = document.getElementById("UI"),
+  UX = document.getElementById("UX"),
+  increment = document.getElementById("increment"),
+  decrement = document.getElementById("decrement"),
+  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
+  story = document.getElementById("Story"),
+  bug = document.getElementById("Bug")
+decrementButton.addEventListener("click", function () {
+  const currentValue = parseInt(storyPointsElement.value);
+  if (currentValue > 1) {
+    storyPointsElement.value = currentValue - 1;
+  }
+});
+
+incrementButton.addEventListener("click", function () {
+  const currentValue = parseInt(storyPointsElement.value);
+  if (currentValue < 10) {
+    storyPointsElement.value = currentValue + 1;
+  }
+});
+function checkTag() {
+    tagOptionList.forEach(tag => {
+      if (tag.checked == true){
+        tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+      }
+      else {
+        tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
+      }
+    })}
+  const check = setInterval(checkTag,10)
 document.addEventListener("DOMContentLoaded", function () {
-    const saveTaskButton = document.getElementById("saveTaskButton");
+    const saveTaskButton = document.getElementById("save-button");
     const taskForm = document.getElementById("taskForm")
 
     // Click event for "Save" button
     saveTaskButton.addEventListener("click", function (event) {
         event.preventDefault();
-        const taskNameInput = document.getElementById("task-name");
-        const taskDescriptionInput = document.getElementById("task-description");
-        const taskPrioritySelect = document.getElementById("taskPriority");
-        const taskStageSelect = document.getElementById("stages");
-        const taskAssigneeChosen = document.getElementById("asignees");
-
-        const radioNotStarted = document.getElementById("ns");
-        const radioInProgress = document.getElementById("ip");
-        const radioCompleted = document.getElementById("c");
-
-        const storyPointsInput = document.getElementById("storyPoints");
-        const taskTagsInput = document.getElementById("tags")
-
         // Get task inputs
-        const taskName = taskNameInput.value;
-        const taskDescription = taskDescriptionInput.value;
-        const taskPriority = taskPrioritySelect.value;
-        const taskStage = taskStageSelect.value;
-        const taskAssignee = taskAssigneeChosen.value;
-        let taskStatus = "";
-        const storyPoints = storyPointsInput.value;
+        const taskName = taskNameElement.value;
+        const taskDescription = taskDescriptionElement.value;
+        const taskPriority = taskPriorityElement.value;
+        const taskStage = taskStageElement.value;
+        const taskAssignee = AssigneeListElement.value;
+        const storyPoints = storyPointsElement.value;
         // nned modify
         //let taskTags = taskTagsInput.value;
-        let taskTags = []
-
-
+        let taskTags = [];
+        tagOptionList.forEach((tag) => {
+            if (tag.checked){
+                taskTags.push(tag.value)
+            }
+        })
+ 
+        let taskStatus = ""
         // Determine and select Status
         if (radioNotStarted.checked){
             taskStatus = radioNotStarted.value
@@ -39,6 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
             taskStatus = radioInProgress.value
         } else if (radioCompleted.checked){
             taskStatus = radioCompleted.value
+        }
+        let taskCategory = ""
+        if (story.checked){
+            taskCategory = story.value
+        }
+        else if (bug.checked){
+            taskCategory= bug.value
         }
 
         // Add the new task to the savedTasks array
@@ -55,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 status: taskStatus,
                 storyPoints: storyPoints, 
                 tags: taskTags,//taskTags  here should be a arraylist now is undefined/null
+                category:taskCategory
                 
             });
             // // Function to display tasks
@@ -77,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Save the updated tasks array to local storage
             localStorage.setItem("tasks", JSON.stringify(savedTasks));
-            console.log('hello')
 
             // Navigate back to the index.html page
             window.location.href = "prodBacklog.html";

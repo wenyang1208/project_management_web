@@ -8,7 +8,8 @@ FW = document.getElementById("FW"),
 TEST = document.getElementById("TEST"),
 UI = document.getElementById("UI"),
 UX = document.getElementById("UX"),
-tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX];
+tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
+category = document.getElementById('category')
 document.addEventListener("DOMContentLoaded", function () {
     const taskNameElement = document.getElementById("taskNameHeader");
     const taskDescriptionElement = document.getElementById("task-description");
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         taskStageElement.textContent = task.stage;
         taskAssigneeElement.textContent = task.assignee;
         taskStatusElement.textContent = task.status;
+        category.textContent = task.category;
         task.tags.forEach((taskTag)=>{
             console.log(taskTag)
             if (taskTag == null){

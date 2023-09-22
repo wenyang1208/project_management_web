@@ -32,8 +32,11 @@ const
   decrement = document.getElementById("decrement"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
-  taskId = urlParams.get("id"),
-  savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  taskId = urlParams.get("taskId"),
+  savedTasks = JSON.parse(localStorage.getItem("tasks")) || [],
+  categoryStory = document.getElementById('Story'),
+  categoryBug = document.getElementById("Bug"),
+  previousPage = document.getElementById("previous-page")
 
 
 
@@ -54,6 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
       stageToSelect.selected = true;
       const assigneeToSelect = AssigneeListElement.querySelector(`option[value=${task.assignee}]`);
       assigneeToSelect.selected = true;
+      if (task.category == "Story"){
+        categoryStory.checked=true
+      }
+      else if (task.category == "Bug"){
+        categoryBug.checked=true
+      } 
       if (task.status == "Not Started"){
         radioNotStarted.checked=true;
       }
@@ -109,6 +118,12 @@ savebutton.addEventListener("click",function(event){
     task.description = taskDescriptionElement.value
     task.storyPoints = storyPointsElement.value
     task.priority = taskPriorityElement.value
+    if (categoryStory.checked){
+      task.category = categoryStory.value
+    }
+    else if (categoryBug.checked){
+      task.category = categoryBug.value
+    }
     if (radioNotStarted.checked == true) {
       task.status = "Not Started"
     }
@@ -142,5 +157,8 @@ savebutton.addEventListener("click",function(event){
 
   // window.location.href = `task.html?id=${taskId}`
   }
-  window.location.href = `task.html?id=${taskId}`
+  window.location.href = `task.html?taskId=${taskId}`
+})
+previousPage.addEventListener("click",function(){
+  window.location.href = `task.html?taskId=${taskId}`
 })
