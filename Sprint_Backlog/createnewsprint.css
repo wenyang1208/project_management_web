@@ -12,7 +12,7 @@ margin: 10px;
 display: flex;
 flex-direction: row;
 }
-.task-frame{
+.sprint-frame{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,7 +36,7 @@ flex-wrap:wrap;
 justify-content: space-between;
 }
 
-.taskview {
+.sprintview {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); /* Adjust column layout as needed */
@@ -76,30 +76,6 @@ justify-content: space-between;
   font-weight: bold;
 }
 
-.priority, .story-points {
-  font-size: 16px;
-  font-weight: normal;
-}
-
-.tags-container {
-  display: flex;
-  flex-direction: column;
-  align-items:end;
-}
-
-
-.tags {
-  background-color: #4472c4; 
-  color: white;
-  width: 70px;
-  height: 20px;
-  text-align:center;
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
 
 
 .menu-bar {
@@ -153,7 +129,7 @@ display: block;
   margin-top: 5px; 
 }
 
-.delete-button {
+.discard-button {
   background-color: darkblue;
   color: white;
   text-decoration: none;
@@ -183,99 +159,6 @@ display: block;
   display: block;
 }
 
-.tags.tags1{
-  background-color: #AF4A93; /*Frontend*/
-  color: black;
-  display: none;
-}
-
-.tags.tags1::before {
-  content: "FrontEnd"; 
-}
-
-.tags.tags2{
-  background-color: #EE8306; /*Backend*/
-  color: black;
-  display: none;
-}
-
-.tags.tags2::before {
-  content: "BackEnd"; 
-}
-
-.tags.tags3{
-  background-color: #DFCC22; /*API*/
-  color: black;
-  display: none;
-}
-
-.tags.tags3::before {
-  content: "API"; 
-  
-}
-
-.tags.tags4{
-  background-color: #3EC133; /*Database*/
-  color: black;
-  display: none;
-}
-.tags.tags4::before {
-  content: "Database";
-}
-
-.tags.tags5{
-  background-color: #7eb0fa; /*Framework*/
-  color: black;
-  display: none;
-}
-
-.tags.tags5::before {
-  content: "Framework"; 
-}
-
-.tags.tags6{
-  background-color: #9747FF; /*Testing*/
-  color: black;
-  display: none;
-}
-
-.tags.tags6::before {
-  content: "Testing";
-}
-
-.tags.tags7{
-  background-color: #959AA1; /*UI*/
-  color: black;
-  display: none;
-}
-
-.tags.tags7::before {
-  content: "UI"; 
-}
-
-.tags.tags8{
-  background-color: #964B00; /*UX*/
-  color: black;
-  display: none;
-}
-
-.tags.tags8::before {
-  content: "UX"; 
-}
-
-
-.task-description {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-self: start;
-}
-.description {
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #d9d9d9;
-  border:none;
-}
 .text {
   font-family: arial, helvetica, sans-serif;
 }
