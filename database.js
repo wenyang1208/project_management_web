@@ -59,15 +59,15 @@ class database{
         }
     }
 
-    async insertNewData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag){
+    async insertNewData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag, category){
         try{
             const tags = taskTag.join(',');
             const response = await new Promise((resolve,reject) =>
             {   
                 // "INSERT INTO" query, other applicable queries: "SELECT","UPDATE","DELETE"
-                const query = "INSERT INTO task_details (taskName, assignees, storyPoints, taskPriority, stages, status, taskDescription, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                const query = "INSERT INTO task_details (taskName, assignees, storyPoints, taskPriority, stages, status, taskDescription, tags, category) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 // send SQL queries to the MySQL database associated with your connection and get results 
-                connection.query(query, [name, assignee, storyPoint, taskPriority, stage, status, description,tags], (err, result) => {
+                connection.query(query, [name, assignee, storyPoint, taskPriority, stage, status, description,tags, category], (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.insertId);
                 })
@@ -81,7 +81,8 @@ class database{
                 stage: stage,
                 status: status,
                 description: description,
-                tags: tags
+                tags: tags,
+                category: category
             };
         }catch(error){
             console.log(error);

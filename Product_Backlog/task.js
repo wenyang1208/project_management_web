@@ -47,6 +47,10 @@ function displayTaskDetails(taskData){
     const taskDescription = document.querySelector("#task-description");
     taskDescription.textContent = taskData.taskDescription;
 
+    // add category
+    const category = document.querySelector("#category");
+    category.textContent = taskData.category;
+
     // add tags
     const tagsContainer = document.querySelector(".tags-container");
     const tagArray = taskData.tags.split(",");

@@ -14,9 +14,9 @@ app.use(express.urlencoded({extended : false}))
 // create
 app.post('/insert', (request,response) => {
     console.log(request.body);
-    const { name, assignee, storyPoint, taskPriority, stage, status, description, taskTag} = request.body
+    const { name, assignee, storyPoint, taskPriority, stage, status, description, taskTag, category} = request.body
     const db = dbService.getServiceInstance();
-    const result = db.insertNewData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag);
+    const result = db.insertNewData(name, assignee, storyPoint, taskPriority, stage, status, description, taskTag, category);
 
     result
     .then(data => response.json({ data: data}))
