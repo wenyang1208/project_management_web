@@ -122,14 +122,15 @@
           e.preventDefault();
 
           const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value
+          const password = document.getElementById("password").value;
   
           set(ref(db, 'user/' + document.getElementById("username").value),
           {
             username : username,
             password : password
-          });
-          alert("Login successful. Welcome, " + username + "!");
+          })
+          .then(() => {alert("Login successful. Welcome, " + username + "!")})
+          .then(() => {window.location.href = "../Product_Backlog/prodBacklog.html"});
         });
 
       </script>
