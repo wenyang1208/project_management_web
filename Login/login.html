@@ -55,46 +55,83 @@
                 <label for="password">Please enter your password</label>
                 <input type="password" id="password" name="password">
                 <br>
-                <input type="submit" value="Confirm">
+                <input id="submit" type="submit">
             </form>
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const form = document.querySelector("form");
+    <script type="module">
+        // document.addEventListener("DOMContentLoaded", function () {
+        //   const form = document.querySelector("form");
       
-          form.addEventListener("submit", function (event) {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+        //   form.addEventListener("submit", function (event) {
+        //     const username = document.getElementById("username").value;
+        //     const password = document.getElementById("password").value;
       
-            if (!username || !password) {
-              event.preventDefault(); // Prevent form submission
-              alert("Please fill in both username and password fields.");
-            }
+        //     if (!username || !password) {
+        //       event.preventDefault(); // Prevent form submission
+        //       alert("Please fill in both username and password fields.");
+        //     }
       
-            // You can add more validation logic here
+        //     // You can add more validation logic here
             
-            // Assume you have a user database (users) with username and email fields
+        //     // Assume you have a user database (users) with username and email fields
 
-            const users = [
-            { userName: "Amy", userEmail: "amy@email.com", passWord: "12345" },
-            { userName: "Bob", userEmail: "bob@email.com", passWord: "44e44" }
-            ];
+        //     const users = [
+        //     { userName: "Amy", userEmail: "amy@email.com", passWord: "12345" },
+        //     { userName: "Bob", userEmail: "bob@email.com", passWord: "44e44" }
+        //     ];
 
-            const user = users.find(u => (u.userName === username) || 
-            (u.userEmail === username) &&
-            (u.passWord === password));
+        //     const user = users.find(u => (u.userName === username) || 
+        //     (u.userEmail === username) &&
+        //     (u.passWord === password));
 
-            if (!user){
-              event.preventDefault();
-              alert("Invalid username/email or password.");
-            }else{
-              alert("Login successful. Welcome, " + user.username + "!");
-            }
+        //     if (!user){
+        //       event.preventDefault();
+        //       alert("Invalid username/email or password.");
+        //     }else{
+        //       alert("Login successful. Welcome, " + user.username + "!");
+        //     }
 
+        //   });
+        // });
+
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+  
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+          authDomain: "project-2782373696466964042.firebaseapp.com",
+          databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "project-2782373696466964042",
+          storageBucket: "project-2782373696466964042.appspot.com",
+          messagingSenderId: "971400388443",
+          appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+  
+        const db = getDatabase(app);
+  
+        document.getElementById("submit").addEventListener('click', function(e){
+          
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value
+  
+          set(ref(db, 'user/' + document.getElementById("username").value),
+          {
+            username : username,
+            password : password
           });
+          alert("Login successful. Welcome, " + username + "!");
         });
+
       </script>
 
 </body>
