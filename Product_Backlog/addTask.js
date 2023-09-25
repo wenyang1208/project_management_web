@@ -15,14 +15,35 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
+const decrementButton = document.querySelector(".decrement-button");
+const incrementButton = document.querySelector(".increment-button");
+const storyPointsElement = document.getElementById("StoryPoints");
+
+decrementButton.addEventListener("click", function () {
+  const currentValue = parseInt(storyPointsElement.value);
+  if (currentValue > 1) {
+    storyPointsElement.value = currentValue - 1;
+  }
+});
+
+incrementButton.addEventListener("click", function () {
+  const currentValue = parseInt(storyPointsElement.value);
+  if (currentValue < 10) {
+    storyPointsElement.value = currentValue + 1;
+  }
+});
+
 document.getElementById("save-button").addEventListener('click', function(e){
           
   e.preventDefault();
 
+
   const taskName = document.getElementById("task-name").value;
   const taskDescription = document.getElementById("task-description").value;
   const taskPriority = document.getElementById("priorities").value;
-  const taskStoryPoints = document.getElementById("StoryPoints").value;
+
+
+
   const taskAssignee = document.getElementById("AssigneeList").value;
   const taskStage = document.getElementById("SOT").value;
 
@@ -63,7 +84,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
       taskAssignee : taskAssignee,
       taskPriority : taskPriority,
       taskStage : taskStage,
-      taskStoryPoints : taskStoryPoints,
+      taskStoryPoints : storyPointsElement.value,
       taskStatus : taskStatus,      
       taskCategory : taskCategory,
       taskDescription : taskDescription
@@ -73,8 +94,8 @@ document.getElementById("save-button").addEventListener('click', function(e){
 });
 
 // To receive the input and display it
-const decrementButton = document.querySelector(".decrement-button");
-const incrementButton = document.querySelector(".increment-button");
+// const decrementButton = document.querySelector(".decrement-button");
+// const incrementButton = document.querySelector(".increment-button");
 const 
   // taskNameElement = document.getElementById("task-name"),
   // taskDescriptionElement = document.getElementById("task-description"),
@@ -112,19 +133,19 @@ const
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
   // story = document.getElementById("Story"),
   // bug = document.getElementById("Bug")
-decrementButton.addEventListener("click", function () {
-  const currentValue = parseInt(storyPointsElement.value);
-  if (currentValue > 1) {
-    storyPointsElement.value = currentValue - 1;
-  }
-});
+// decrementButton.addEventListener("click", function () {
+//   const currentValue = parseInt(storyPointsElement.value);
+//   if (currentValue > 1) {
+//     storyPointsElement.value = currentValue - 1;
+//   }
+// });
 
-incrementButton.addEventListener("click", function () {
-  const currentValue = parseInt(storyPointsElement.value);
-  if (currentValue < 10) {
-    storyPointsElement.value = currentValue + 1;
-  }
-});
+// incrementButton.addEventListener("click", function () {
+//   const currentValue = parseInt(storyPointsElement.value);
+//   if (currentValue < 10) {
+//     storyPointsElement.value = currentValue + 1;
+//   }
+// });
 function checkTag() {
     tagOptionList.forEach(tag => {
       if (tag.checked == true){
