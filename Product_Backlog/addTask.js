@@ -26,28 +26,28 @@ document.getElementById("save-button").addEventListener('click', function(e){
   const taskAssignee = document.getElementById("AssigneeList").value;
   const taskStage = document.getElementById("SOT").value;
 
-  const radioNotStarted = document.getElementById("Not Started").value;
-  const radioInProgress = document.getElementById("In Progress").value;
-  const radioCompleted = document.getElementById("Completed").value;
+  const radioNotStarted = document.getElementById("Not Started");
+  const radioInProgress = document.getElementById("In Progress");
+  const radioCompleted = document.getElementById("Completed");
   let taskStatus = ""
   // Determine and select Status
   if (radioNotStarted.checked){
-      taskStatus = radioNotStarted;
+      taskStatus = radioNotStarted.value;
   } else if (radioInProgress.checked){
-      taskStatus = radioInProgress;
+      taskStatus = radioInProgress.value;
   } else if (radioCompleted.checked){
-      taskStatus = radioCompleted;
+      taskStatus = radioCompleted.value;
   }
 
-  // story = document.getElementById("Story"),
-  // bug = document.getElementById("Bug")
-  // let taskCategory = ""
-  // if (story.checked){
-  //     taskCategory = story.value
-  // }
-  // else if (bug.checked){
-  //     taskCategory= bug.value
-  // }
+  const story = document.getElementById("Story");
+  const bug = document.getElementById("Bug");
+  let taskCategory = ""
+  if (story.checked){
+      taskCategory = story.value;
+  }
+  else if (bug.checked){
+      taskCategory= bug.value;
+  }
 
 
   // Create an empty array to store selected status options
@@ -65,7 +65,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
       taskStage : taskStage,
       taskStoryPoints : taskStoryPoints,
       taskStatus : taskStatus,      
-      // taskCategory : taskCategory,
+      taskCategory : taskCategory,
       taskDescription : taskDescription
 
   })
