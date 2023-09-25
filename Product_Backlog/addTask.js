@@ -24,6 +24,30 @@ document.getElementById("save-button").addEventListener('click', function(e){
   const taskPriority = document.getElementById("priorities").value;
   const taskStoryPoints = document.getElementById("StoryPoints").value;
   const taskAssignee = document.getElementById("AssigneeList").value;
+  const taskStage = document.getElementById("SOT").value;
+
+  const radioNotStarted = document.getElementById("Not Started").value;
+  const radioInProgress = document.getElementById("In Progress").value;
+  const radioCompleted = document.getElementById("Completed").value;
+  let taskStatus = ""
+  // Determine and select Status
+  if (radioNotStarted.checked){
+      taskStatus = radioNotStarted;
+  } else if (radioInProgress.checked){
+      taskStatus = radioInProgress;
+  } else if (radioCompleted.checked){
+      taskStatus = radioCompleted;
+  }
+
+  // story = document.getElementById("Story"),
+  // bug = document.getElementById("Bug")
+  // let taskCategory = ""
+  // if (story.checked){
+  //     taskCategory = story.value
+  // }
+  // else if (bug.checked){
+  //     taskCategory= bug.value
+  // }
 
 
   // Create an empty array to store selected status options
@@ -38,10 +62,11 @@ document.getElementById("save-button").addEventListener('click', function(e){
       taskName : taskName,
       taskAssignee : taskAssignee,
       taskPriority : taskPriority,
-      taskDescription : taskDescription,
+      taskStage : taskStage,
       taskStoryPoints : taskStoryPoints,
-      
-
+      taskStatus : taskStatus,      
+      // taskCategory : taskCategory,
+      taskDescription : taskDescription
 
   })
   .then(() => {window.location.href = "prodBacklog.html"});
@@ -56,10 +81,12 @@ const
   // taskPriorityElement = document.getElementById("priorities"),
   // storyPointsElement = document.getElementById("StoryPoints"),
   // AssigneeListElement = document.getElementById("AssigneeList"),
-  radioNotStarted = document.getElementById("Not Started"),
-  radioInProgress = document.getElementById("In Progress"),
-  radioCompleted = document.getElementById("Completed"),
-  taskStageElement = document.getElementById("SOT"),
+
+  // radioNotStarted = document.getElementById("Not Started"),
+  // radioInProgress = document.getElementById("In Progress"),
+  // radioCompleted = document.getElementById("Completed"),
+
+  // taskStageElement = document.getElementById("SOT"),
   taskTagsElement = document.getElementById("tags-container"),
   tagsOptionsElement = document.getElementById("tag-menu"),
   savebutton = document.getElementById("save-button"),
@@ -82,9 +109,9 @@ const
   UX = document.getElementById("UX"),
   increment = document.getElementById("increment"),
   decrement = document.getElementById("decrement"),
-  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
-  story = document.getElementById("Story"),
-  bug = document.getElementById("Bug")
+  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
+  // story = document.getElementById("Story"),
+  // bug = document.getElementById("Bug")
 decrementButton.addEventListener("click", function () {
   const currentValue = parseInt(storyPointsElement.value);
   if (currentValue > 1) {
