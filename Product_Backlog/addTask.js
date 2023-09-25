@@ -19,23 +19,30 @@ document.getElementById("save-button").addEventListener('click', function(e){
           
   e.preventDefault();
 
-  const taskName = document.getElementById("sprint").value;
-  const task = document.getElementById("start-date").value;
-  const endDate = document.getElementById("end-date").value;
+  const taskName = document.getElementById("task-name").value;
+  const taskDescription = document.getElementById("task-description").value;
+  const taskPriority = document.getElementById("priorities").value;
+  const taskStoryPoints = document.getElementById("StoryPoints").value;
+  const taskAssignee = document.getElementById("AssigneeList").value;
+
 
   // Create an empty array to store selected status options
-  const selectedStatus = [];
-  const statusCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  console.log(statusCheckboxes);
-  for(let i = 0; i < statusCheckboxes.length; i++){
-      selectedStatus.push(statusCheckboxes[i].value)
-  }
+  // const selectedStatus = [];
+  // const statusCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  // console.log(statusCheckboxes);
+  // for(let i = 0; i < statusCheckboxes.length; i++){
+  //     selectedStatus.push(statusCheckboxes[i].value)
+  // }
   set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
   {
-      sprint : sprint,
-      startDate : startDate,
-      endDate : endDate,
-      selectedStatus : selectedStatus
+      taskName : taskName,
+      taskAssignee : taskAssignee,
+      taskPriority : taskPriority,
+      taskDescription : taskDescription,
+      taskStoryPoints : taskStoryPoints,
+      
+
+
   })
   .then(() => {window.location.href = "prodBacklog.html"});
 });
@@ -44,11 +51,11 @@ document.getElementById("save-button").addEventListener('click', function(e){
 const decrementButton = document.querySelector(".decrement-button");
 const incrementButton = document.querySelector(".increment-button");
 const 
-  taskNameElement = document.getElementById("task-name"),
-  taskDescriptionElement = document.getElementById("task-description"),
-  taskPriorityElement = document.getElementById("priorities"),
-  storyPointsElement = document.getElementById("StoryPoints"),
-  AssigneeListElement = document.getElementById("AssigneeList"),
+  // taskNameElement = document.getElementById("task-name"),
+  // taskDescriptionElement = document.getElementById("task-description"),
+  // taskPriorityElement = document.getElementById("priorities"),
+  // storyPointsElement = document.getElementById("StoryPoints"),
+  // AssigneeListElement = document.getElementById("AssigneeList"),
   radioNotStarted = document.getElementById("Not Started"),
   radioInProgress = document.getElementById("In Progress"),
   radioCompleted = document.getElementById("Completed"),
