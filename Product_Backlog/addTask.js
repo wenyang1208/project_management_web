@@ -37,12 +37,9 @@ document.getElementById("save-button").addEventListener('click', function(e){
           
   e.preventDefault();
 
-
   const taskName = document.getElementById("task-name").value;
   const taskDescription = document.getElementById("task-description").value;
   const taskPriority = document.getElementById("priorities").value;
-
-
 
   const taskAssignee = document.getElementById("AssigneeList").value;
   const taskStage = document.getElementById("SOT").value;
@@ -78,19 +75,23 @@ document.getElementById("save-button").addEventListener('click', function(e){
   // for(let i = 0; i < statusCheckboxes.length; i++){
   //     selectedStatus.push(statusCheckboxes[i].value)
   // }
-  set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
-  {
-      taskName : taskName,
-      taskAssignee : taskAssignee,
-      taskPriority : taskPriority,
-      taskStage : taskStage,
-      taskStoryPoints : storyPointsElement.value,
-      taskStatus : taskStatus,      
-      taskCategory : taskCategory,
-      taskDescription : taskDescription
+  if (taskName.trim() !== "" && taskAssignee!== "" && taskPriority!== "" && taskPriority!== "" && taskStage!== ""
+  && storyPointsElement!== 0 && taskStatus!== "" && taskCategory!== "" && taskDescription!== "") {
 
-  })
-  .then(() => {window.location.href = "prodBacklog.html"});
+    set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
+    {
+        taskName : taskName,
+        taskAssignee : taskAssignee,
+        taskPriority : taskPriority,
+        taskStage : taskStage,
+        taskStoryPoints : storyPointsElement.value,
+        taskStatus : taskStatus,      
+        taskCategory : taskCategory,
+        taskDescription : taskDescription
+
+    })
+    .then(() => {window.location.href = "prodBacklog.html"});
+  }
 });
 
 // To receive the input and display it
