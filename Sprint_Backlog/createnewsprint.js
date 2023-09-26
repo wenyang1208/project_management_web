@@ -26,7 +26,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
 
     // Create an empty array to store selected status options
     const selectedStatus = [];
-    const statusCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const statusCheckboxes = document.querySelectorAll('input[type="radio"]:checked');
     console.log(statusCheckboxes);
     for(let i = 0; i < statusCheckboxes.length; i++){
         selectedStatus.push(statusCheckboxes[i].value)
