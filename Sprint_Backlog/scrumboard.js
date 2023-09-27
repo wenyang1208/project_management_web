@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded",function(){
                 const endDate = document.createElement("div");
                 endDate.classList.add("enddate");
                 endDate.textContent = `End date: ${sprintData.endDate}`;
-
-                // console.log(sprintData.sprintStatus)
+                
                 const status = document.createElement("div");
                 status.classList.add("status");
                 status.textContent = `Status: ${sprintData.selectedStatus}`;

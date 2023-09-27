@@ -18,7 +18,6 @@ const db = getDatabase(app);
 const decrementButton = document.querySelector(".decrement-button");
 const incrementButton = document.querySelector(".increment-button");
 const storyPointsElement = document.getElementById("StoryPoints");
-
 decrementButton.addEventListener("click", function () {
   const currentValue = parseInt(storyPointsElement.value);
   if (currentValue > 1) {
@@ -37,6 +36,8 @@ document.getElementById("save-button").addEventListener('click', function(e){
           
   e.preventDefault();
 
+  const dateAdded = new Date();
+  // console.log(dateAdded.toLocaleString());
   const taskName = document.getElementById("task-name").value;
   const taskDescription = document.getElementById("task-description").value;
   const taskPriority = document.getElementById("priorities").value;
@@ -80,6 +81,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
 
     set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
     {
+        dateAdded : dateAdded.toLocaleString(),
         taskName : taskName,
         taskAssignee : taskAssignee,
         taskPriority : taskPriority,
