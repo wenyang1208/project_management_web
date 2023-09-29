@@ -42,8 +42,10 @@ const
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
+  const name = document.querySelector("#task-name")
 document.addEventListener("DOMContentLoaded", function () {
-  console.log(taskId);
+
+  name.textContent = taskId;
 
 
 //--------------------------------------------------tags-----------------------------------------------------
