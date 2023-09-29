@@ -1,15 +1,18 @@
+// import { displayedTasks } from "./taskManager.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getDatabase, ref, set, get, child, query, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+    authDomain: "project-2782373696466964042.firebaseapp.com",
+    databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "project-2782373696466964042",
+    storageBucket: "project-2782373696466964042.appspot.com",
+    messagingSenderId: "971400388443",
+    appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+};
+
 const 
-  taskNameElement = document.getElementById("task-name"),
-  taskDescriptionElement = document.getElementById("task-description"),
-  taskPriorityElement = document.getElementById("priorities"),
   storyPointsElement = document.getElementById("StoryPoints"),
-  AssigneeListElement = document.getElementById("AssigneeList"),
-  radioNotStarted = document.getElementById("Not Started"),
-  radioInProgress = document.getElementById("In Progress"),
-  radioCompleted = document.getElementById("Completed"),
-  taskStageElement = document.getElementById("SOT"),
-  taskTagsElement = document.getElementById("tags-container"),
-  tagsOptionsElement = document.getElementById("tag-menu"),
   savebutton = document.getElementById("save-button"),
   FEoption = document.getElementById("FEoption"),
   BEoption = document.getElementById("BEoption"),
@@ -33,63 +36,37 @@ const
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
   taskId = urlParams.get("taskId"),
-  savedTasks = JSON.parse(localStorage.getItem("tasks")) || [],
-  categoryStory = document.getElementById('Story'),
-  categoryBug = document.getElementById("Bug"),
   previousPage = document.getElementById("previous-page")
 
 
-
-// Load tasks from local storage
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", function () {
-  // const backButton = document.getElementById("backButton");
+  console.log(taskId);
 
-  // Display task details
-  if (taskId !== null && taskId >= 0 && taskId < savedTasks.length) {
-      const task = savedTasks[taskId];
-      taskNameElement.textContent = task.name;
-      taskDescriptionElement.value = task.description;
-      storyPointsElement.value = task.storyPoints;
-      const priorityToSelect = taskPriorityElement.querySelector(`option[value=${task.priority}]`)
-      priorityToSelect.selected = true;
-      const stageToSelect = taskStageElement.querySelector(`option[value=${task.stage}]`);
-      stageToSelect.selected = true;
-      const assigneeToSelect = AssigneeListElement.querySelector(`option[value=${task.assignee}]`);
-      assigneeToSelect.selected = true;
-      if (task.category == "Story"){
-        categoryStory.checked=true
-      }
-      else if (task.category == "Bug"){
-        categoryBug.checked=true
-      } 
-      if (task.status == "Not Started"){
-        radioNotStarted.checked=true;
-      }
-      else if (task.status == "In Progress"){
-        radioInProgress.checked=true;
-      }
-      else if (task.status == "Completed"){
-        radioCompleted.checked=true;
-      }
-      task.tags.forEach((taskTag)=>{
-        if (taskTag == null){
-          return;
-        }
-        else {
-          tagOptionList.forEach((tag)=>{
-            if (taskTag == tag.value) {
-              tag.checked = true;
-              tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-            }
-          })
-        }
-      })
 
-  } else {
-      taskNameElement.textContent = "Task not found.";
-  }
-});
+//--------------------------------------------------tags-----------------------------------------------------
+//       task.tags.forEach((taskTag)=>{
+//         if (taskTag == null){
+//           return;
+//         }
+//         else {
+//           tagOptionList.forEach((tag)=>{
+//             if (taskTag == tag.value) {
+//               tag.checked = true;
+//               tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+//             }
+//           })
+//         }
+//       })
+
+//   } else {
+//       taskNameElement.textContent = "Task not found.";
+  
+
+
+//--------------------------------------------------story point-----------------------------------------------------
 increment.addEventListener("click",function(){
   if (storyPointsElement.value != storyPointsElement.max){
     storyPointsElement.value = (parseInt(storyPointsElement.value)+1).toString()
@@ -100,65 +77,58 @@ decrement.addEventListener("click",function(){
     storyPointsElement.value = (parseInt(storyPointsElement.value)-1).toString()
   }
 })
-function checkTag() {
-  tagOptionList.forEach(tag => {
-    if (tag.checked == true){
-      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-    }
-    else {
-      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
-    }
-  })}
-const check = setInterval(checkTag,10)
 
+//--------------------------------------------------check tag function-----------------------------------------------------
+// function checkTag() {
+//   tagOptionList.forEach(tag => {
+//     if (tag.checked == true){
+//       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+//     }
+//     else {
+//       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
+//     }
+//   })}
+// const check = setInterval(checkTag,10)
+
+//--------------------------------------------------save button-----------------------------------------------------
 savebutton.addEventListener("click",function(event){
-  event.preventDefault()
-  if (taskId !== null && taskId >= 0 && taskId < savedTasks.length) {
-    const task = savedTasks[taskId]
-    task.description = taskDescriptionElement.value
-    task.storyPoints = storyPointsElement.value
-    task.priority = taskPriorityElement.value
-    if (categoryStory.checked){
-      task.category = categoryStory.value
-    }
-    else if (categoryBug.checked){
-      task.category = categoryBug.value
-    }
-    if (radioNotStarted.checked == true) {
-      task.status = "Not Started"
-    }
-    else if (radioInProgress.checked==true ) {
-      task.status="In Progress"
-    }
-    else if (radioCompleted.checked==true ) {
-      task.status="Completed";
-    }
-    tagOptionList.forEach((tag) => {
-      if (tag.checked){
-        if (task.tags.indexOf(tag.value) != -1){
-          return;
-        }
-        else{
-          task.tags.push(tag.value)
-        }
-      }
-      else {
-          const index = task.tags.indexOf(tag.value)
-          if (index != -1){
-            task.tags.splice(index,1);
-          }
-      }
+  event.preventDefault();
+  console.log(document.querySelector('input[name="category"]:checked').value)
+  
+
+//--------------------------------------------------tags updated----------------------------------------------------- 
+    // tagOptionList.forEach((tag) => {
+    //   if (tag.checked){
+    //     if (task.tags.indexOf(tag.value) != -1){
+    //       return;
+    //     }
+    //     else{
+    //       task.tags.push(tag.value)
+    //     }
+    //   }
+    //   else {
+    //       const index = task.tags.indexOf(tag.value)
+    //       if (index != -1){
+    //         task.tags.splice(index,1);
+    //       }
+    //   }
+    // })
+//--------------------------------------------------update data-----------------------------------------------------
+    update(ref(db, 'productBacklog/' + taskId),
+    {
+      taskAssignee :document.querySelector("#AssigneeList").value,
+      taskPriority :document.querySelector("#priorities").value,
+      taskStage : document.querySelector("#SOT").value,
+      taskStoryPoints : document.querySelector("#StoryPoints").value,
+      taskStatus : document.querySelector('input[name="status"]:checked').value,      
+      taskCategory : document.querySelector('input[name="category"]:checked').value,
+      taskDescription : document.querySelector("#task-description").value
     })
+    .then(() => { window.location.href = `task.html?taskId=${taskId}`});
 
-    task.stage = taskStageElement.value
-    task.assignee = AssigneeListElement.value
-    savedTasks[taskId] = task
-    localStorage.setItem("tasks",JSON.stringify(savedTasks))
-
-  // window.location.href = `task.html?id=${taskId}`
-  }
-  window.location.href = `task.html?taskId=${taskId}`
 })
 previousPage.addEventListener("click",function(){
   window.location.href = `task.html?taskId=${taskId}`
 })
+}
+);
