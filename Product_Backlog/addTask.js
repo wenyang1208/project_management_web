@@ -81,7 +81,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
 
     set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
     {
-        dateAdded : dateAdded.toLocaleString(),
+        dateAdded : dateAdded.toLocaleString("zh-CN"),
         taskName : taskName,
         taskAssignee : taskAssignee,
         taskPriority : taskPriority,
