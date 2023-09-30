@@ -172,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function(){
     NewToOld.addEventListener("click",function(){
         const reverseTasks = savedTasks.reverse()
         displayTasks(reverseTasks)
+        savedTasks = savedTasks.reverse()
     })
     OldToNew.addEventListener("click",function(){
         displayTasks(originalTasks)
