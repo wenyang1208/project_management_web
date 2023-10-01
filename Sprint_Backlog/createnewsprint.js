@@ -27,18 +27,27 @@ document.getElementById("save-button").addEventListener('click', function(e){
     // Create an empty array to store selected status options
     const selectedStatus = [];
     const statusCheckboxes = document.querySelectorAll('input[type="radio"]:checked');
-    console.log(statusCheckboxes);
+
     for(let i = 0; i < statusCheckboxes.length; i++){
         selectedStatus.push(statusCheckboxes[i].value)
     }
-    set(ref(db, 'newsprint/' + document.getElementById("sprint").value),
-    {
-        sprint : sprint,
-        startDate : startDate,
-        endDate : endDate,
-        selectedStatus : selectedStatus
-    })
-    .then(() => {window.location.href = "scrumboard.html"});
+    if(sprint.length !== 0 && startDate.length !== 0 && endDate.length !== 0 && selectedStatus.length !== 0){
+        if(startDate < endDate){
+            set(ref(db, 'newsprint/' + document.getElementById("sprint").value),
+            {
+                sprint : sprint,
+                startDate : startDate,
+                endDate : endDate,
+                selectedStatus : selectedStatus
+            })
+            .then(() => {window.location.href = "scrumboard.html"})  
+        }else{
+            alert("Start date must be smaller than or equal to the end date.")
+        }
+    }
+    else{
+        alert("Please enter all the sprint details.")
+    }
   });
 })
 
