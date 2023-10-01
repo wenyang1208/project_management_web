@@ -31,6 +31,41 @@ incrementButton.addEventListener("click", function () {
     storyPointsElement.value = currentValue + 1;
   }
 });
+// Tags
+const
+  taskTagsElement = document.getElementById("tags-container"),
+  tagsOptionsElement = document.getElementById("tag-menu"),
+  FEoption = document.getElementById("FEoption"),
+  BEoption = document.getElementById("BEoption"),
+  APIoption = document.getElementById("APIoption"),
+  DBoption = document.getElementById("DBoption"),
+  FWoption = document.getElementById("FWoption"),
+  TESToption = document.getElementById("TESToption"),
+  UIoption = document.getElementById("UIoption"),
+  UXoption = document.getElementById("UXoption"),
+  tagOptionList = [FEoption,BEoption,APIoption,DBoption,FWoption,TESToption,UIoption,UXoption],
+  FE = document.getElementById("FE"),
+  BE = document.getElementById("BE"),
+  API = document.getElementById("API"),
+  DB = document.getElementById("DB"),
+  FW = document.getElementById("FW"),
+  TEST = document.getElementById("TEST"),
+  UI = document.getElementById("UI"),
+  UX = document.getElementById("UX"),
+  increment = document.getElementById("increment"),
+  decrement = document.getElementById("decrement"),
+  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
+
+function checkTag() {
+  tagOptionList.forEach(tag => {
+    if (tag.checked == true){
+      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+    }
+    else {
+      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
+    }
+  })}
+const check = setInterval(checkTag,10)
 
 document.getElementById("save-button").addEventListener('click', function(e){
           
@@ -68,6 +103,13 @@ document.getElementById("save-button").addEventListener('click', function(e){
       taskCategory= bug.value;
   }
 
+  let taskTags = [];
+        tagOptionList.forEach((tag) => {
+            if (tag.checked){
+                taskTags.push(tag.value)
+            }
+        })
+
 
   // Create an empty array to store selected status options
   // const selectedStatus = [];
@@ -89,7 +131,8 @@ document.getElementById("save-button").addEventListener('click', function(e){
         taskStoryPoints : storyPointsElement.value,
         taskStatus : taskStatus,      
         taskCategory : taskCategory,
-        taskDescription : taskDescription
+        taskDescription : taskDescription,
+        taskTags : taskTags
 
     })
     .then(() => {window.location.href = "prodBacklog.html"});
@@ -99,7 +142,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
 // To receive the input and display it
 // const decrementButton = document.querySelector(".decrement-button");
 // const incrementButton = document.querySelector(".increment-button");
-const 
+// const 
   // taskNameElement = document.getElementById("task-name"),
   // taskDescriptionElement = document.getElementById("task-description"),
   // taskPriorityElement = document.getElementById("priorities"),
@@ -111,29 +154,29 @@ const
   // radioCompleted = document.getElementById("Completed"),
 
   // taskStageElement = document.getElementById("SOT"),
-  taskTagsElement = document.getElementById("tags-container"),
-  tagsOptionsElement = document.getElementById("tag-menu"),
-  savebutton = document.getElementById("save-button"),
-  FEoption = document.getElementById("FEoption"),
-  BEoption = document.getElementById("BEoption"),
-  APIoption = document.getElementById("APIoption"),
-  DBoption = document.getElementById("DBoption"),
-  FWoption = document.getElementById("FWoption"),
-  TESToption = document.getElementById("TESToption"),
-  UIoption = document.getElementById("UIoption"),
-  UXoption = document.getElementById("UXoption"),
-  tagOptionList = [FEoption,BEoption,APIoption,DBoption,FWoption,TESToption,UIoption,UXoption],
-  FE = document.getElementById("FE"),
-  BE = document.getElementById("BE"),
-  API = document.getElementById("API"),
-  DB = document.getElementById("DB"),
-  FW = document.getElementById("FW"),
-  TEST = document.getElementById("TEST"),
-  UI = document.getElementById("UI"),
-  UX = document.getElementById("UX"),
-  increment = document.getElementById("increment"),
-  decrement = document.getElementById("decrement"),
-  tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
+  // taskTagsElement = document.getElementById("tags-container"),
+  // tagsOptionsElement = document.getElementById("tag-menu"),
+  // savebutton = document.getElementById("save-button")
+  // FEoption = document.getElementById("FEoption"),
+  // BEoption = document.getElementById("BEoption"),
+  // APIoption = document.getElementById("APIoption"),
+  // DBoption = document.getElementById("DBoption"),
+  // FWoption = document.getElementById("FWoption"),
+  // TESToption = document.getElementById("TESToption"),
+  // UIoption = document.getElementById("UIoption"),
+  // UXoption = document.getElementById("UXoption"),
+  // tagOptionList = [FEoption,BEoption,APIoption,DBoption,FWoption,TESToption,UIoption,UXoption],
+  // FE = document.getElementById("FE"),
+  // BE = document.getElementById("BE"),
+  // API = document.getElementById("API"),
+  // DB = document.getElementById("DB"),
+  // FW = document.getElementById("FW"),
+  // TEST = document.getElementById("TEST"),
+  // UI = document.getElementById("UI"),
+  // UX = document.getElementById("UX"),
+  // increment = document.getElementById("increment"),
+  // decrement = document.getElementById("decrement"),
+  // tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
   // story = document.getElementById("Story"),
   // bug = document.getElementById("Bug")
 // decrementButton.addEventListener("click", function () {
@@ -149,16 +192,16 @@ const
 //     storyPointsElement.value = currentValue + 1;
 //   }
 // });
-function checkTag() {
-    tagOptionList.forEach(tag => {
-      if (tag.checked == true){
-        tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-      }
-      else {
-        tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
-      }
-    })}
-  const check = setInterval(checkTag,10)
+// function checkTag() {
+//     tagOptionList.forEach(tag => {
+//       if (tag.checked == true){
+//         tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+//       }
+//       else {
+//         tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
+//       }
+//     })}
+//   const check = setInterval(checkTag,10)
 
 document.addEventListener("DOMContentLoaded", function () {
     const saveTaskButton = document.getElementById("save-button");
