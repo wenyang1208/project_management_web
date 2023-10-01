@@ -67,6 +67,12 @@ document.addEventListener("DOMContentLoaded", function(){
                 const storyPoints = document.createElement("div");
                 storyPoints.className = "story-points";
                 storyPoints.textContent = `Story Points: ${task.taskStoryPoints}`;
+
+
+                // testing displaying tags
+                const tags = document.createElement("div");
+                tags.className = "tags"
+                tags.textContent = `Tags: ${task.taskTags}`;
     
         // Create the "tags-container" div
                 // const tagsContainer = document.createElement("div");
@@ -139,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 taskCard.appendChild(taskName)
                 taskCard.appendChild(priority)
                 taskCard.appendChild(storyPoints)
-                // taskCard.appendChild(tagsContainer)
+                taskCard.appendChild(tags)
                 taskCard.appendChild(deletecheckbox)
                 taskCard.addEventListener("click",function (){
                 window.location.href = `task.html?taskId=${taskName.textContent}`})
