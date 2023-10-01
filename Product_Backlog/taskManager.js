@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }}
     
     )
+    .then(() => {console.log(savedTasks)})
     .then(() => displayTasks(savedTasks))
     .catch((error) => {
         console.error("Error getting data:", error);
@@ -176,11 +177,20 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if (NewToOld !== null && OldToNew !== null && UrgentToLow !== null && LowToUrgent !== null){
     NewToOld.addEventListener("click",function(){
-        const reverseTasks = savedTasks.reverse()
-        displayTasks(reverseTasks)
-        savedTasks = savedTasks.reverse()
+        savedTasks.sort((a, b) => {
+            const dateA = new Date(a.dateAdded);
+            const dateB = new Date(b.dateAdded);
+            return dateB - dateA;
+        });
+        displayTasks(savedTasks)
+        savedTasks.reverse()
     })
     OldToNew.addEventListener("click",function(){
+        originalTasks.sort((a, b) => {
+            const dateA = new Date(a.dateAdded);
+            const dateB = new Date(b.dateAdded);
+            return dateA - dateB;
+        });
         displayTasks(originalTasks)
     })
 
