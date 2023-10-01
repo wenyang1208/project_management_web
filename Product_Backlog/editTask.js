@@ -41,32 +41,12 @@ const
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
+  const name = document.querySelector("#task-name");
+  let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
 
-  const name = document.querySelector("#task-name")
 document.addEventListener("DOMContentLoaded", function () {
 
   name.textContent = taskId;
-
-
-//--------------------------------------------------tags-----------------------------------------------------
-//       task.tags.forEach((taskTag)=>{
-//         if (taskTag == null){
-//           return;
-//         }
-//         else {
-//           tagOptionList.forEach((tag)=>{
-//             if (taskTag == tag.value) {
-//               tag.checked = true;
-//               tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-//             }
-//           })
-//         }
-//       })
-
-//   } else {
-//       taskNameElement.textContent = "Task not found.";
-  
-
 
 //--------------------------------------------------story point-----------------------------------------------------
 increment.addEventListener("click",function(){
@@ -81,40 +61,28 @@ decrement.addEventListener("click",function(){
 })
 
 //--------------------------------------------------check tag function-----------------------------------------------------
-// function checkTag() {
-//   tagOptionList.forEach(tag => {
-//     if (tag.checked == true){
-//       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-//     }
-//     else {
-//       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
-//     }
-//   })}
-// const check = setInterval(checkTag,10)
+function checkTag() {
+  tagOptionList.forEach(tag => {
+    if (tag.checked == true){
+      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
+    }
+    else {
+      tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
+    }
+  })}
+const check = setInterval(checkTag,10)
 
 //--------------------------------------------------save button-----------------------------------------------------
 savebutton.addEventListener("click",function(event){
   event.preventDefault();
-  console.log(document.querySelector('input[name="category"]:checked').value)
-  
+  let taskTag = [];
+        tagOptionList.forEach((tag) => {
+            if (tag.checked){
+                taskTag.push(tag.value)
+            }
+        })
 
-//--------------------------------------------------tags updated----------------------------------------------------- 
-    // tagOptionList.forEach((tag) => {
-    //   if (tag.checked){
-    //     if (task.tags.indexOf(tag.value) != -1){
-    //       return;
-    //     }
-    //     else{
-    //       task.tags.push(tag.value)
-    //     }
-    //   }
-    //   else {
-    //       const index = task.tags.indexOf(tag.value)
-    //       if (index != -1){
-    //         task.tags.splice(index,1);
-    //       }
-    //   }
-    // })
+  tags = tags.filter(tag => taskTag.includes(tag));
 //--------------------------------------------------update data-----------------------------------------------------
     update(ref(db, 'productBacklog/' + taskId),
     {
@@ -124,8 +92,12 @@ savebutton.addEventListener("click",function(event){
       taskStoryPoints : document.querySelector("#StoryPoints").value,
       taskStatus : document.querySelector('input[name="status"]:checked').value,      
       taskCategory : document.querySelector('input[name="category"]:checked').value,
-      taskDescription : document.querySelector("#task-description").value
+      taskDescription : document.querySelector("#task-description").value,
+      taskTags : document.querySelector('input[name="tag"]:checked'),
+      taskTags : tags
+
     })
+
     .then(() => { window.location.href = `task.html?taskId=${taskId}`});
 
 })
