@@ -32,7 +32,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
         selectedStatus.push(statusCheckboxes[i].value)
     }
     if(sprint.length !== 0 && startDate.length !== 0 && endDate.length !== 0 && selectedStatus.length !== 0){
-        if(startDate < endDate){
+        if(startDate <= endDate){
             set(ref(db, 'newsprint/' + document.getElementById("sprint").value),
             {
                 sprint : sprint,
