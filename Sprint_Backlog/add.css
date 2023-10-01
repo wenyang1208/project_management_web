@@ -81,6 +81,16 @@ main {
     color: black;
   }
 
+
+.card-views .custom-checkbox {
+  position: relative;
+  z-index: 1; 
+}
+
+.card-views .checkmark {
+  margin-right: 5px;
+}
+
   .task-name {
     font-size: 20px;
     font-weight: bold;
