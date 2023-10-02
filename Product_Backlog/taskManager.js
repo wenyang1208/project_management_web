@@ -19,6 +19,18 @@ const UrgentToLow = document.getElementById("Urgent-To-Low")
 const LowToUrgent = document.getElementById("Low-To-Urgent")
 const savedTasks = [];
 const originalTasks = [];
+
+// const
+//     FE = document.getElementById("FE"),
+//     BE = document.getElementById("BE"),
+//     API = document.getElementById("API"),
+//     DB = document.getElementById("DB"),
+//     FW = document.getElementById("FW"),
+//     TEST = document.getElementById("TEST"),
+//     UI = document.getElementById("UI"),
+//     UX = document.getElementById("UX"),
+//     tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
+
 document.addEventListener("DOMContentLoaded", function(){
 
     const app = initializeApp(firebaseConfig);
@@ -72,8 +84,70 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 // testing displaying tags
                 const tags = document.createElement("div");
-                tags.className = "tags"
+                tags.className = "tags";
                 tags.textContent = `Tags: ${task.taskTags}`;
+                
+                // tags.textContent = task.taskTags
+                // try{
+                //     task.taskTags.forEach((taskTag)=>{
+                //         if (taskTag == null){
+                //           return;
+                //         }
+                //         else {
+                //             for (const tag of tagDisplayList){
+                //                 if (taskTag == tag.textContent){
+                //                     console.log(tag.textContent)
+                //                     tag.style.display = "block";
+                //                     break;
+                //                 }
+                //             }
+                //         }
+                //       })
+                // }catch{console.log("Empty")}
+                // task.tags.forEach(tag => {
+                // for (let i = 0; i < 8; i++){
+                //     if (task.taskTags[i] == "Frontend"){
+                //         const frontend = document.createElement("div")
+                //         frontend.classList.add("tags")
+                //         frontend.classList.add("tags1")
+                //     }
+                //     else if (task.taskTags[i] == "Backend"){
+                //         const backend = document.createElement("div")
+                //         backend.classList.add("tags")
+                //         backend.classList.add("tags2")
+                //     }
+                //     else if (task.taskTags[i] == "API"){
+                //         const api = document.createElement("div")
+                //         api.classList.add("tags")
+                //         api.classList.add("tags3")
+                //     }
+                //     else if (task.taskTags[i] == "Database"){
+                //         const database=document.createElement('div')
+                //         database.classList.add("tags")
+                //         database.classList.add("tags4")
+                //     }
+                //     else if (task.taskTags[i] == "Framework"){
+                //         const framework=document.createElement('div');
+                //         framework.classList.add("tags")
+                //         framework.classList.add("tags5")
+                //     }
+                //     else if (task.taskTags[i] == "Testing"){
+                //         const testing = document.createElement('div');
+                //         testing.classList.add("tags")
+                //         testing.classList.add("tags6")
+                //     }
+                //     else if (task.taskTags[i] == "UI"){
+                //         const UI = document.createElement('div');
+                //         UI.classList.add("tags")
+                //         UI.classList.add("tags7")
+                //     }
+                //     else if (task.taskTags[i] == "UX"){
+                //         const UX = document.createElement('div');
+                //         UX.classList.add("tags")
+                //         UX.classList.add("tags8")
+                //     }
+                // // })
+                // }
     
         // Create the "tags-container" div
                 // const tagsContainer = document.createElement("div");
