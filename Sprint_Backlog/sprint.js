@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function(){
     )
     .then(() => {console.log(savedTasks)})
     .then(() => displayTasks(savedTasks))
+    .then(() => addDraggableAttributes())
     .catch((error) => {
         console.error("Error getting data:", error);
     });
@@ -80,3 +81,15 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         return taskData;
     }
+
+function addDraggableAttributes() {
+    const taskCards = document.querySelectorAll('.cardview');
+    taskCards.forEach((taskCard) => {
+        taskCard.draggable = true;
+        taskCard.addEventListener("dragstart", function (event) {
+            onDragStart(event);
+        });
+    });
+}
+
+
