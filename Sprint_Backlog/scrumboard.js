@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded",function(){
                 cardView.id = `sprint${index + 1}`;
 
                 const anchor = document.createElement("a");
-                anchor.href = "sprint.html";
+                anchor.href = `sprint.html?sprintId=${sprintData.sprint}`;
 
                 const sprintName = document.createElement("div");
                 sprintName.classList.add("sprint-name");

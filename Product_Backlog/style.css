@@ -373,7 +373,6 @@ main {
   position: relative;
   margin: 0;
   padding: 0;
-  display: inline-block;
   float: right; /* Float it to the right */
   margin-right: 10px; /* Add margin for spacing */
 }

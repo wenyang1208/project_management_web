@@ -10,6 +10,7 @@ const firebaseConfig = {
     appId: "1:971400388443:web:fc495758d4109f4a1f847e"
 };
 
+
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
@@ -18,8 +19,10 @@ const taskList = document.getElementById("card-views-container");
 const savedTasks = [];
 const originalTasks = [];
 document.addEventListener("DOMContentLoaded", function(){
+    const urlParams = new URLSearchParams(window.location.search),
+sprintId = urlParams.get("sprintId")
 
-    const que = query(ref(db, "selectedTasks/"));
+    const que = query(ref(db, `newsprint/${sprintId}/selectedTasks`));
 
     const lightBlueFrames = document.querySelectorAll('.kanban-column'); //.light-blue-frame
     lightBlueFrames.forEach((frame) => {

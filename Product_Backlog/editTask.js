@@ -12,8 +12,7 @@ const firebaseConfig = {
 };
 
 const 
-  storyPointsElement = document.getElementById("StoryPoints"),
-  savebutton = document.getElementById("save-button"),
+
   FEoption = document.getElementById("FEoption"),
   BEoption = document.getElementById("BEoption"),
   APIoption = document.getElementById("APIoption"),
@@ -37,16 +36,98 @@ const
   urlParams = new URLSearchParams(window.location.search),
   taskId = urlParams.get("taskId"),
   previousPage = document.getElementById("previous-page")
+  const taskNameElement = document.getElementById("task-name");
+const taskDescriptionElement = document.getElementById("task-description");
+const taskPriorityElement = document.getElementById("priorities");
+const storyPointsElement = document.getElementById("storyPoints");
+const taskAssigneeElement = document.getElementById("AssigneeList");
+const taskStageElement = document.getElementById("SOT");
+const notStarted = document.getElementById("Not Started"),
+  inProgress = document.getElementById("In Progress"),
+  completed = document.getElementById("Completed"),
+  story = document.getElementById("Story"),
+  bug = document.getElementById("Bug")
+const deletebutton = document.getElementById("delete-button")
+const savebutton = document.getElementById("save-button");
 
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
-  const name = document.querySelector("#task-name");
   let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
 
 document.addEventListener("DOMContentLoaded", function () {
+  const dataRef = ref(db, "productBacklog/" + taskId);
+  const savedTasks = []
+    get(dataRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val())
+            snapshot.forEach((childSnapshot) => {
+                const childData = childSnapshot.val();
+                savedTasks.push(childData)
+            });
+    }}
+    )
+    .then(()=> console.log(savedTasks))
+    .then(()=> displayTaskDetails(savedTasks));
 
-  name.textContent = taskId;
+//----------------------------------------------display task detail------------------------------------------------------------------
+function displayTaskDetails(savedTasks){
+    if (taskId !== null && taskId.length >= 0) {
+        const task = {
+            "dateAdded": savedTasks[0],
+            "taskAssignee": savedTasks[1],
+            "taskCategory": savedTasks[2],
+            "taskDescription": savedTasks[3],
+            "taskName": savedTasks[4],
+            "taskPriority": savedTasks[5],
+            "taskStage": savedTasks[6],
+            "taskStatus": savedTasks[7],
+            "taskStoryPoints": savedTasks[8],
+            "taskTags": savedTasks[9]
+        } 
+        taskNameElement.textContent = task["taskName"];
+        taskDescriptionElement.textContent = task["taskDescription"];
+        taskPriorityElement.value = task["taskPriority"];
+        storyPointsElement.value = task["taskStoryPoints"];
+        taskStageElement.value = task["taskStage"];
+        taskAssigneeElement.value = task["taskAssignee"];
+        if (task["taskStatus"] == "Not Started"){
+          notStarted.checked = true
+        }
+        else if (task["taskStatus"] == "In Progress"){
+          inProgress.checked = true
+        }
+        else if (task["taskStatus"] == "Completed"){
+          completed.checked=true
+        }
+        if (task["taskCategory"] == "Story"){
+          story.checked = true
+        }
+        else if (task["taskCategory"] == "Bug"){
+          bug.checked = true
+        }
+        try{
+            task["taskTags"].forEach((taskTag)=>{
+                if (taskTag == null){
+                  return;
+                }
+                else {
+                  const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
+                    if (tagsPair.includes(taskTag)){
+                      tagDisplayList[tagsPair.indexOf(taskTag)].style.display = "block";
+                      tagOptionList[tagsPair.indexOf(taskTag)].checked = true
+                          }
+                      };   
+      
+                        })
+                    
+                
+              
+        }catch{console.log("Empty")}
+    } else {
+        taskNameElement.textContent = "Task not found.";
+    }
+}
 
 //--------------------------------------------------story point-----------------------------------------------------
 increment.addEventListener("click",function(){

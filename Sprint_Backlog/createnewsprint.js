@@ -38,7 +38,8 @@ document.getElementById("save-button").addEventListener('click', function(e){
                 sprint : sprint,
                 startDate : startDate,
                 endDate : endDate,
-                selectedStatus : selectedStatus
+                selectedStatus : selectedStatus,
+                selectedTasks : []
             })
             .then(() => {window.location.href = "scrumboard.html"})  
         }else{

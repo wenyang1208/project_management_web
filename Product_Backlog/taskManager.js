@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     });   
                 }
 
-                const deletecheckbox = document.createElement("label")
+                const deletecheckbox = document.createElement("div")
                 deletecheckbox.classList.add("custom-checkbox")
                 deletecheckbox.classList.add("hidden-checkbox")
                 const checkboxinput = document.createElement("input")

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild ,push} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -27,6 +27,7 @@ const savedTasks = [];
 const originalTasks = [];
 
 document.addEventListener("DOMContentLoaded", function(){
+
 
     // const app = initializeApp(firebaseConfig);
 
@@ -128,6 +129,8 @@ document.addEventListener("DOMContentLoaded", function(){
     if (addTaskButton !== null) {
         addTaskButton.addEventListener("click", function (e) {
             e.preventDefault();
+            const urlParams = new URLSearchParams(window.location.search),
+            sprintId = urlParams.get("sprintId")
     
             const checkboxes = document.querySelectorAll(".delete-checkbox");
     
@@ -142,13 +145,13 @@ document.addEventListener("DOMContentLoaded", function(){
                         const db = getDatabase(app);
     
                         // Create a reference for the task name
-                        const taskNameRef = ref(db, `selectedTasks/${taskName}`);
+                        const sprintTaskRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskName}`);
     
                         // Set the value of the reference to the task's details
-                        set(taskNameRef, selectedTask)
+                        set(sprintTaskRef, selectedTask)
                             .then(() => {
                                 console.log(`Task '${taskName}' saved to Firebase`);
-                                window.location.href = 'sprint.html';
+                                window.location.href = `sprint.html?sprintId=${sprintId}`;
                             })
                             .catch((error) => {
                                 console.error(`Error saving task '${taskName}' to Firebase:`, error);
