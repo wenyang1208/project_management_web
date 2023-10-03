@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function(){
     // DISPLAY
     function displayTasks(taskData) {
         if (taskList !== null){
-            console.log(taskData)
             taskList.innerHTML = "";
             taskData.forEach(function (task, index) {
     
@@ -83,129 +82,23 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
                 // testing displaying tags
-                const tags = document.createElement("div");
-                tags.className = "tags";
-                tags.textContent = `Tags: ${task.taskTags}`;
-                
-                // tags.textContent = task.taskTags
-                // try{
-                //     task.taskTags.forEach((taskTag)=>{
-                //         if (taskTag == null){
-                //           return;
-                //         }
-                //         else {
-                //             for (const tag of tagDisplayList){
-                //                 if (taskTag == tag.textContent){
-                //                     console.log(tag.textContent)
-                //                     tag.style.display = "block";
-                //                     break;
-                //                 }
-                //             }
-                //         }
-                //       })
-                // }catch{console.log("Empty")}
-                // task.tags.forEach(tag => {
-                // for (let i = 0; i < 8; i++){
-                //     if (task.taskTags[i] == "Frontend"){
-                //         const frontend = document.createElement("div")
-                //         frontend.classList.add("tags")
-                //         frontend.classList.add("tags1")
-                //     }
-                //     else if (task.taskTags[i] == "Backend"){
-                //         const backend = document.createElement("div")
-                //         backend.classList.add("tags")
-                //         backend.classList.add("tags2")
-                //     }
-                //     else if (task.taskTags[i] == "API"){
-                //         const api = document.createElement("div")
-                //         api.classList.add("tags")
-                //         api.classList.add("tags3")
-                //     }
-                //     else if (task.taskTags[i] == "Database"){
-                //         const database=document.createElement('div')
-                //         database.classList.add("tags")
-                //         database.classList.add("tags4")
-                //     }
-                //     else if (task.taskTags[i] == "Framework"){
-                //         const framework=document.createElement('div');
-                //         framework.classList.add("tags")
-                //         framework.classList.add("tags5")
-                //     }
-                //     else if (task.taskTags[i] == "Testing"){
-                //         const testing = document.createElement('div');
-                //         testing.classList.add("tags")
-                //         testing.classList.add("tags6")
-                //     }
-                //     else if (task.taskTags[i] == "UI"){
-                //         const UI = document.createElement('div');
-                //         UI.classList.add("tags")
-                //         UI.classList.add("tags7")
-                //     }
-                //     else if (task.taskTags[i] == "UX"){
-                //         const UX = document.createElement('div');
-                //         UX.classList.add("tags")
-                //         UX.classList.add("tags8")
-                //     }
-                // // })
-                // }
-    
-        // Create the "tags-container" div
-                // const tagsContainer = document.createElement("div");
-                // tagsContainer.className = "tags-container";
-                // let tagList = []
-                // task.tags.forEach(tag => {
-                //     if (tag == "Frontend"){
-                //         const frontend = document.createElement("div")
-                //         frontend.classList.add("tags")
-                //         frontend.classList.add("tags1")
-                //         tagList.push(frontend)
-                //     }
-                //     else if (tag == "Backend"){
-                //         const backend = document.createElement("div")
-                //         backend.classList.add("tags")
-                //         backend.classList.add("tags2")
-                //         tagList.push(backend);
-                //     }
-                //     else if (tag == "API"){
-                //         const api = document.createElement("div")
-                //         api.classList.add("tags")
-                //         api.classList.add("tags3")
-                //         tagList.push(api)
-                //     }
-                //     else if (tag == "Database"){
-                //         const database=document.createElement('div')
-                //         database.classList.add("tags")
-                //         database.classList.add("tags4")
-                //         tagList.push(database)
-                //     }
-                //     else if (tag == "Framework"){
-                //         const framework=document.createElement('div');
-                //         framework.classList.add("tags")
-                //         framework.classList.add("tags5")
-                //         tagList.push(framework)
-                //     }
-                //     else if (tag == "Testing"){
-                //         const testing = document.createElement('div');
-                //         testing.classList.add("tags")
-                //         testing.classList.add("tags6")
-                //         tagList.push(testing)
-                //     }
-                //     else if (tag == "UI"){
-                //         const UI = document.createElement('div');
-                //         UI.classList.add("tags")
-                //         UI.classList.add("tags7")
-                //         tagList.push(UI)
-                //     }
-                //     else if (tag == "UX"){
-                //         const UX = document.createElement('div');
-                //         UX.classList.add("tags")
-                //         UX.classList.add("tags8")
-                //         tagList.push(UX)
-                //     }
-                // })
-                // tagList.forEach(tag =>{
-                //     tagsContainer.appendChild(tag)
-                // })
+                // const tags = document.createElement("div");
+                // tags.className = "tags";
+                // tags.textContent = `Tags: ${task.taskTags}`;
+
+                const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
+                const tagsContainer = document.createElement("div");
+                tagsContainer.className = "tags-container";
+                if (typeof(task.taskTags) !== "undefined"){
+                    task.taskTags.forEach((tag) => {
+                        if (tagsPair.includes(tag)){
+                            const tagElement = document.createElement("div");
+                            tagElement.classList.add("tags",`tags${tagsPair.indexOf(tag)+1}`);
+                            tagsContainer.appendChild(tagElement);
+                        }
+                    });   
+                }
+
                 const deletecheckbox = document.createElement("label")
                 deletecheckbox.classList.add("custom-checkbox")
                 deletecheckbox.classList.add("hidden-checkbox")
@@ -220,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 taskCard.appendChild(taskName)
                 taskCard.appendChild(priority)
                 taskCard.appendChild(storyPoints)
-                taskCard.appendChild(tags)
+                taskCard.appendChild(tagsContainer)
                 taskCard.appendChild(deletecheckbox)
                 taskCard.addEventListener("click",function (){
                 window.location.href = `task.html?taskId=${taskName.textContent}`})
