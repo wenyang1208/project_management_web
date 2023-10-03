@@ -12,7 +12,6 @@ const firebaseConfig = {
 };
 
 const 
-
   FEoption = document.getElementById("FEoption"),
   BEoption = document.getElementById("BEoption"),
   APIoption = document.getElementById("APIoption"),
@@ -58,6 +57,7 @@ const savebutton = document.getElementById("save-button");
 document.addEventListener("DOMContentLoaded", function () {
   const dataRef = ref(db, "productBacklog/" + taskId);
   const savedTasks = []
+
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
             console.log(snapshot.val())
@@ -170,13 +170,11 @@ savebutton.addEventListener("click",function(event){
       taskAssignee :document.querySelector("#AssigneeList").value,
       taskPriority :document.querySelector("#priorities").value,
       taskStage : document.querySelector("#SOT").value,
-      taskStoryPoints : document.querySelector("#StoryPoints").value,
+      taskStoryPoints : document.querySelector("#storyPoints").value,
       taskStatus : document.querySelector('input[name="status"]:checked').value,      
       taskCategory : document.querySelector('input[name="category"]:checked').value,
       taskDescription : document.querySelector("#task-description").value,
-      taskTags : document.querySelector('input[name="tag"]:checked'),
-      taskTags : tags
-
+      taskTags : taskTag
     })
 
     .then(() => { window.location.href = `task.html?taskId=${taskId}`});
