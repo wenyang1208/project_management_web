@@ -67,13 +67,27 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
                 // testing displaying tags
-                const tags = document.createElement("div");
-                tags.className = "tags"
-                tags.textContent = `Tags: ${task.taskTags}`;
+                // const tags = document.createElement("div");
+                // tags.className = "tags"
+                // tags.textContent = `Tags: ${task.taskTags}`;
+
+                const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
+                const tagsContainer = document.createElement("div");
+                tagsContainer.className = "tags-container";
+                if (typeof(task.taskTags) !== "undefined"){
+                    task.taskTags.forEach((tag) => {
+                        if (tagsPair.includes(tag)){
+                            const tagElement = document.createElement("div");
+                            tagElement.classList.add("tags",`tags${tagsPair.indexOf(tag)+1}`);
+                            tagsContainer.appendChild(tagElement);
+                        }
+                    });   
+                }
+
                 taskCard.appendChild(taskName)
                 taskCard.appendChild(priority)
                 taskCard.appendChild(storyPoints)
-                taskCard.appendChild(tags)
+                taskCard.appendChild(tagsContainer)
                 taskCard.addEventListener("click",function (){
                 window.location.href = `task.html?taskId=${taskName.textContent}`})
                 taskList.appendChild(taskCard);    
