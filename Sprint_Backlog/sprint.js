@@ -20,6 +20,13 @@ const originalTasks = [];
 document.addEventListener("DOMContentLoaded", function(){
 
     const que = query(ref(db, "selectedTasks/"));
+
+    const lightBlueFrames = document.querySelectorAll('.kanban-column'); //.light-blue-frame
+    lightBlueFrames.forEach((frame) => {
+        frame.addEventListener("dragover", allowDrop);
+        frame.addEventListener("drop", drop);
+    });
+   
     get(que).then((snapshot) => {
         if (snapshot.exists()) {
             snapshot.forEach((childSnapshot) => {
@@ -50,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 const taskCard = document.createElement("div");
                 taskCard.classList.add("cardview");
                 taskCard.id = `${index}`;
-    
+                taskCard.draggable = true;
     
                 const taskName = document.createElement("div");
                 taskName.className = "task-name";
@@ -65,11 +72,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 storyPoints.className = "story-points";
                 storyPoints.textContent = `Story Points: ${task.taskStoryPoints}`;
 
-
-                // testing displaying tags
-                // const tags = document.createElement("div");
-                // tags.className = "tags"
-                // tags.textContent = `Tags: ${task.taskTags}`;
 
                 const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
                 const tagsContainer = document.createElement("div");
@@ -90,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 taskCard.appendChild(tagsContainer)
                 taskCard.addEventListener("click",function (){
                 window.location.href = `task.html?taskId=${taskName.textContent}`})
-                taskList.appendChild(taskCard);    
+                taskList.appendChild(taskCard); 
             });
         }
         return taskData;
@@ -106,4 +108,34 @@ function addDraggableAttributes() {
     });
 }
 
+// Function to allow dropping elements (Event Handler)
+function allowDrop(event) {
+    event.preventDefault();
+}
+
+// Function to handle the drop event (Event Handler)
+function drop(event) {
+    event.preventDefault();
+    const taskId = event.dataTransfer.getData("text/plain");
+    const taskCard = document.getElementById(taskId);
+    
+    // Find the target light blue frame
+    const targetLightBlueFrame = event.target.closest('.kanban-column');
+    
+    if (targetLightBlueFrame && taskCard) {
+        // Append the taskCard to the target light blue frame
+        targetLightBlueFrame.querySelector('.card-views').appendChild(taskCard);
+        
+        // Update the task status (To do, In Progress, Done) based on the target light blue frame
+        const status = targetLightBlueFrame.querySelector('.kanban-card').id;
+        // You can update the task status in your savedTasks or database here
+        
+    }
+}
+
+
+// Function to handle the drag start event (Event Handler)
+function onDragStart(event) {
+    event.dataTransfer.setData("text/plain", event.target.id);
+}
 
