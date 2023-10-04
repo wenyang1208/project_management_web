@@ -73,7 +73,7 @@
  
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild ,push} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild ,push,remove} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -214,6 +214,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     const selectedTask = savedTasks.find(task => task.taskName === taskName);
     
                     if (selectedTask) {
+                        selectedTask["logTimeSpent"]= "none"
+                        selectedTask["accumulationOfTime"]= 0
                         // Initialize Firebase
                         const app = initializeApp(firebaseConfig);
                         const db = getDatabase(app);
@@ -229,6 +231,9 @@ document.addEventListener("DOMContentLoaded", function(){
                             .catch((error) => {
                                 console.error(`Error saving task '${taskName}' to Firebase:`, error);
                             });
+                        // remove the selectedTask from productBacklog
+                        const prod_BacklogRef = ref(db,`productBacklog/${taskName}`)
+                        remove(prod_BacklogRef)
                     }
                 }
             });

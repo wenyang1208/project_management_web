@@ -102,6 +102,177 @@ const originalTasks = [];
 const urlParams = new URLSearchParams(window.location.search),
     sprintId = urlParams.get("sprintId")
 document.addEventListener("DOMContentLoaded", function(){
+  const firebaseConfig2 = {
+    apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+    authDomain: "project-2782373696466964042.firebaseapp.com",
+    databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "project-2782373696466964042",
+    storageBucket: "project-2782373696466964042.appspot.com",
+    messagingSenderId: "971400388443",
+    appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+};
+const app2 = initializeApp(firebaseConfig2);
+const urlParams2 = new URLSearchParams(window.location.search),
+    sprintId2 = urlParams2.get("sprintId")
+    console.log(sprintId2)
+  var totalSP = 0
+const db2 = getDatabase(app2);
+const selectedTasks = []
+    get(ref(db2,`newsprint/${sprintId2}/selectedTasks`)).then((e)=>{
+      console.log(e.val())
+      if (e.exists()) {
+            e.forEach((childSnapshot) => {
+                const childData = childSnapshot.val();
+                console.log(childData)
+                selectedTasks.push(childData)
+                console.log(selectedTasks.length)
+            });
+    }
+    }).then(()=>{totalSP=displayBurnDownChart(selectedTasks)})
+    function displayBurnDownChart(selectedTasks){
+      var totalStoryPoints = 0
+      selectedTasks.forEach((task)=>{
+        totalStoryPoints += parseInt(task['taskStoryPoints'])
+        
+      })
+      console.log(totalStoryPoints)
+      const completedTasks = []
+      get(ref(db2,`newsprint/${sprintId2}/selectedTasks`)).then((selectedTasks)=>{
+        selectedTasks.forEach((task)=>{
+          if (task.val()["taskStatus"] == "Completed") {
+          completedTasks.push(task.val())
+        }
+        })
+      }).then(()=>{
+        const burndownChartData = {
+
+        }
+        completedTasks.forEach((task)=>{
+          if (burndownChartData[task.dateCompleted] == null){
+            burndownChartData[task.dateCompleted] = parseInt(task.taskStoryPoints)
+          }
+          else {
+            burndownChartData[task.dateCompleted] += parseInt(task.taskStoryPoints);
+          }
+        })
+        console.log(Object.keys(burndownChartData))
+        console.log(Object.values(burndownChartData))
+      })
+      return totalStoryPoints
+    }
+    // Get a reference to the canvas element
+    const starttime = performance.now()
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    const dateLabel = []
+    const expectedData =[]
+    const actualData = []
+    get(ref(db2,"burnDownChartEg")).then((logtimeSpent)=>{
+      const logTimeSpent = logtimeSpent.val()
+      const logTimeSpent_Date = Object.keys(logTimeSpent)
+      logTimeSpent_Date.forEach((date)=>{
+        dateLabel.push(date)
+      })
+      const logTimeSpent_StoryPoints = Object.values(logTimeSpent)
+      expectedData.push(20)
+      expectedData.push(15)
+      expectedData.push(11)
+      expectedData.push(5)
+      expectedData.push(0)
+      var totalStoryP = 20
+      logTimeSpent_StoryPoints.forEach((SP)=>{
+        totalStoryP = totalStoryP - parseInt(SP)
+        actualData.push(totalStoryP)
+      })
+    })
+    // Define your data as an array of data points
+    var data = {
+      labels: dateLabel,
+      datasets: [{
+        label: 'Expected velocity',
+        data: expectedData, // Example data points
+        borderColor: 'blue',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      },{
+        label: 'Actual velocity',
+        data: actualData, // Example data points
+        borderColor: 'red',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      }]
+    };
+  
+    // Create the line chart
+    function generateChart(){var lineChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date' // Set the X-axis label
+        }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Remaining Story Points' // Set the Y-axis label
+        }
+      }]
+    }
+  }
+    });}
+    generateChart()
+    generateChart()
+    const endtime = performance.now()
+    const timeSpent = endtime - starttime
+    console.log(`TimeSpent:${timeSpent}ms`)
+    var ctx2 = document.getElementById('lineChart2').getContext('2d');
+  
+    // Define your data as an array of data points
+    var data = {
+      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+      datasets: [{
+        label: 'Task1',
+        data: [0, 0.5, 2, 2.5, 3], // Example data points
+        borderColor: 'blue',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      },{
+        label: 'Task2',
+        data: [0, 2, 2, 3, 4], // Example data points
+        borderColor: 'red',    // Line color
+        borderWidth: 2,         // Line width
+        fill: false,
+        tension: 0              // Fill under the line (false for line chart)
+      }]
+    };
+  
+    // Create the line chart
+    var lineChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: data,
+      options: {
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date' // Set the X-axis label
+        }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Time Spent (hrs)' // Set the Y-axis label
+        }
+      }]
+    }
+  }
+    });
 
     const que = query(ref(db, `newsprint/${sprintId}/selectedTasks`));
 
@@ -229,114 +400,12 @@ function onDragStart(event) {
 
 
 
+
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-const firebaseConfig2 = {
-    apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
-    authDomain: "project-2782373696466964042.firebaseapp.com",
-    databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "project-2782373696466964042",
-    storageBucket: "project-2782373696466964042.appspot.com",
-    messagingSenderId: "971400388443",
-    appId: "1:971400388443:web:fc495758d4109f4a1f847e"
-};
-const app2 = initializeApp(firebaseConfig2);
-const urlParams2 = new URLSearchParams(window.location.search),
-    sprintId2 = urlParams2.get("sprintId")
-const db2 = getDatabase(app2);
-    get(ref(db2,`newsprint/${sprintId2}`)).then((e)=>{
-      console.log(e.val())
-    })
-    // Get a reference to the canvas element
-    var ctx = document.getElementById('lineChart').getContext('2d');
-  
-    // Define your data as an array of data points
-    var data = {
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-      datasets: [{
-        label: 'Expected velocity',
-        data: [50, 45, 40, 25], // Example data points
-        borderColor: 'blue',    // Line color
-        borderWidth: 2,         // Line width
-        fill: false,
-        tension: 0              // Fill under the line (false for line chart)
-      },{
-        label: 'Actual velocity',
-        data: [50, 45, 40, 35], // Example data points
-        borderColor: 'red',    // Line color
-        borderWidth: 2,         // Line width
-        fill: false,
-        tension: 0              // Fill under the line (false for line chart)
-      }]
-    };
-  
-    // Create the line chart
-    var lineChart = new Chart(ctx, {
-      type: 'line',
-      data: data,
-      options: {
-    scales: {
-      xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Date' // Set the X-axis label
-        }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Remaining Story Points' // Set the Y-axis label
-        }
-      }]
-    }
-  }
-    });
-    var ctx2 = document.getElementById('lineChart2').getContext('2d');
-  
-    // Define your data as an array of data points
-    var data = {
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-      datasets: [{
-        label: 'Task1',
-        data: [0, 0.5, 2, 2.5, 3], // Example data points
-        borderColor: 'blue',    // Line color
-        borderWidth: 2,         // Line width
-        fill: false,
-        tension: 0              // Fill under the line (false for line chart)
-      },{
-        label: 'Task2',
-        data: [0, 2, 2, 3, 4], // Example data points
-        borderColor: 'red',    // Line color
-        borderWidth: 2,         // Line width
-        fill: false,
-        tension: 0              // Fill under the line (false for line chart)
-      }]
-    };
-  
-    // Create the line chart
-    var lineChart2 = new Chart(ctx2, {
-      type: 'line',
-      data: data,
-      options: {
-    scales: {
-      xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Date' // Set the X-axis label
-        }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Total Time Spent (hrs)' // Set the Y-axis label
-        }
-      }]
-    }
-  }
-    });
   </script>
   
 </body>
