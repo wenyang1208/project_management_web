@@ -248,7 +248,8 @@ function displayTaskDetails(savedTasks){
             "taskStage": savedTasks[6],
             "taskStatus": savedTasks[7],
             "taskStoryPoints": savedTasks[8],
-            "taskTags": savedTasks[9]
+            "taskTags": savedTasks[9],
+            "timeSpent": savedTasks[10]
         } 
         taskNameElement.textContent = task["taskName"];
         taskDescriptionElement.textContent = task["taskDescription"];
@@ -256,6 +257,7 @@ function displayTaskDetails(savedTasks){
         storyPointsElement.value = task["taskStoryPoints"];
         taskStageElement.value = task["taskStage"];
         taskAssigneeElement.value = task["taskAssignee"];
+        accTime.textContent = task["timeSpent"];
         if (task["taskStatus"] == "Not Started"){
           notStarted.checked = true
         }
@@ -295,13 +297,13 @@ function displayTaskDetails(savedTasks){
 }
 
 
-// addbutton.addEventListener("click",function(){
-//   console.log(document.getElementById("date-time-spent").value);
-//   const startTime = document.getElementById("start-time-spent").value;
-//   const endTime = document.getElementById("end-time-spent").value;
-//   const timeSpent = parseFloat(endTime) - parseFloat(startTime);
-//   accTime.textContent = timeSpent;
-// })
+addbutton.addEventListener("click",function(){
+  console.log(document.getElementById("date-time-spent").value);
+  const startTime = document.getElementById("start-time-spent").value;
+  const endTime = document.getElementById("end-time-spent").value;
+  const timeSpent = parseFloat(endTime) - parseFloat(startTime);
+  accTime.textContent = parseFloat(accTime.textContent) + timeSpent;
+})
 //--------------------------------------------------story point-----------------------------------------------------
 increment.addEventListener("click",function(){
   if (storyPointsElement.value != storyPointsElement.max){
@@ -347,7 +349,8 @@ savebutton.addEventListener("click",function(event){
       taskStatus : document.querySelector('input[name="status"]:checked').value,      
       taskCategory : document.querySelector('input[name="category"]:checked').value,
       taskDescription : document.querySelector("#task-description").value,
-      taskTags : taskTag
+      taskTags : taskTag,
+      timeSpent : accTime.textContent
     })
 
     .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
