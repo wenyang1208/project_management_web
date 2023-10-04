@@ -212,7 +212,8 @@ const notStarted = document.getElementById("Not Started"),
   bug = document.getElementById("Bug")
 const deletebutton = document.getElementById("delete-button")
 const savebutton = document.getElementById("save-button");
-
+const addbutton = document.getElementById("add-button");
+const accTime = document.getElementById("accumulation-time");
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
@@ -293,6 +294,14 @@ function displayTaskDetails(savedTasks){
     }
 }
 
+
+// addbutton.addEventListener("click",function(){
+//   console.log(document.getElementById("date-time-spent").value);
+//   const startTime = document.getElementById("start-time-spent").value;
+//   const endTime = document.getElementById("end-time-spent").value;
+//   const timeSpent = parseFloat(endTime) - parseFloat(startTime);
+//   accTime.textContent = timeSpent;
+// })
 //--------------------------------------------------story point-----------------------------------------------------
 increment.addEventListener("click",function(){
   if (storyPointsElement.value != storyPointsElement.max){
