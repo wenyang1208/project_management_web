@@ -157,6 +157,7 @@ const taskStatusElement = document.getElementById("status");
 const taskTagsElement = document.getElementById("tags");
 const editbutton = document.getElementById("edit-button")
 const saveTaskButton = document.getElementById("saveTaskButton");
+const accumulationOfTime = document.getElementById("accumulation-time")
 
 //----------------------------------------------get task id------------------------------------------------------------------
 const urlParams = new URLSearchParams(window.location.search);
@@ -171,10 +172,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
-
+    var task ={}
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
             console.log(snapshot.val())
+            task = snapshot.val()
             snapshot.forEach((childSnapshot) => {
                 const childData = childSnapshot.val();
                 savedTasks.push(childData)
@@ -182,22 +184,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }}
     )
     .then(()=> console.log(savedTasks))
-    .then(()=> displayTaskDetails(savedTasks));
+    .then(()=> displayTaskDetails(task));
 
 //----------------------------------------------display task detail------------------------------------------------------------------
 function displayTaskDetails(savedTasks){
     if (taskId !== null && taskId.length >= 0) {
         const task = {
-            "dateAdded": savedTasks[0],
-            "taskAssignee": savedTasks[1],
-            "taskCategory": savedTasks[2],
-            "taskDescription": savedTasks[3],
-            "taskName": savedTasks[4],
-            "taskPriority": savedTasks[5],
-            "taskStage": savedTasks[6],
-            "taskStatus": savedTasks[7],
-            "taskStoryPoints": savedTasks[8],
-            "taskTags": savedTasks[9]
+          "dateAdded": savedTasks["dateAdded"],
+            "taskAssignee": savedTasks["taskAssignee"],
+            "taskCategory": savedTasks["taskCategory"],
+            "taskDescription": savedTasks["taskDescription"],
+            "taskName": savedTasks["taskName"],
+            "taskPriority": savedTasks["taskPriority"],
+            "taskStage": savedTasks["taskStage"],
+            "taskStatus": savedTasks["taskStatus"],
+            "taskStoryPoints": savedTasks["taskStoryPoints"],
+            "taskTags": savedTasks["taskTags"],
+            "accumulationOfTime":savedTasks["accumulationOfTime"]
         } 
         taskNameElement.textContent = task["taskName"];
         taskDescriptionElement.textContent = task["taskDescription"];
@@ -207,6 +210,7 @@ function displayTaskDetails(savedTasks){
         taskAssigneeElement.textContent = task["taskAssignee"];
         taskStatusElement.textContent = task["taskStatus"];
         category.textContent = task["taskCategory"];
+        accumulationOfTime.textContent=task["accumulationOfTime"]
         try{
             task["taskTags"].forEach((taskTag)=>{
                 if (taskTag == null){
