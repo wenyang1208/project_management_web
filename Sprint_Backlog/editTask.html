@@ -94,6 +94,49 @@
         <div class="text">Task description:</div>
         <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
       </div>
+      <div class="accumulatetime">
+        
+        <div class="log-time-spent">
+          <div class="text">Log time spent:</div>
+        </div>
+
+        <div class="table-button-container">
+          <div class="table-container">
+            <div class="tablebg">
+              <table style="display: block;">
+                <tr>
+                  <td>Date</td>
+                  <td><input type="date" id="date-time-spent"></td>
+                </tr>
+                <tr>
+                  <td>Start</td>
+                  <td><input type="time" id="start-time-spent"></td>
+                </tr>
+                <tr>
+                  <td>End</td>
+                  <td><input type="time" id="end-time-spent"></td>
+                </tr>
+              </table>
+            </div>
+            
+            <div class="add-button-container">
+              <div id="add-button" class="add-button">Add</div>
+            </div>
+          </div>  
+        </div>
+
+        <br>
+
+        <div class="taskview">
+          <div class="accumulationtime">
+            <span class="text">Accumulation of time: </span>
+            <span class="text" id="accumulation-time"></span>
+            <span class="text"> hrs</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
     </div>
 
  
@@ -119,7 +162,6 @@
 
   </div>
 <script type="module">
-// import { displayedTasks } from "./taskManager.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getDatabase, ref, set, get, child, query, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
@@ -154,6 +196,7 @@ const
   decrement = document.getElementById("decrement"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
+  sprintId = urlParams.get("sprintId"),
   taskId = urlParams.get("taskId"),
   previousPage = document.getElementById("previous-page")
   const taskNameElement = document.getElementById("task-name");
@@ -169,14 +212,15 @@ const notStarted = document.getElementById("Not Started"),
   bug = document.getElementById("Bug")
 const deletebutton = document.getElementById("delete-button")
 const savebutton = document.getElementById("save-button");
-
+const addbutton = document.getElementById("add-button");
+// const accTime = document.getElementById("accumulation-time");
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
 
 document.addEventListener("DOMContentLoaded", function () {
-  const dataRef = ref(db, "productBacklog/" + taskId);
+  const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
   const savedTasks = []
 
     get(dataRef).then((snapshot) => {
@@ -204,7 +248,8 @@ function displayTaskDetails(savedTasks){
             "taskStage": savedTasks[6],
             "taskStatus": savedTasks[7],
             "taskStoryPoints": savedTasks[8],
-            "taskTags": savedTasks[9]
+            "taskTags": savedTasks[9],
+            "timeSpent": savedTasks[10]
         } 
         taskNameElement.textContent = task["taskName"];
         taskDescriptionElement.textContent = task["taskDescription"];
@@ -212,6 +257,7 @@ function displayTaskDetails(savedTasks){
         storyPointsElement.value = task["taskStoryPoints"];
         taskStageElement.value = task["taskStage"];
         taskAssigneeElement.value = task["taskAssignee"];
+        // accTime.textContent = task["timeSpent"];
         if (task["taskStatus"] == "Not Started"){
           notStarted.checked = true
         }
@@ -250,6 +296,14 @@ function displayTaskDetails(savedTasks){
     }
 }
 
+
+addbutton.addEventListener("click",function(){
+  console.log(document.getElementById("date-time-spent").value);
+  const startTime = document.getElementById("start-time-spent").value;
+  const endTime = document.getElementById("end-time-spent").value;
+  const timeSpent = parseFloat(endTime) - parseFloat(startTime);
+  accTime.textContent = parseFloat(accTime.textContent) + timeSpent;
+})
 //--------------------------------------------------story point-----------------------------------------------------
 increment.addEventListener("click",function(){
   if (storyPointsElement.value != storyPointsElement.max){
@@ -286,7 +340,7 @@ savebutton.addEventListener("click",function(event){
 
   tags = tags.filter(tag => taskTag.includes(tag));
 //--------------------------------------------------update data-----------------------------------------------------
-    update(ref(db, 'productBacklog/' + taskId),
+    update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
     {
       taskAssignee :document.querySelector("#AssigneeList").value,
       taskPriority :document.querySelector("#priorities").value,
@@ -295,14 +349,15 @@ savebutton.addEventListener("click",function(event){
       taskStatus : document.querySelector('input[name="status"]:checked').value,      
       taskCategory : document.querySelector('input[name="category"]:checked').value,
       taskDescription : document.querySelector("#task-description").value,
-      taskTags : taskTag
+      taskTags : taskTag,
+      // timeSpent : accTime.textContent
     })
 
-    .then(() => { window.location.href = `task.html?taskId=${taskId}`});
+    .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
 
 })
 previousPage.addEventListener("click",function(){
-  window.location.href = `task.html?taskId=${taskId}`
+  window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`
 })
 }
 );

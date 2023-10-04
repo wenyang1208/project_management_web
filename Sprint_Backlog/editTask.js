@@ -1,125 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Task</title>
-  <link rel="stylesheet" href="edittask.css">
-</head>
-<body>
-
-  <div class="white-frame">
-      <div class="previous-page" id="previous-page">
-        <img src="previouspage.png" width=30px height = 30px>
-      </div>
-      <div class="menu-bar">
-        <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
-        <div class="menu-items" id="menu-items">
-          <a href="prodBacklog.html">Product backlog</a>
-          <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
-          <a href="#">Team management</a>
-          <a href="#">Profile</a>
-          <a href="#">Reset password</a>
-          <a href="#">Log out</a>
-        </div>
-      </div>
-
-    <div class="task-frame flex col">
-      <div class="task-name" id="task-name">Task name</div>
-      <div class="taskview">
-        <div class="flex col">
-          <div class="assignee">
-            <span class="text">Assignee: </span>
-            <select name="team-member" id="AssigneeList">
-              <option value="Alice">Alice</option>
-              <option value="Bob">Bob</option>
-              <option value="Larry">Larry</option>
-              <option value="Zam">Zam</option>
-              </select>
-          </div>
-          <div class="priority">
-            <span class="text">Priority: </span>
-            <select name="priority" id="priorities">
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="Important">Important</option>
-                <option value="Urgent">Urgent</option>
-              </select>
-          </div>
-          <div class="stage-of-task">
-            <span class="text">Stage of task: </span>
-            <select name="Stage-of-task" id="SOT">
-                <option value="Planning">Planning</option>
-                <option value="Development">Development</option>
-                <option value="Testing">Testing</option>
-                <option value="Integration">Integration</option>
-              </select>
-          </div>
-        </div>
-        <div class="flex col">
-          <div class="story-points">
-            <span class="text">Story Points: </span>
-            <button class="decrement-button" id="decrement">-</button>
-            <input type="number" class="input-field" id="storyPoints" value="1" min="1" max="10" disabled>
-            <button class="increment-button" id="increment">+</button>
-          </div>
-          <div class="status">
-            <span class="text">Status: </span>
-            <input type="radio" id="Not Started" name="status" value="Not Started">
-            <label for="Not Started"> Not Started </label>
-            <input type="radio" id="In Progress" name="status" value="In Progress">
-            <label for="In Progress"> In Progress </label>
-            <input type="radio" id="Completed" name="status" value="Completed">
-            <label for="Completed"> Completed</label>
-          </div>
-          <div class="category">
-            <span class="text">Category: </span>
-            <input type="radio" id="Story" name="category" value="Story">
-            <label for="Story"> Story </label>
-            <input type="radio" id="Bug" name="category" value="Bug">
-            <label for="Bug"> Bug </label>
-          </div>
-        </div>
-          <div class="tags-container">
-            <div class="tags tags1" id="FE"></div>
-            <div class="tags tags2" id="BE"></div>
-            <div class="tags tags3" id="API"></div>
-            <div class="tags tags4" id="DB"></div>
-            <div class="tags tags5" id="FW"></div>
-            <div class="tags tags6" id="TEST"></div>
-            <div class="tags tags7" id="UI"></div>
-            <div class="tags tags8" id="UX"></div>
-
-          </div>
-      </div>
-      <div class="task-description">
-        <div class="text">Task description:</div>
-        <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
-      </div>
-    </div>
-
- 
-    <br>
-    <div class="button-container">
-        <a href="task.html" id="save-button" class="save-button">save</a>
-        <div class="tag-bar" id="tag-bar">
-            <div class="tag-menu" id="tag-menu">
-                <label class="tag1" for="FEoption"><input type="checkbox" id="FEoption" name="tag" value="Frontend">Frontend</label>
-                <label class="tag2" for="BEoption"><input type="checkbox" id="BEoption" name="tag" value="Backend">Backend</label>
-                <label class="tag3" for="APIoption"><input type="checkbox" id="APIoption" name="tag" value="API">API</label>
-                <label class="tag4" for="DBoption"><input type="checkbox" id="DBoption" name="tag" value="Database">Database</label>
-                <label class="tag5" for="FWoption"><input type="checkbox" id="FWoption" name="tag" value="Framework">Framework</label>
-                <label class="tag6" for="TESToption"><input type="checkbox" id="TESToption" name="tag" value="Testing">Testing</label>
-                <label class="tag7" for="UIoption"><input type="checkbox" id="UIoption" name="tag" value="UI">UI</label>
-                <label class="tag8" for="UXoption"><input type="checkbox" id="UXoption" name="tag" value="UX">UX</label>
-            </div>
-            <div class="tag-button" id="tag-button">Tag</div>
-        </div>
-        <div id="delete-button" class="delete-button">Delete</div>
-    </div>
-    
-
-  </div>
-<script type="module">
-// import { displayedTasks } from "./taskManager.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getDatabase, ref, set, get, child, query, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
@@ -154,6 +32,7 @@ const
   decrement = document.getElementById("decrement"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX],
   urlParams = new URLSearchParams(window.location.search),
+  sprintId = urlParams.get("sprintId"),
   taskId = urlParams.get("taskId"),
   previousPage = document.getElementById("previous-page")
   const taskNameElement = document.getElementById("task-name");
@@ -176,7 +55,7 @@ const savebutton = document.getElementById("save-button");
   let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
 
 document.addEventListener("DOMContentLoaded", function () {
-  const dataRef = ref(db, "productBacklog/" + taskId);
+  const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
   const savedTasks = []
 
     get(dataRef).then((snapshot) => {
@@ -286,7 +165,7 @@ savebutton.addEventListener("click",function(event){
 
   tags = tags.filter(tag => taskTag.includes(tag));
 //--------------------------------------------------update data-----------------------------------------------------
-    update(ref(db, 'productBacklog/' + taskId),
+    update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
     {
       taskAssignee :document.querySelector("#AssigneeList").value,
       taskPriority :document.querySelector("#priorities").value,
@@ -298,14 +177,11 @@ savebutton.addEventListener("click",function(event){
       taskTags : taskTag
     })
 
-    .then(() => { window.location.href = `task.html?taskId=${taskId}`});
+    .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
 
 })
 previousPage.addEventListener("click",function(){
-  window.location.href = `task.html?taskId=${taskId}`
+  window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`
 })
 }
 );
-</script>
-</body>
-</html>

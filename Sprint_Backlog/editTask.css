@@ -172,9 +172,12 @@ main {
 .tags.tags1{
     background-color: #AF4A93; /*Frontend*/
     color: black;
-    display: none; 
+    display: none;
   }
 
+  .tags.tags1::before {
+    content: "FrontEnd"; 
+  }
 
   .tags.tags2{
     background-color: #EE8306; /*Backend*/
@@ -182,6 +185,9 @@ main {
     display: none;
   }
 
+  .tags.tags2::before {
+    content: "BackEnd"; 
+  }
 
   .tags.tags3{
     background-color: #DFCC22; /*API*/
@@ -189,11 +195,18 @@ main {
     display: none;
   }
 
+  .tags.tags3::before {
+    content: "API"; 
+    
+  }
 
   .tags.tags4{
     background-color: #3EC133; /*Database*/
     color: black;
     display: none;
+  }
+  .tags.tags4::before {
+    content: "Database";
   }
  
   .tags.tags5{
@@ -202,6 +215,9 @@ main {
     display: none;
   }
 
+  .tags.tags5::before {
+    content: "Framework"; 
+  }
 
   .tags.tags6{
     background-color: #9747FF; /*Testing*/
@@ -209,18 +225,28 @@ main {
     display: none;
   }
 
+  .tags.tags6::before {
+    content: "Testing";
+  }
 
   .tags.tags7{
     background-color: #959AA1; /*UI*/
     color: black;
-    display: none; 
+    display: none;
   }
 
+  .tags.tags7::before {
+    content: "UI"; 
+  }
 
   .tags.tags8{
     background-color: #964B00; /*UX*/
     color: black;
     display: none;
+  }
+
+  .tags.tags8::before {
+    content: "UX"; 
   }
 
 
@@ -355,6 +381,50 @@ select:focus option {
     position: relative;
 }
 
+.accumulatetime {
+  width: 100%; 
+  display: grid;
+}
 
+table {
+  margin-top: 10px;
+}
+
+.tablebg{
+  background-color: #d9d9d9; 
+  padding-left: 15px;
+  padding-bottom: 5px;
+  border-radius: 5px; 
+  float: left; 
+  width: 25%; 
+}
+
+.button-container {
+  text-align: right; 
+  margin-top: 5px; 
+}
+
+.add-button {
+  background-color: darkblue;
+  color: white;
+  text-decoration: none;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin: 8px;
+  font-size: 17px;
+  width: 70px;
+  text-align: center;
+  display: block;
+}
+
+.table-container {
+  display: flex;
+  align-items: flex-start; 
+}
+
+.add-button-container {
+  text-align: right;
+  margin-top: 64px; 
+}
 
 

@@ -8,13 +8,13 @@
 
   <div class="white-frame">
       <div class="previous-page">
-        <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
+        <div class = "previous-button" id = "previous-button"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></div>
       </div>
       <div class="menu-bar">
-        <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
+        <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
         <div class="menu-items" id="menu-items">
-          <a href="prodBacklog.html">Product backlog</a>
-          <a href="#">Scrumboard</a>
+          <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
+          <a href="scrumboard.html">Scrumboard</a>
           <a href="#">Team management</a>
           <a href="#">Profile</a>
           <a href="#">Reset password</a>
@@ -96,35 +96,23 @@
 
           User Registration:
           
-          Users should be able to register for an account by providing a valid email address and a secure password.
-          Implement client-side and server-side validation to ensure data integrity.
-          Store user registration data securely in our database.
-          User Login:
-          
-          Registered users should be able to log in with their email and password.
-          Implement password hashing and salting for security.
-          Create a session or token-based authentication system.
-          Password Reset:
-          
-          Allow users to request a password reset via email if they forget their password.
-          Generate secure password reset tokens and implement a reset password flow.
-          Authentication Middleware:
-          
-          Implement authentication middleware to protect certain routes and resources.
-          Unauthorized access attempts should be redirected to the login page or return a 401 status code.
-          User Profile:
-          
-          Create a user profile page where users can view and edit their profile information.
-          Implement user authentication checks to ensure users can only edit their own profiles.
-          Security Measures:
-          
           Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
           Regularly review and update security libraries and dependencies</div>
       </div>
+
+      <div class="taskview">
+        <div class="accumulationtime">
+          <span class="text">Accumulation of time: </span>
+          <span class="text" id="accumulation-time"></span>
+          <span class="text"> hrs</span>
+        </div>
+      </div>
+
     </div>
       <div class="button-container">
         <div id="edit-button" class="edit-button">Edit</div>
-
+        <!-- <a href="editTask.html" id="edit-button" class="edit-button">Edit</a> -->
+        <a href="sprint.html" id="delete-button" class="delete-button">Delete</a>
       </div>
 
  
@@ -147,6 +135,7 @@ const firebaseConfig = {
 
 // taskdetails.js (for taskdetails.html)
 const
+previousbutton = document.getElementById("previous-button"),
 FE = document.getElementById("FE"),
 BE = document.getElementById("BE"),
 API = document.getElementById("API"),
@@ -168,16 +157,21 @@ const taskStatusElement = document.getElementById("status");
 const taskTagsElement = document.getElementById("tags");
 const editbutton = document.getElementById("edit-button")
 const saveTaskButton = document.getElementById("saveTaskButton");
+// const accumulationTime = document.getElementById("accumulation-time");
 
 //----------------------------------------------get task id------------------------------------------------------------------
 const urlParams = new URLSearchParams(window.location.search);
+const sprintId = urlParams.get("sprintId");
 const taskId = urlParams.get("taskId");
 document.addEventListener("DOMContentLoaded", function () {
+  previousbutton.addEventListener("click",function(){
+    window.location.href = `sprint.html?sprintId=${sprintId}`
+  })
 
 //----------------------------------------------get data------------------------------------------------------------------
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const dataRef = ref(db, "productBacklog/" + taskId);
+    const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
 
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
@@ -204,7 +198,8 @@ function displayTaskDetails(savedTasks){
             "taskStage": savedTasks[6],
             "taskStatus": savedTasks[7],
             "taskStoryPoints": savedTasks[8],
-            "taskTags": savedTasks[9]
+            "taskTags": savedTasks[9],
+            // "timeSpent" : savedTasks[10]
         } 
         taskNameElement.textContent = task["taskName"];
         taskDescriptionElement.textContent = task["taskDescription"];
@@ -214,6 +209,7 @@ function displayTaskDetails(savedTasks){
         taskAssigneeElement.textContent = task["taskAssignee"];
         taskStatusElement.textContent = task["taskStatus"];
         category.textContent = task["taskCategory"];
+        // accumulationTime.textContent = task["timeSpent"];
         try{
             task["taskTags"].forEach((taskTag)=>{
                 if (taskTag == null){
@@ -239,7 +235,7 @@ function displayTaskDetails(savedTasks){
 
     editbutton.addEventListener("click",function(event){
         event.preventDefault()
-        window.location.href=`edittask.html?taskId=${taskId}`
+        window.location.href=`edittask.html?sprintId=${sprintId}&taskId=${taskId}`
     })
 });
 </script>

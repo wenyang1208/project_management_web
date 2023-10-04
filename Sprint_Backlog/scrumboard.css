@@ -1,0 +1,208 @@
+body {
+    background-color: #A8CAEA;
+    padding: 20px;
+    }
+    
+    
+    .white-frame{
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    }
+    
+    
+    .light-blue-frame {
+    background-color: #C5DBF5;
+    padding: 20px;
+    margin: 10px;
+    }
+    
+    
+    .light-blue-card-frame {
+    background-color: #C5DBF5;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 15px;
+    }
+    
+    
+    .dark-blue-frame {
+    background-color: #6589AA;
+    padding: 20px;
+    margin: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+    }
+    .pink-frame {
+    background-color: #E8CACA;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    }
+    .green-frame {
+    background-color: #b5dbaf;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    }
+    .flex {
+    display: flex;
+    }
+    .row {
+    flex-direction: row;
+    }
+    .col {
+    flex-direction: column;
+    }
+    
+    
+    .vertical-scroll {
+    display: inline-flex;
+    gap: 10px;
+    }
+    
+    
+    
+    
+    .card-views {
+    display: grid;
+    gap: 10px;
+    }
+    
+    
+    .previous-page {
+    position: relative;
+    display: inline;
+    width: 5%;
+    padding: 3px;
+    top: 5px;
+    }
+    
+    
+    .header-menu-container {
+    display: flex;
+    align-items: center;
+    }
+    header {
+    margin-left: 40px;
+    }
+    
+    
+    
+    
+    .button-container {
+    text-align: right;
+    margin-top: 5px;
+    }
+    
+    
+    .add-button {
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 19px;
+    margin: 5px;
+    width: 100%;
+    text-align: center;
+    line-height: center;
+    margin-left: auto;
+    display: block;
+    }
+    
+    
+    .menu-bar {
+    position: relative;
+    display: inline-block;
+    width: 5%;
+    padding: 3px;
+    z-index: 2;
+    }
+    
+    
+    
+    
+    .previous-page {
+    padding: 10px;
+    }
+    
+    
+    
+    
+    .previous-page a {
+    background-color: none;
+    color: none;
+    border:none;
+    cursor: pointer;
+    position: inline;
+    }
+    
+    
+    
+    
+    .menu-bar button {
+    background-color: gray;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    }
+    
+    
+    .menu-items {
+    display: none;
+    position: absolute;
+    background-color: gray;
+    padding: 5px;
+    }
+    
+    
+    .menu-items a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    }
+    
+    
+    .menu-bar:hover .menu-items {
+    display: block;
+    }
+    
+    
+    
+    
+    .card {
+    position: relative;
+    border: 1px solid #E3F6FC;
+    padding: 10px;
+    margin: 10px;
+    }
+    .cardview {
+    background-color: #E3F6FC;
+    border: 1px solid #E3F6FC;
+    padding: 100px;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    margin-bottom: 10px;
+    }
+    
+    
+    .cardview a {
+    text-decoration: none;
+    color: black;
+    }
+    
+    
+    .task-name {
+    font-size: 20px;
+    font-weight: bold;
+    }
+    
+    
+    
+    
+    
+    
+    

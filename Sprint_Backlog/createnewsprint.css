@@ -1,5 +1,5 @@
 body {
-  background-color: #A8CAEA;
+  background-color: white;
   padding: 20px;
 }
 
@@ -12,7 +12,7 @@ margin: 10px;
 display: flex;
 flex-direction: row;
 }
-.task-frame{
+.sprint-frame{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,7 +36,7 @@ flex-wrap:wrap;
 justify-content: space-between;
 }
 
-.taskview {
+.sprintview {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); /* Adjust column layout as needed */
@@ -71,35 +71,11 @@ justify-content: space-between;
   color: black;
 }
 
-.task-name {
+.sprint-name {
   font-size: 20px;
   font-weight: bold;
 }
 
-.priority, .story-points {
-  font-size: 16px;
-  font-weight: normal;
-}
-
-.tags-container {
-  display: flex;
-  flex-direction: column;
-  align-items:end;
-}
-
-
-.tags {
-  background-color: #4472c4; 
-  color: white;
-  width: 70px;
-  height: 20px;
-  text-align:center;
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
 
 
 .menu-bar {
@@ -153,7 +129,7 @@ display: block;
   margin-top: 5px; 
 }
 
-.edit-button, .delete-button, .save-button,.tag-button {
+.discard-button {
   background-color: darkblue;
   color: white;
   text-decoration: none;
@@ -161,107 +137,28 @@ display: block;
   cursor: pointer;
   font-size: 16px;
   margin: 5px;
-  width: 40px;
+  width: 50px;
   text-align: center;
   line-height: center; 
   margin-left: auto;
   display: block;
 }
 
-
-.tags.tags1{
-  background-color: #AF4A93; /*Frontend*/
-  color: black;
-  display: none;
+.save-button {
+  background-color: darkblue;
+  color: white;
+  text-decoration: none;
+  padding: 5px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+  width: 100px;
+  text-align: center;
+  line-height: center; 
+  margin-left: auto;
+  display: block;
 }
 
-.tags.tags1::before {
-  content: "FrontEnd"; 
-}
-
-.tags.tags2{
-  background-color: #EE8306; /*Backend*/
-  color: black;
-  display: none;
-}
-
-.tags.tags2::before {
-  content: "BackEnd"; 
-}
-
-.tags.tags3{
-  background-color: #DFCC22; /*API*/
-  color: black;
-  display: none;
-}
-
-.tags.tags3::before {
-  content: "API"; 
-  
-}
-
-.tags.tags4{
-  background-color: #3EC133; /*Database*/
-  color: black;
-  display: none;
-}
-.tags.tags4::before {
-  content: "Database";
-}
-
-.tags.tags5{
-  background-color: #7eb0fa; /*Framework*/
-  color: black;
-  display: none;
-}
-
-.tags.tags5::before {
-  content: "Framework"; 
-}
-
-.tags.tags6{
-  background-color: #9747FF; /*Testing*/
-  color: black;
-  display: none;
-}
-
-.tags.tags6::before {
-  content: "Testing";
-}
-
-.tags.tags7{
-  background-color: #959AA1; /*UI*/
-  color: black;
-  display: none;
-}
-
-.tags.tags7::before {
-  content: "UI"; 
-}
-
-.tags.tags8{
-  background-color: #964B00; /*UX*/
-  color: black;
-  display: none;
-}
-
-.tags.tags8::before {
-  content: "UX"; 
-}
-
-
-.task-description {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-self: start;
-}
-.description {
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #d9d9d9;
-  border:none;
-}
 .text {
   font-family: arial, helvetica, sans-serif;
 }
@@ -327,61 +224,17 @@ select:focus option {
   cursor: default; /* Prevents the cursor from changing on hover */
   pointer-events: none; /* Prevents interaction with the input field */
 }
-.tag1,.tag2,.tag3,.tag4,.tag5,.tag6,.tag7,.tag8 {
-  text-align:left;
-  background-color: #222b35;
-  cursor: pointer;
-}
-.tag1 {
-  color: #959AA1;
-}
-.tag2 {
-  color: #FFBF00;
-}
-.tag3 {
-  color: #FFFF00;
-}
-.tag4 {
-  color: #92d051;
-}
-.tag5 {
-  color: #06b0f0;
-}
-.tag6 {
-  color: #5a2e81;
-}
-.tag7 {
-  color: white;
-}
-.tag8 {
-  color: #AA7942;
-}
-.tag1,.tag2,.tag3,.tag4,.tag5,.tag6,.tag7,.tag8 {
-  border: none;
-  width: 200px;
-  height: 30px;
-  text-decoration: none;
-  font-size: 16px;
-  position: relative;
-  display: block;
-}
-.tag-bar {
-  position: relative;
-  align-items: end;
-}
-.tag-menu {
-  display: none;
-  position: relative;
-}
-.tag-bar:hover .tag-menu {
-  display: flex;
-  flex-direction: column;
-  column-gap: 0px;
-  align-items: end;
-  position: relative;
+
+.statustitle {
+  font-size: 20px;
+
 }
 
-.task-name {
+.statusoptions {
+  font-size: 17px;
+}
+
+.sprint-name {
   width: 100%;
   display: inline-block;
   flex-direction: column;
@@ -396,3 +249,6 @@ input[type=text] {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
+
+

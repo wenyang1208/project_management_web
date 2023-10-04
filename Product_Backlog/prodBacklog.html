@@ -8,23 +8,31 @@
 
   <div class="white-frame">
 
-    <div class="menu-bar">
-      <button id="menu-button"><img src="menubar.png" width="45%" height="45%"></button>
-      <div class="menu-items" id="menu-items">
-          <a href="prodBacklog.html">Product backlog</a>
-          <a href="#">Scrumboard</a>
-          <a href="#">Team management</a>
-          <a href="#">Profile</a>
-          <a href="#">Reset password</a>
-          <a href="#">Log out</a>
+    <div class="header-menu-container">
+      <div class="menu-bar">
+        <button id="menu-button"><img src="menubar.png" width="45%" height="45%"></button>
+        <div class="menu-items" id="menu-items">
+            <a href="prodBacklog.html">Product backlog</a>
+            <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
+            <a href="#">Team management</a>
+            <a href="#">Profile</a>
+            <a href="#">Reset password</a>
+            <a href="#">Log out</a>
+        </div>
       </div>
+      
+      <header>
+        <h1>Product Backlog</h1>
+      </header>
+
+      
     </div>
     
     <br>
     <main id="main" class="flex row">
     <div class="card-views" id="card-views-container">
     
-      <div class="cardview" id="task1">
+      <!-- <div class="cardview" id="task1">
         <a href="task.html">
           <div class="task-name">Task 1</div>
           <div class="priority">Priority: High</div>
@@ -78,17 +86,17 @@
             <span class="checkmark"></span>
           </label>
         </a>
-      </div>
+      </div> -->
 
     </div>
 
     <sideBar id="sideBar" class="flex col">
       <div class="sort-container">
         <button class="sort">Sort</button>
-        <button class="sort1">Newest to Oldest</button>
-        <button class="sort2">Oldest to Newest</button>
-        <button class="sort3">Low to Urgent</button>
-        <button class="sort4">Urgent to Low</button>
+        <button class="sort1" id="Newest-To-Oldest" value="Newest-To-Oldest">Newest to Oldest</button>
+        <button class="sort2" id="Oldest-To-Newest" value="Oldest-To-Newest">Oldest to Newest</button>
+        <button class="sort3" id="Low-To-Urgent" value="Low-To-Urgent">Low to Urgent</button>
+        <button class="sort4" id="Urgent-To-Low" value="Urgent-To-Low">Urgent to Low</button>
       </div>
 
       <div class = "tag-container">
@@ -109,31 +117,246 @@
 
       <div class="button-container">
         <a href="addtask.html" id="add-button" class="add-button">Add</a>
-        <a href="#" id="delete-button" class="delete-button">Delete</a>        
+        <div id="delete-button" class="delete-button">Delete</div>        
       </div>
-      <!-- Testing purposes -->
-      <button id="clearTasksButton">Clear All</button>
-
-
   </div>
 
 
-  <script src="deleteTask.js">
-    // document.addEventListener("DOMContentLoaded", function () {
-    //   const deleteButton = document.getElementById("delete-button");
-    //   const checkboxes = document.querySelectorAll(".custom-checkbox");
-  
-    //   deleteButton.addEventListener("click", function (e) {
-    //     e.preventDefault(); // Prevent the default behavior of the anchor tag
-    //     checkboxes.forEach(function (checkbox) {
-    //       checkbox.style.display = "block"; // Set display to "block" to show the checkboxes
-    //     });
-    //   });
-    // });
   </script>
-  <script src="sortCardView.js"></script>
-  <script src="taskManager.js"></script>
-  <script src="filterCardViews.js"></script>
+  <script type="module">
+       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+    authDomain: "project-2782373696466964042.firebaseapp.com",
+    databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "project-2782373696466964042",
+    storageBucket: "project-2782373696466964042.appspot.com",
+    messagingSenderId: "971400388443",
+    appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+};
+
+// taskManager.js for productBacklog.html
+const addTaskButton = document.getElementById("add-button");
+const taskList = document.getElementById("card-views-container");
+const NewToOld = document.getElementById("Newest-To-Oldest")
+const OldToNew = document.getElementById("Oldest-To-Newest")
+const UrgentToLow = document.getElementById("Urgent-To-Low")
+const LowToUrgent = document.getElementById("Low-To-Urgent")
+const savedTasks = [];
+const originalTasks = [];
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const app = initializeApp(firebaseConfig);
+
+    const db = getDatabase(app);
+    const que = query(ref(db, "productBacklog/"), orderByChild("dateAdded"));
+    get(que).then((snapshot) => {
+        if (snapshot.exists()) {
+            snapshot.forEach((childSnapshot) => {
+                const childData = childSnapshot.val();
+                savedTasks.push(childData)
+                originalTasks.push(childData)
+            });
+    }}
+    
+    )
+    .then(() => {console.log(savedTasks)})
+    .then(() => displayTasks(savedTasks))
+    .catch((error) => {
+        console.error("Error getting data:", error);
+    });
+    console.log(savedTasks)
+    })
+
+
+    // DISPLAY
+    function displayTasks(taskData) {
+        if (taskList !== null){
+            taskList.innerHTML = "";
+            taskData.forEach(function (task, index) {
+    
+                const taskCard = document.createElement("div");
+                taskCard.classList.add("cardview");
+                taskCard.id = `${index}`;
+    
+    
+                const taskName = document.createElement("div");
+                taskName.className = "task-name";
+                taskName.textContent = task.taskName;
+    
+                const priority = document.createElement("div");
+                priority.className = "priority";
+                priority.textContent = `Priority: ${task.taskPriority}`;
+    
+    
+                const storyPoints = document.createElement("div");
+                storyPoints.className = "story-points";
+                storyPoints.textContent = `Story Points: ${task.taskStoryPoints}`;
+
+
+                // testing displaying tags
+                // const tags = document.createElement("div");
+                // tags.className = "tags";
+                // tags.textContent = `Tags: ${task.taskTags}`;
+
+                const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
+                const tagsContainer = document.createElement("div");
+                tagsContainer.className = "tags-container";
+                if (typeof(task.taskTags) !== "undefined"){
+                    task.taskTags.forEach((tag) => {
+                        if (tagsPair.includes(tag)){
+                            const tagElement = document.createElement("div");
+                            tagElement.classList.add("tags",`tags${tagsPair.indexOf(tag)+1}`);
+                            tagsContainer.appendChild(tagElement);
+                        }
+                    });   
+                }
+
+                const deletecheckbox = document.createElement("label")
+                deletecheckbox.classList.add("custom-checkbox")
+                deletecheckbox.classList.add("hidden-checkbox")
+                const checkboxinput = document.createElement("input")
+                checkboxinput.classList.add("delete-checkbox")
+                checkboxinput.type = "checkbox"
+                const checkmark = document.createElement("span")
+                checkmark.classList.add("checkmark")
+                deletecheckbox.appendChild(checkboxinput)
+                deletecheckbox.appendChild(checkmark)
+    
+                taskCard.appendChild(taskName)
+                taskCard.appendChild(priority)
+                taskCard.appendChild(storyPoints)
+                taskCard.appendChild(tagsContainer)
+                taskCard.appendChild(deletecheckbox)
+                taskCard.addEventListener("click",function (){
+                window.location.href = `task.html?taskId=${taskName.textContent}`})
+                taskList.appendChild(taskCard);    
+            });
+        }
+        return taskData;
+    }
+
+
+    // ADD
+    if (addTaskButton !== null){    
+        addTaskButton.addEventListener("click", function () {
+        window.location.href = "addtask.html"; 
+    });
+}
+
+
+
+
+    // SORTING
+    const displayPriority = {
+        "Low":1,
+        "Medium":2,
+        "Important":3,
+        "Urgent":4
+    }
+
+    if (NewToOld !== null && OldToNew !== null && UrgentToLow !== null && LowToUrgent !== null){
+    NewToOld.addEventListener("click",function(){
+        savedTasks.sort((a, b) => {
+            const dateA = new Date(a.dateAdded);
+            const dateB = new Date(b.dateAdded);
+            return dateB - dateA;
+        });
+        displayTasks(savedTasks)
+        savedTasks.reverse()
+    })
+    OldToNew.addEventListener("click",function(){
+        originalTasks.sort((a, b) => {
+            const dateA = new Date(a.dateAdded);
+            const dateB = new Date(b.dateAdded);
+            return dateA - dateB;
+        });
+        displayTasks(originalTasks)
+    })
+
+    UrgentToLow.addEventListener("click",function(){
+        const newTaskArray = savedTasks.sort((a,b)=>{
+            const priorityA = displayPriority[a.taskPriority]
+            const priorityB = displayPriority[b.taskPriority]
+            return priorityB - priorityA
+        })
+        displayTasks(newTaskArray)
+    })
+    LowToUrgent.addEventListener("click",function(){
+        const newTaskArray = savedTasks.sort((a,b)=>{
+            const priorityA = displayPriority[a.taskPriority]
+            const priorityB = displayPriority[b.taskPriority]
+            return priorityA - priorityB
+        })
+        displayTasks(newTaskArray)
+    })
+};
+
+// export const displayedTasks = displayTasks(savedTasks);
+
+
+  </script>
+  <script src="filter.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getDatabase, ref, set, get, child, query, orderByChild,remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+const firebaseConfig2 = {
+    apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+    authDomain: "project-2782373696466964042.firebaseapp.com",
+    databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "project-2782373696466964042",
+    storageBucket: "project-2782373696466964042.appspot.com",
+    messagingSenderId: "971400388443",
+    appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+};
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButton = document.getElementById("delete-button");
+    var display = false;
+    const app = initializeApp(firebaseConfig2);
+
+    const db = getDatabase(app);
+    deleteButton.addEventListener("click", function (e) {
+      const checkboxes = document.querySelectorAll(".custom-checkbox");
+      e.preventDefault(); // Prevent the default behavior of the anchor tag
+      if (display==false){
+      checkboxes.forEach(function (checkbox) {
+        checkbox.style.display = "block"; // Set display to "block" to show the checkboxes
+      });
+    display = true  
+    }
+      else {
+        checkboxes.forEach(function (checkbox) {
+          checkbox.style.display = "none"
+      })
+    display = false
+  }
+
+  
+      // Add a click event listener to the "Delete" button on the task cards
+      checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener("click", function (e) {
+          e.stopPropagation(); // Prevent card click event from firing
+  
+          // Check if the checkbox is checked
+          if (checkbox.querySelector("input[type='checkbox']").checked) {
+            // Remove the task card
+            const taskCard = checkbox.closest(".cardview");
+            if (taskCard) {
+              const taskName = taskCard.children[0].textContent;
+              console.log(taskName)
+              const taskToRemove = ref(db,`productBacklog/${taskName}`);
+              remove(taskToRemove)
+              taskCard.remove()
+            }
+          }
+        });
+      });
+    });
+  });
+  </script>
+
 
 </body>
 </html>

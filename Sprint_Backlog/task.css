@@ -21,6 +21,11 @@ body {
     padding:20px;
     margin: 20px, 10px;
 }
+.previous-button{
+  display: inline;
+  position: relative;
+  cursor: pointer;
+}
 .flex {
   display: flex;
 }
@@ -172,7 +177,7 @@ main {
 .tags.tags1{
     background-color: #AF4A93; /*Frontend*/
     color: black;
-    display: none; 
+    display: none;
   }
 
 
