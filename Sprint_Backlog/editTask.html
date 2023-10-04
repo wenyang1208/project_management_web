@@ -213,7 +213,7 @@ const notStarted = document.getElementById("Not Started"),
 const deletebutton = document.getElementById("delete-button")
 const savebutton = document.getElementById("save-button");
 const addbutton = document.getElementById("add-button");
-const accTime = document.getElementById("accumulation-time");
+// const accTime = document.getElementById("accumulation-time");
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
@@ -257,7 +257,7 @@ function displayTaskDetails(savedTasks){
         storyPointsElement.value = task["taskStoryPoints"];
         taskStageElement.value = task["taskStage"];
         taskAssigneeElement.value = task["taskAssignee"];
-        accTime.textContent = task["timeSpent"];
+        // accTime.textContent = task["timeSpent"];
         if (task["taskStatus"] == "Not Started"){
           notStarted.checked = true
         }
@@ -350,7 +350,7 @@ savebutton.addEventListener("click",function(event){
       taskCategory : document.querySelector('input[name="category"]:checked').value,
       taskDescription : document.querySelector("#task-description").value,
       taskTags : taskTag,
-      timeSpent : accTime.textContent
+      // timeSpent : accTime.textContent
     })
 
     .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});

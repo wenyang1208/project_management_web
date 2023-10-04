@@ -157,7 +157,7 @@ const taskStatusElement = document.getElementById("status");
 const taskTagsElement = document.getElementById("tags");
 const editbutton = document.getElementById("edit-button")
 const saveTaskButton = document.getElementById("saveTaskButton");
-const accumulationTime = document.getElementById("accumulation-time");
+// const accumulationTime = document.getElementById("accumulation-time");
 
 //----------------------------------------------get task id------------------------------------------------------------------
 const urlParams = new URLSearchParams(window.location.search);
@@ -199,7 +199,7 @@ function displayTaskDetails(savedTasks){
             "taskStatus": savedTasks[7],
             "taskStoryPoints": savedTasks[8],
             "taskTags": savedTasks[9],
-            "timeSpent" : savedTasks[10]
+            // "timeSpent" : savedTasks[10]
         } 
         taskNameElement.textContent = task["taskName"];
         taskDescriptionElement.textContent = task["taskDescription"];
@@ -209,7 +209,7 @@ function displayTaskDetails(savedTasks){
         taskAssigneeElement.textContent = task["taskAssignee"];
         taskStatusElement.textContent = task["taskStatus"];
         category.textContent = task["taskCategory"];
-        accumulationTime.textContent = task["timeSpent"];
+        // accumulationTime.textContent = task["timeSpent"];
         try{
             task["taskTags"].forEach((taskTag)=>{
                 if (taskTag == null){
