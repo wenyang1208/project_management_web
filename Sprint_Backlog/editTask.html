@@ -214,116 +214,110 @@ const deletebutton = document.getElementById("delete-button")
 const savebutton = document.getElementById("save-button");
 const addbutton = document.getElementById("add-button");
 const accTime = document.getElementById("accumulation-time");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const logTimeSpentArray = [];
+let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
-
+//----------------------------------------------loading------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
   const savedTasks = []
   var task = {}
 
-    get(dataRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val())
-            console.log(Object.keys(snapshot.val()))
-            const data = snapshot.val()
-            task = data
-            console.log(task)
-            snapshot.forEach((childSnapshot) => {
-                const childData = childSnapshot.val();
-                savedTasks.push(childData)
-            });
-    }}
-    )
-    .then(()=> console.log(savedTasks))
-    .then(()=> displayTaskDetails(task));
+  get(dataRef).then((snapshot) => {
+      if (snapshot.exists()) {
+          console.log(snapshot.val())
+          console.log(Object.keys(snapshot.val()))
+          const data = snapshot.val()
+          task = data
+          console.log(task)
+          snapshot.forEach((childSnapshot) => {
+              const childData = childSnapshot.val();
+              savedTasks.push(childData)
+          });
+  }}
+  )
+  .then(()=> displayTaskDetails(task));
 
 //----------------------------------------------display task detail------------------------------------------------------------------
-function displayTaskDetails(savedTasks){
-    if (taskId !== null && taskId.length >= 0) {
-        const task = {
-            "dateAdded": savedTasks["dateAdded"],
-            "taskAssignee": savedTasks["taskAssignee"],
-            "taskCategory": savedTasks["taskCategory"],
-            "taskDescription": savedTasks["taskDescription"],
-            "taskName": savedTasks["taskName"],
-            "taskPriority": savedTasks["taskPriority"],
-            "taskStage": savedTasks["taskStage"],
-            "taskStatus": savedTasks["taskStatus"],
-            "taskStoryPoints": savedTasks["taskStoryPoints"],
-            "taskTags": savedTasks["taskTags"],
-            "accumulationOfTime":savedTasks["accumulationOfTime"]
-        } 
-        taskNameElement.textContent = task["taskName"];
-        taskDescriptionElement.textContent = task["taskDescription"];
-        taskPriorityElement.value = task["taskPriority"];
-        storyPointsElement.value = task["taskStoryPoints"];
-        taskStageElement.value = task["taskStage"];
-        taskAssigneeElement.value = task["taskAssignee"];
-        accTime.textContent = task["accumulationOfTime"]
-        if (task["taskStatus"] == "Not Started"){
-          notStarted.checked = true
-        }
-        else if (task["taskStatus"] == "In Progress"){
-          inProgress.checked = true
-        }
-        else if (task["taskStatus"] == "Completed"){
-          completed.checked=true
-        }
-        if (task["taskCategory"] == "Story"){
-          story.checked = true
-        }
-        else if (task["taskCategory"] == "Bug"){
-          bug.checked = true
-        }
-        try{
-            task["taskTags"].forEach((taskTag)=>{
-                if (taskTag == null){
-                  return;
-                }
-                else {
-                  const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
-                    if (tagsPair.includes(taskTag)){
-                      tagDisplayList[tagsPair.indexOf(taskTag)].style.display = "block";
-                      tagOptionList[tagsPair.indexOf(taskTag)].checked = true
-                          }
-                      };   
-      
-                        })
-                    
-                
-              
-        }catch{console.log("Empty")}
-    } else {
-        taskNameElement.textContent = "Task not found.";
+  function displayTaskDetails(savedTasks){
+      if (taskId !== null && taskId.length >= 0) {
+          const task = {
+              "dateAdded": savedTasks["dateAdded"],
+              "taskAssignee": savedTasks["taskAssignee"],
+              "taskCategory": savedTasks["taskCategory"],
+              "taskDescription": savedTasks["taskDescription"],
+              "taskName": savedTasks["taskName"],
+              "taskPriority": savedTasks["taskPriority"],
+              "taskStage": savedTasks["taskStage"],
+              "taskStatus": savedTasks["taskStatus"],
+              "taskStoryPoints": savedTasks["taskStoryPoints"],
+              "taskTags": savedTasks["taskTags"],
+              "accumulationOfTime":savedTasks["accumulationOfTime"]
+          } 
+          taskNameElement.textContent = task["taskName"];
+          taskDescriptionElement.textContent = task["taskDescription"];
+          taskPriorityElement.value = task["taskPriority"];
+          storyPointsElement.value = task["taskStoryPoints"];
+          taskStageElement.value = task["taskStage"];
+          taskAssigneeElement.value = task["taskAssignee"];
+          accTime.textContent = task["accumulationOfTime"]
+          if (task["taskStatus"] == "Not Started"){
+            notStarted.checked = true
+          }
+          else if (task["taskStatus"] == "In Progress"){
+            inProgress.checked = true
+          }
+          else if (task["taskStatus"] == "Completed"){
+            completed.checked=true
+          }
+          if (task["taskCategory"] == "Story"){
+            story.checked = true
+          }
+          else if (task["taskCategory"] == "Bug"){
+            bug.checked = true
+          }
+          try{
+              task["taskTags"].forEach((taskTag)=>{
+                  if (taskTag == null){
+                    return;
+                  }
+                  else {
+                    const tagsPair = ['Frontend','Backend', 'API','Database','Framework','Testing','UI','UX']
+                      if (tagsPair.includes(taskTag)){
+                        tagDisplayList[tagsPair.indexOf(taskTag)].style.display = "block";
+                        tagOptionList[tagsPair.indexOf(taskTag)].checked = true
+                            }
+                        };   
+                          })
+          }catch{console.log("Empty")}
+      } else {
+          taskNameElement.textContent = "Task not found.";
+      }
+  }
+// ------------------------------------------ add button for log time spent------------------------------------------------------------------------
+  addbutton.addEventListener("click",function(){
+    const date1 = document.getElementById("date-time-spent")
+    const startTime = document.getElementById("start-time-spent");
+    const endTime = document.getElementById("end-time-spent");
+    const timeSpent1 = parseFloat(endTime.value) - parseFloat(startTime.value);
+    if (timeSpent1 >= 0){
+      const logTimeSpent = {
+      date: date1.value,
+      timeSpent: timeSpent1
+      }
+      logTimeSpentArray.push(logTimeSpent)
+      accTime.textContent = parseFloat(accTime.textContent) + timeSpent1;
     }
-}
-
-const logTimeSpentArray = []
- addbutton.addEventListener("click",function(){
-  const date1 = document.getElementById("date-time-spent")
-   console.log(date1.value);
-   const startTime = document.getElementById("start-time-spent");
-   const endTime = document.getElementById("end-time-spent");
-   const timeSpent1 = parseFloat(endTime.value) - parseFloat(startTime.value);
-   if (timeSpent1 >= 0){
-   const logTimeSpent = {
-    date: date1.value,
-    timeSpent: timeSpent1
-   }
-   logTimeSpentArray.push(logTimeSpent)
-   accTime.textContent = parseFloat(accTime.textContent) + timeSpent1;
-  }
-  else{
-    alert('Please enter a valid input')
-  }
-   date1.value = ""
-   startTime.value = ""
-   endTime.value = ""
+    else{
+      alert('Please enter a valid input')
+    }
+    date1.value = ""
+    startTime.value = ""
+    endTime.value = ""
  })
-//--------------------------------------------------story point-----------------------------------------------------
+//--------------------------------------------------increment/decrement button-----------------------------------------------------
 increment.addEventListener("click",function(){
   if (storyPointsElement.value != storyPointsElement.max){
     storyPointsElement.value = (parseInt(storyPointsElement.value)+1).toString()
@@ -358,18 +352,18 @@ savebutton.addEventListener("click",function(event){
         })
 
   tags = tags.filter(tag => taskTag.includes(tag));
+  
   const abc = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent`)
   const newLogTime = push(abc)
   logTimeSpentArray.forEach((logTimeSpent)=>{
-    set(newLogTime,logTimeSpent)
+    set(newLogTime,logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
   })
-//--------------------------------------------------update data-----------------------------------------------------
 
-const status = document.querySelector('input[name="status"]:checked').value
+  const status = document.querySelector('input[name="status"]:checked').value
   if (status == "Completed"){
     get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
       if (task["taskStatus"] == "Completed"){
-        update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
+        update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with accumulation of time
     {
       taskAssignee :document.querySelector("#AssigneeList").value,
       taskPriority :document.querySelector("#priorities").value,
@@ -384,27 +378,28 @@ const status = document.querySelector('input[name="status"]:checked').value
       }
       else {
         const date = new Date()
-    const year = date.toLocaleString('en-GB',{year:"numeric"})
-    console.log(year)
-    const month = date.toLocaleString('en-GB',{month:"2-digit"})
-    const day = date.toLocaleString('en-GB',{day:"2-digit"})
-    const date_ = [year,month,day].join("-")
-    console.log(date_)
-    update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
-    {
-      taskAssignee :document.querySelector("#AssigneeList").value,
-      taskPriority :document.querySelector("#priorities").value,
-      taskStage : document.querySelector("#SOT").value,
-      taskStoryPoints : document.querySelector("#storyPoints").value,
-      taskStatus : document.querySelector('input[name="status"]:checked').value,      
-      taskCategory : document.querySelector('input[name="category"]:checked').value,
-      taskDescription : document.querySelector("#task-description").value,
-      taskTags : taskTag,
-      accumulationOfTime: accTime.textContent,
-      dateCompleted: date_
-    })
+        const year = date.toLocaleString('en-GB',{year:"numeric"})
+        console.log(year)
+        const month = date.toLocaleString('en-GB',{month:"2-digit"})
+        const day = date.toLocaleString('en-GB',{day:"2-digit"})
+        const date_ = [year,month,day].join("-")
+        console.log(date_)
+        update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with date completed if completed
+        {
+          taskAssignee :document.querySelector("#AssigneeList").value,
+          taskPriority :document.querySelector("#priorities").value,
+          taskStage : document.querySelector("#SOT").value,
+          taskStoryPoints : document.querySelector("#storyPoints").value,
+          taskStatus : document.querySelector('input[name="status"]:checked').value,      
+          taskCategory : document.querySelector('input[name="category"]:checked').value,
+          taskDescription : document.querySelector("#task-description").value,
+          taskTags : taskTag,
+          accumulationOfTime: accTime.textContent,
+          dateCompleted: date_
+        })
       }
-    }).then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
+    })
+    .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
 
   }
   else {
@@ -419,12 +414,15 @@ const status = document.querySelector('input[name="status"]:checked').value
       taskDescription : document.querySelector("#task-description").value,
       taskTags : taskTag,
       accumulationOfTime: accTime.textContent
-    }).then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
+    })
+    .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
   }
 
     //.then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
 
 })
+
+//--------------------------------------------------back button-----------------------------------------------------
 previousPage.addEventListener("click",function(){
   window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`
 })
