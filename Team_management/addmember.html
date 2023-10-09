@@ -50,5 +50,53 @@
         
     </div>
     
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+  const firebaseConfig = {
+      apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+      authDomain: "project-2782373696466964042.firebaseapp.com",
+      databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "project-2782373696466964042",
+      storageBucket: "project-2782373696466964042.appspot.com",
+      messagingSenderId: "971400388443",
+      appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+  };
+
+  document.addEventListener("DOMContentLoaded",function(){
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const username = document.getElementById("create_new_desc");
+    const email = document.getElementById("create_new_email");
+    const password = document.getElementById("create_new_pwd");
+
+  // ------------------------------------------- Confirm button------------------------------------------------------------------
+
+    document.getElementById("confirm-button").addEventListener('click', function(e){
+      if(username.value !== "" && email.value !== "" && password.value !== "")
+      {
+        set(ref(db, 'addMember/' + username.value),
+        {
+          username : username.value,
+          email : email.value,
+          password : password.value,
+        })
+        .then(() => {alert(username.value + ' is added as the new member.')});
+        //.then(() => {window.location.href = ''})
+      }else{
+        alert("Please fill in all the member's details.");
+      }
+    })
+
+  // ------------------------------------------- Cancel button------------------------------------------------------------------
+
+    document.getElementById("cancel-button").addEventListener('click', function(e){
+        window.location.href = '../Product_Backlog/prodBacklog.html';
+      }) 
+
+  })
+
+</script>
 </body>
 </html>
