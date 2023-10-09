@@ -20,6 +20,7 @@ body {
   display: flex;
   flex-direction: row;
 }
+
 .task-frame{
     display: flex;
     flex-direction: column;
