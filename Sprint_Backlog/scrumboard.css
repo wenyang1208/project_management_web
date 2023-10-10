@@ -199,7 +199,81 @@ body {
     font-size: 20px;
     font-weight: bold;
     }
+
+
+    /* Adjust the styles to position the custom checkbox at the top-right corner */
+.custom-checkbox {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    float: right; /* Float it to the right */
+    margin-right: 10px; /* Add margin for spacing */
+  }
+  
+  .hidden-checkbox {
+    display: none;
+  }
+  
+  .custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+  
+  .custom-checkbox input:checked + .checkmark {
+    background-color: #2196F3;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .custom-checkbox input:checked + .checkmark:after {
+    display: block;
+  }
+  
+  .custom-checkbox .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
     
+
+  .button-container {
+    text-align: right; 
+    margin-top: 5px; 
+  }
+  
+.delete-button {
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+    width: 40px;
+    text-align: center;
+    line-height: center; 
+    margin-left: auto;
+    display: block;
+}
     
     
     
