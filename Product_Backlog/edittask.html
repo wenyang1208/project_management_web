@@ -308,6 +308,23 @@ previousPage.addEventListener("click",function(){
 })
 }
 );
+
+
+//--------------------------------------------------priority colour-----------------------------------------------------
+const prioritiesSelect = document.getElementById("priorities");
+
+    // Function to change the color of the select element
+    function changeSelectColor() {
+      const selectedOption = prioritiesSelect.options[prioritiesSelect.selectedIndex];
+      const color = window.getComputedStyle(selectedOption).color;
+      prioritiesSelect.style.color = color;
+    }
+
+    // Add an event listener to update the select element color on change
+    prioritiesSelect.addEventListener("change", changeSelectColor);
+
+    // Call the changeSelectColor function initially to set the initial color
+    changeSelectColor();
 </script>
 </body>
 </html>
