@@ -8,6 +8,15 @@ body {
   padding: 20px;
   margin: 10px;
 }
+.green-frame {
+  background-color: #b5dbaf;
+  margin: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+.green-frame h2 {
+  margin-left: 20px; /* Add spacing between the heading and the green frame's border */
+}
 .content {
   display: flex;
   flex-direction: row;
