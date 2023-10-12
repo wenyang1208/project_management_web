@@ -64,7 +64,7 @@
 
       <div class="button-container">
         <a href="sprint.html"  id="add-button-test" class="add-button">Add</a>
-        <a href="sprint.html" id="discard-button-test" class="discard-button">Discard</a>        
+        <a href="#" id="discard-button-test" class="discard-button">Discard</a>        
       </div>
 
 
@@ -262,15 +262,21 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if (discardButton !== null) {
         discardButton.addEventListener("click", function () {
+            
             console.log("Discard button clicked");
-            selectedTasks.forEach((selectedTask) => {
-                const index = savedTasks.indexOf(selectedTask);
-                if (index !== -1) {
-                    savedTasks.splice(index, 1);
-                }
-            });
-            selectedTasks.length = 0;
-            displayTasks(savedTasks);
+            const urlParams = new URLSearchParams(window.location.search);
+            const sprintId = urlParams.get("sprintId");
+            const sprintURL = `sprint.html?sprintId=${sprintId}`;
+            window.location.href = sprintURL;
+
+            // selectedTasks.forEach((selectedTask) => {
+            //     const index = savedTasks.indexOf(selectedTask);
+            //     if (index !== -1) {
+            //         savedTasks.splice(index, 1);
+            //     }
+            // });
+            // selectedTasks.length = 0;
+            // displayTasks(savedTasks);
         });
     }
 
