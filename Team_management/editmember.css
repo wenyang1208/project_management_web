@@ -1,0 +1,60 @@
+body {
+    text-align: center;
+    background-color: #A8CAEA;
+  }
+  .white-frame {
+    margin: 0 auto; 
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+  }
+  .light-blue-frame {
+      background-color: lightblue;
+      padding: 20px;
+      position: relative;
+      padding: 10px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input {
+      display: block;
+      height: 40px;
+      width: 400px;
+      margin: 0 auto; 
+      margin-bottom: 5px;
+  }
+  input[type="submit"] {
+      position: absolute;
+      bottom: 0;
+      right: 10px; 
+      background-color: darkblue; 
+      color: white; 
+      border: none; 
+      padding: 5px 8px; 
+      cursor: pointer; 
+      transition: background-color 0.3s ease; 
+  }
+
+  .inputsection {
+    text-align: center;
+    
+  }
+
+  .confirm-button, .cancel-button {
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+    width: 100px;
+    text-align: center;
+    line-height: center; 
+    margin-left: auto;
+    display: block;
+  }
+
