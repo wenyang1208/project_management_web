@@ -82,8 +82,8 @@
           email : email.value,
           password : password.value,
         })
-        .then(() => {alert(username.value + ' is added as the new member.')});
-        //.then(() => {window.location.href = ''})
+        .then(() => {alert(username.value + ' is added as the new member.')})
+        .then(() => {window.location.href = 'profilepage.html'});
       }else{
         alert("Please fill in all the member's details.");
       }
