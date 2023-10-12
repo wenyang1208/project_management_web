@@ -1,0 +1,300 @@
+body {
+    background-color: #A8CAEA;
+    padding: 20px;
+    }
+    
+    
+    .white-frame{
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+    }
+    
+    
+    .light-blue-frame {
+    background-color: #C5DBF5;
+    padding: 20px;
+    margin: 10px;
+    }
+    
+    
+    .light-blue-card-frame {
+    background-color: #C5DBF5;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 15px;
+    }
+    
+    
+    .dark-blue-frame {
+    background-color: #1f4b72;
+    padding: 20px;
+    margin: 10px;
+    }
+
+    .pink-frame {
+    background-color: #E8CACA;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    }
+
+    .green-frame {
+    background-color: #b5dbaf;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    }
+    .flex {
+    display: flex;
+    }
+    .row {
+    flex-direction: row;
+    }
+    .col {
+    flex-direction: column;
+    }
+    
+    
+    .vertical-scroll {
+    display: inline-flex;
+    gap: 10px;
+    }
+    
+    
+    
+    
+    .card-views {
+    display: grid;
+    gap: 10px;
+    }
+    
+    
+    .previous-page {
+    position: relative;
+    display: inline;
+    width: 5%;
+    padding: 3px;
+    top: 5px;
+    }
+    
+    
+    .header-menu-container {
+    display: flex;
+    align-items: center;
+    }
+    header {
+    margin-left: 40px;
+    }
+    
+    
+    
+    
+    .button-container {
+    text-align: right;
+    margin-top: 5px;
+    }
+    
+    
+    .add-button {
+    background-color: darkblue;
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 19px;
+    margin: 5px;
+    width: 100%;
+    text-align: center;
+    line-height: center;
+    margin-left: auto;
+    display: block;
+    }
+    
+    
+    .menu-bar {
+    position: relative;
+    display: inline-block;
+    width: 5%;
+    padding: 3px;
+    z-index: 2;
+    }
+    
+    
+    
+    
+    .previous-page {
+    padding: 10px;
+    }
+    
+    
+    
+    
+    .previous-page a {
+    background-color: none;
+    color: none;
+    border:none;
+    cursor: pointer;
+    position: inline;
+    }
+    
+    
+    
+    
+    .menu-bar button {
+    background-color: gray;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    }
+    
+    
+    .menu-items {
+    display: none;
+    position: absolute;
+    background-color: gray;
+    padding: 5px;
+    }
+    
+    
+    .menu-items a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    }
+    
+    
+    .menu-bar:hover .menu-items {
+    display: block;
+    }
+    
+    
+    
+    
+    .card {
+    position: relative;
+    border: 1px solid #E3F6FC;
+    padding: 10px;
+    margin: 10px;
+    }
+    .cardview {
+    background-color: #E3F6FC;
+    border: 1px solid #E3F6FC;
+    padding: 100px;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    margin-bottom: 10px;
+    }
+    
+    
+    .cardview a {
+    text-decoration: none;
+    color: black;
+    }
+    
+    
+    .task-name {
+    font-size: 20px;
+    font-weight: bold;
+    }
+
+
+    .teammember {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        padding-left: 50px;
+        padding-right: 100px;
+        display: inline-flex;
+    }
+
+    .email {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        padding-left: 100px;
+        padding-right: 100px;
+        display: inline-flex;
+    }
+    
+    .managemembers {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        padding-left: 100px;
+        padding-right: 50px;
+        display: inline-flex;
+    }
+    
+    .button-container {
+        text-align: right; 
+        margin-top: 5px; 
+      }
+      
+    .view-button, .create-button, .delete-button {
+        background-color: darkblue;
+        color: white;
+        text-decoration: none;
+        padding: 5px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+        width: 180px;
+        text-align: center;
+        line-height: center; 
+        margin-left: auto;
+        display: block;
+    }
+
+    .details-frame {
+        text-decoration: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-size: 19px;
+        margin: 5px;
+        width: 70%;
+        line-height: center;
+        margin-right: auto;
+        display: block;
+    }
+
+
+    .name-input {
+        font-size: 20px;
+        padding-left: 50px;
+        padding-right: 50px ;
+        text-align: center;
+        display: inline-flex;
+    }
+
+    .email-input {
+        font-size: 20px;
+        padding-left: 180px;
+        padding-right: 50px ;
+        text-align: center;
+        display: inline-flex;
+    }
+    
+    .edit-input {
+        font-size: 20px;
+        padding-left: 130px;
+        padding-right: 100px ;
+        display: inline-flex;
+    }
+
+    .edit-button {
+        background-color: darkblue;
+        color: white;
+        text-decoration: none;
+        padding: 5px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+        width: 40px;
+        text-align: center;
+        line-height: center; 
+        margin-left: auto;
+        display: block;
+    }
