@@ -42,7 +42,7 @@
           <div class="priority">
             <span class="text">Priority: </span>
             <select name="priority" id="priorities">
-                <option value="" disabled selected>Select an option</option>
+                <option value="" style="color: #333333" disabled selected>Select an option</option>
                 <option value="Low" style="color: green;">Low</option>
                 <option value="Medium" style="color: yellow;">Medium</option>
                 <option value="Important" style="color: orange;">Important</option>
@@ -64,21 +64,21 @@
           <div class="story-points">
             <span class="text">Story Points: </span>
             <button class="decrement-button">-</button>
-            <input type="number" class="input-field" id="StoryPoints" value="0" min="1" max="10" disabled>
+            <input type="number" class="input-field" id="StoryPoints" value="1" min="1" max="10" disabled>
             <button class="increment-button">+</button>
           </div>
           <div class="status">
             <span class="text">Status: </span>
-            <input type="radio" id="Not Started" name="status" value="Not Started">
+            <input type="radio" id="Not Started" name="status" value="Not Started" checked>
             <label for="Not Started"> Not Started </label>
-            <input type="radio" id="In Progress" name="status" value="In Progress">
+            <!--<input type="radio" id="In Progress" name="status" value="In Progress">
             <label for="In Progress"> In Progress </label>
             <input type="radio" id="Completed" name="status" value="Completed">
-            <label for="Completed"> Completed</label>
+            <label for="Completed"> Completed</label>-->
           </div>
           <div class="category">
             <span class="text">Category: </span>
-            <input type="radio" id="Story" name="category" value="Story">
+            <input type="radio" id="Story" name="category" value="Story" checked>
             <label for="Story"> Story </label>
             <input type="radio" id="Bug" name="category" value="Bug">
             <label for="Bug"> Bug </label>
@@ -197,7 +197,7 @@ const
   decrement = document.getElementById("decrement"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
 
-function checkTag() {
+function displayTag() {
   tagOptionList.forEach(tag => {
     if (tag.checked == true){
       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
@@ -206,7 +206,7 @@ function checkTag() {
       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
     }
   })}
-const check = setInterval(checkTag,10)
+const check = setInterval(displayTag,10)
 
 document.getElementById("save-button").addEventListener('click', function(e){
           
@@ -260,7 +260,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
   //     selectedStatus.push(statusCheckboxes[i].value)
   // }
   if (taskName.trim() !== "" && taskAssignee!== "" && taskPriority!== "" && taskPriority!== "" && taskStage!== ""
-  && storyPointsElement!== 0 && taskStatus!== "" && taskCategory!== "" && taskDescription!== "") {
+  && storyPointsElement!== 0 && taskStatus!== "" && taskCategory!== "" && taskDescription!== "" && taskTags.length >0) {
 
     set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
     {
@@ -277,163 +277,18 @@ document.getElementById("save-button").addEventListener('click', function(e){
 
     })
     .then(() => {window.location.href = "prodBacklog.html"});
+  }else{
+    alert("Please fill out all fields!")
   }
 });
 
-// To receive the input and display it
-// const decrementButton = document.querySelector(".decrement-button");
-// const incrementButton = document.querySelector(".increment-button");
-// const 
-  // taskNameElement = document.getElementById("task-name"),
-  // taskDescriptionElement = document.getElementById("task-description"),
-  // taskPriorityElement = document.getElementById("priorities"),
-  // storyPointsElement = document.getElementById("StoryPoints"),
-  // AssigneeListElement = document.getElementById("AssigneeList"),
-
-  // radioNotStarted = document.getElementById("Not Started"),
-  // radioInProgress = document.getElementById("In Progress"),
-  // radioCompleted = document.getElementById("Completed"),
-
-  // taskStageElement = document.getElementById("SOT"),
-  // taskTagsElement = document.getElementById("tags-container"),
-  // tagsOptionsElement = document.getElementById("tag-menu"),
-  // savebutton = document.getElementById("save-button")
-  // FEoption = document.getElementById("FEoption"),
-  // BEoption = document.getElementById("BEoption"),
-  // APIoption = document.getElementById("APIoption"),
-  // DBoption = document.getElementById("DBoption"),
-  // FWoption = document.getElementById("FWoption"),
-  // TESToption = document.getElementById("TESToption"),
-  // UIoption = document.getElementById("UIoption"),
-  // UXoption = document.getElementById("UXoption"),
-  // tagOptionList = [FEoption,BEoption,APIoption,DBoption,FWoption,TESToption,UIoption,UXoption],
-  // FE = document.getElementById("FE"),
-  // BE = document.getElementById("BE"),
-  // API = document.getElementById("API"),
-  // DB = document.getElementById("DB"),
-  // FW = document.getElementById("FW"),
-  // TEST = document.getElementById("TEST"),
-  // UI = document.getElementById("UI"),
-  // UX = document.getElementById("UX"),
-  // increment = document.getElementById("increment"),
-  // decrement = document.getElementById("decrement"),
-  // tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
-  // story = document.getElementById("Story"),
-  // bug = document.getElementById("Bug")
-// decrementButton.addEventListener("click", function () {
-//   const currentValue = parseInt(storyPointsElement.value);
-//   if (currentValue > 1) {
-//     storyPointsElement.value = currentValue - 1;
-//   }
-// });
-
-// incrementButton.addEventListener("click", function () {
-//   const currentValue = parseInt(storyPointsElement.value);
-//   if (currentValue < 10) {
-//     storyPointsElement.value = currentValue + 1;
-//   }
-// });
-// function checkTag() {
-//     tagOptionList.forEach(tag => {
-//       if (tag.checked == true){
-//         tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-//       }
-//       else {
-//         tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
-//       }
-//     })}
-//   const check = setInterval(checkTag,10)
-
-document.addEventListener("DOMContentLoaded", function () {
-    const saveTaskButton = document.getElementById("save-button");
-    const taskForm = document.getElementById("taskForm")
-
-    // Click event for "Save" button
-    saveTaskButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        // Get task inputs
-        const taskName = taskNameElement.value;
-        const taskDescription = taskDescriptionElement.value;
-        const taskPriority = taskPriorityElement.value;
-        const taskStage = taskStageElement.value;
-        const taskAssignee = AssigneeListElement.value;
-        const storyPoints = storyPointsElement.value;
-        // nned modify
-        //let taskTags = taskTagsInput.value;
-        let taskTags = [];
-        tagOptionList.forEach((tag) => {
-            if (tag.checked){
-                taskTags.push(tag.value)
-            }
-        })
- 
-        let taskStatus = ""
-        // Determine and select Status
-        if (radioNotStarted.checked){
-            taskStatus = radioNotStarted.value
-        } else if (radioInProgress.checked){
-            taskStatus = radioInProgress.value
-        } else if (radioCompleted.checked){
-            taskStatus = radioCompleted.value
-        }
-        let taskCategory = ""
-        if (story.checked){
-            taskCategory = story.value
-        }
-        else if (bug.checked){
-            taskCategory= bug.value
-        }
-
-        // Add the new task to the savedTasks array
-        if (taskName.trim() !== "" && taskStatus!== "") {
-            // Load existing tasks from local storage
-            const savedTasks = JSON.parse((localStorage.getItem("tasks"))) || [];
-            
-            // Add the new task
-            savedTasks.push({ name: taskName, 
-                description: taskDescription, 
-                priority: taskPriority, 
-                stage: taskStage, 
-                assignee: taskAssignee, 
-                status: taskStatus,
-                storyPoints: storyPoints, 
-                tags: taskTags,//taskTags  here should be a arraylist now is undefined/null
-                category:taskCategory
-                
-            });
-            // // Function to display tasks
-            // function displayTasks() {
-            //     taskList.innerHTML = "";
-            //     savedTasks.forEach(function (task, index) {
-            //             // Create a task card with a link to view details
-            //             const taskCard = document.createElement("div");
-            //             taskCard.classList.add("cardview");
-
-            //             taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
-            //                                     <br>Priority: ${task.priority}
-            //                                     <br>Story Points: ${task.storyPoints}
-            //                                     <br>Tags: ${task.tags}`;
-            //             taskList.appendChild(taskCard);
-
-
-            //     });
-            // }
-
-            // Save the updated tasks array to local storage
-            localStorage.setItem("tasks", JSON.stringify(savedTasks));
-
-            // Navigate back to the index.html page
-            window.location.href = "prodBacklog.html";
-        }
-    });
-});
-
-
+  
 //--------------------------------------------------priority colour-----------------------------------------------------
 const prioritiesSelect = document.getElementById("priorities");
 
     // Function to change the color of the select element
     function changeSelectColor() {
+      console.log(window.getComputedStyle(prioritiesSelect.options[0]).color);
       const selectedOption = prioritiesSelect.options[prioritiesSelect.selectedIndex];
       const color = window.getComputedStyle(selectedOption).color;
       prioritiesSelect.style.color = color;

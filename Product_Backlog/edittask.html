@@ -65,10 +65,10 @@
             <span class="text">Status: </span>
             <input type="radio" id="Not Started" name="status" value="Not Started">
             <label for="Not Started"> Not Started </label>
-            <input type="radio" id="In Progress" name="status" value="In Progress">
+           <!-- <input type="radio" id="In Progress" name="status" value="In Progress">
             <label for="In Progress"> In Progress </label>
             <input type="radio" id="Completed" name="status" value="Completed">
-            <label for="Completed"> Completed</label>
+            <label for="Completed"> Completed</label>-->
           </div>
           <div class="category">
             <span class="text">Category: </span>
@@ -288,6 +288,14 @@ savebutton.addEventListener("click",function(event){
 
   tags = tags.filter(tag => taskTag.includes(tag));
 //--------------------------------------------------update data-----------------------------------------------------
+const taskDescription = document.querySelector("#task-description").value;
+if (taskDescription == ""){
+  alert("Task Description cannot be empty!")
+}
+else if (taskTag.length == 0){
+  alert("Task must have at least 1 tag!")
+}
+else {
     update(ref(db, 'productBacklog/' + taskId),
     {
       taskAssignee :document.querySelector("#AssigneeList").value,
@@ -302,7 +310,7 @@ savebutton.addEventListener("click",function(event){
 
     .then(() => { window.location.href = `task.html?taskId=${taskId}`});
 
-})
+}})
 previousPage.addEventListener("click",function(){
   window.location.href = `task.html?taskId=${taskId}`
 })

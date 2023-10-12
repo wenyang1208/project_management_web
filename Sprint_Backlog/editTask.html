@@ -301,14 +301,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const date1 = document.getElementById("date-time-spent")
     const startTime = document.getElementById("start-time-spent");
     const endTime = document.getElementById("end-time-spent");
-    const timeSpent1 = parseFloat(endTime.value) - parseFloat(startTime.value);
-    if (timeSpent1 >= 0){
+    const hour_startTime = startTime.value.split(":")[0]
+    const minute_startTime = startTime.value.split(":")[1]/60*100
+    const hour_endTime = endTime.value.split(":")[0];
+    const minute_endTime = endTime.value.split(":")[1]/60*100;
+    console.log(minute_endTime)
+    const timeSpent1 = parseFloat(`${hour_endTime}.${minute_endTime}`) - parseFloat(`${hour_startTime}.${minute_startTime}`);
+    const timeSpent2 = timeSpent1.toFixed(2)
+    console.log(timeSpent2)
+    if (timeSpent2 >= 0){
       const logTimeSpent = {
       date: date1.value,
-      timeSpent: timeSpent1
+      timeSpent: timeSpent2
       }
       logTimeSpentArray.push(logTimeSpent)
-      accTime.textContent = parseFloat(accTime.textContent) + timeSpent1;
+      accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent2);
     }
     else{
       alert('Please enter a valid input')
@@ -360,7 +367,14 @@ savebutton.addEventListener("click",function(event){
   })
 
   const status = document.querySelector('input[name="status"]:checked').value
-  if (status == "Completed"){
+  const taskDescription = document.querySelector("#task-description").value
+  if (taskDescription == ""){
+  alert("Task Description cannot be empty!")
+  }
+  else if (taskTag.length == 0){
+    alert("Task must have at least 1 tag!")
+  }
+  else if (status != "Completed"){
     get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
       if (task["taskStatus"] == "Completed"){
         update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with accumulation of time
@@ -369,9 +383,9 @@ savebutton.addEventListener("click",function(event){
       taskPriority :document.querySelector("#priorities").value,
       taskStage : document.querySelector("#SOT").value,
       taskStoryPoints : document.querySelector("#storyPoints").value,
-      taskStatus : document.querySelector('input[name="status"]:checked').value,      
+      taskStatus : status,      
       taskCategory : document.querySelector('input[name="category"]:checked').value,
-      taskDescription : document.querySelector("#task-description").value,
+      taskDescription : taskDescription,
       taskTags : taskTag,
       accumulationOfTime: accTime.textContent
     })

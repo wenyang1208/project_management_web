@@ -204,6 +204,18 @@ function displayTaskDetails(savedTasks){
         } 
         taskNameElement.textContent = task["taskName"];
         taskDescriptionElement.textContent = task["taskDescription"];
+        if (task["taskPriority"] == "Low"){
+          taskPriorityElement.style.color = "green";
+        }
+        else if (task["taskPriority"] == "Medium"){
+          taskPriorityElement.style.color = "yellow"
+        }
+        else if (task["taskPriority"] == "Important"){
+          taskPriorityElement.style.color = "orange"
+        }
+        else if (task["taskPriority"] == "Urgent"){
+          taskPriorityElement.style.color = "red"
+        }
         taskPriorityElement.textContent = task["taskPriority"];
         storyPointsElement.textContent = task["taskStoryPoints"];
         taskStageElement.textContent = task["taskStage"];

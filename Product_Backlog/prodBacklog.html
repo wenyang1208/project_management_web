@@ -187,10 +187,29 @@ document.addEventListener("DOMContentLoaded", function(){
                 const taskName = document.createElement("div");
                 taskName.className = "task-name";
                 taskName.textContent = task.taskName;
-    
-                const priority = document.createElement("div");
+                
+                const prioritytitle = document.createElement("span");
+                prioritytitle.className = "priority-title";
+                prioritytitle.textContent = "Priority: "
+                const priority = document.createElement("span");
                 priority.className = "priority";
-                priority.textContent = `Priority: ${task.taskPriority}`;
+                if (task["taskPriority"] == "Low"){
+                  priority.style.color = "green";
+                }
+                else if (task["taskPriority"] == "Medium"){
+                  priority.style.color = "yellow"
+                }
+                else if (task["taskPriority"] == "Important"){
+                  priority.style.color = "orange"
+                }
+                else if (task["taskPriority"] == "Urgent"){
+                  priority.style.color = "red"
+                }
+                priority.textContent = task.taskPriority;
+                const taskPriorityElement = document.createElement("div");
+                taskPriorityElement.className="priority-element";
+                taskPriorityElement.appendChild(prioritytitle)
+                taskPriorityElement.appendChild(priority)
     
     
                 const storyPoints = document.createElement("div");
@@ -228,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 deletecheckbox.appendChild(checkmark)
     
                 taskCard.appendChild(taskName)
-                taskCard.appendChild(priority)
+                taskCard.appendChild(taskPriorityElement)
                 taskCard.appendChild(storyPoints)
                 taskCard.appendChild(tagsContainer)
                 taskCard.appendChild(deletecheckbox)
