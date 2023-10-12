@@ -59,7 +59,7 @@
 
 
 <script type="module">
-    // Import the functions you need from the SDKs you need
+//----------------------------------------------DISPLAYING SPRINT--------------------------------------------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
@@ -114,10 +114,22 @@ document.addEventListener("DOMContentLoaded",function(){
                 status.classList.add("status");
                 status.textContent = `Status: ${sprintData.selectedStatus}`;
 
+                const deletecheckbox = document.createElement("label")
+                deletecheckbox.classList.add("custom-checkbox")
+                deletecheckbox.classList.add("hidden-checkbox")
+                const checkboxinput = document.createElement("input")
+                checkboxinput.classList.add("delete-checkbox")
+                checkboxinput.type = "checkbox"
+                const checkmark = document.createElement("span")
+                checkmark.classList.add("checkmark")
+                deletecheckbox.appendChild(checkboxinput)
+                deletecheckbox.appendChild(checkmark)
+
                 anchor.appendChild(sprintName);
                 anchor.appendChild(startDate);
                 anchor.appendChild(endDate);
                 anchor.appendChild(status);
+                anchor.appendChild(deletecheckbox);
 
                 cardView.appendChild(anchor);
                 sprintList.appendChild(cardView);
@@ -128,11 +140,65 @@ document.addEventListener("DOMContentLoaded",function(){
     }).catch((error) => {
         console.error("Error getting data:", error);
     });
-
-    // console.log(sprintList)
-    // console.log(sprintArray)
-
 })
+</script>
+
+
+<script type="module">
+// -----------------------------------------------DELETE SPRINT-----------------------------------------------------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, set, get, child, query, orderByChild,remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    const firebaseConfig2 = {
+        apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+        authDomain: "project-2782373696466964042.firebaseapp.com",
+        databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "project-2782373696466964042",
+        storageBucket: "project-2782373696466964042.appspot.com",
+        messagingSenderId: "971400388443",
+        appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+    };
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButton = document.getElementById("delete-button");
+    var display = false;
+    const app = initializeApp(firebaseConfig2);
+
+    const db = getDatabase(app);
+
+    deleteButton.addEventListener("click", function (e) {
+      const checkboxes = document.querySelectorAll(".custom-checkbox");
+      e.preventDefault(); // Prevent the default behavior of the anchor tag
+      if (display==false){
+      checkboxes.forEach(function (checkbox) {
+        checkbox.style.display = "block"; // Set display to "block" to show the checkboxes
+      });
+    display = true  
+    }
+      else {
+        checkboxes.forEach(function (checkbox) {
+          checkbox.style.display = "none"
+      })
+    display = false
+    }
+
+      checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener("click", function (e) {
+          e.stopPropagation(); // Prevent card click event from firing
+  
+          if (checkbox.querySelector("input[type='checkbox']").checked) {
+
+            const taskCard = checkbox.closest(".cardview");
+
+            if (taskCard) {
+                const sprintName = taskCard.querySelector(".sprint-name").textContent;
+                const taskToRemove = ref(db, `newsprint/${sprintName}`);
+                remove(taskToRemove)
+                taskCard.remove()
+            }
+          }
+        });
+      });
+    });
+  });
 </script>
 </body>
 </html>
