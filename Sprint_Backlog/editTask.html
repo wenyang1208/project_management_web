@@ -409,7 +409,9 @@ savebutton.addEventListener("click",function(){
         const year = date.toLocaleString('en-GB',{year:"numeric"})
         const month = date.toLocaleString('en-GB',{month:"2-digit"})
         const day = date.toLocaleString('en-GB',{day:"2-digit"})
-        const dateString = [year,month,day].join("-")
+        const monthInt = parseInt(month)
+        const dayInt = parseInt(day)
+        const dateString = [year,monthInt,dayInt].join("-")
         console.log(dateString)
         update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with date completed if completed
         {
