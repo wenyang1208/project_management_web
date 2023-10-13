@@ -425,7 +425,7 @@ savebutton.addEventListener("click",function(){
           dateCompleted: dateString
         })
       }
-      else if(task.val()["taskStatus"] == "Completed" && status =="Completed"){
+      else{
         update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
     {
       taskAssignee :taskAssigneeElement.value,
