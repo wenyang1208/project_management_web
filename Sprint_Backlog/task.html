@@ -120,6 +120,11 @@
     
 
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    //--------------------------------------------------DOWNLOAD CHART.JS-----------------------------------------------------------------------
+    </script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -158,7 +163,8 @@ const taskTagsElement = document.getElementById("tags");
 const editbutton = document.getElementById("edit-button")
 const saveTaskButton = document.getElementById("saveTaskButton");
 const accumulationOfTime = document.getElementById("accumulation-time")
-
+const logTimeSpentDataArray = [];
+const duration = [];
 //----------------------------------------------get task id------------------------------------------------------------------
 const urlParams = new URLSearchParams(window.location.search);
 const sprintId = urlParams.get("sprintId");
@@ -173,18 +179,43 @@ document.addEventListener("DOMContentLoaded", function () {
     const db = getDatabase(app);
     const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
     var task ={}
+
     get(dataRef).then((snapshot) => {
         if (snapshot.exists()) {
+
+            const log_Time_Spent = snapshot.val()["logTimeSpent"];
+            for(const ele in snapshot.val()["logTimeSpent"]){
+              logTimeSpentDataArray.push(log_Time_Spent[ele])
+            }
+
+            get(ref(db,`newsprint/${sprintId}`)).then((sprint)=> {
+            var[startYear,startMonth,startDay] = sprint.val()["startDate"].split("-");
+            var[endYear,endMonth,endDay] = sprint.val()["endDate"].split("-");
+            startYear = parseInt(startYear)
+            startMonth = parseInt(startMonth)
+            startDay = parseInt(startDay)
+            endYear = parseInt(endYear)
+            endMonth = parseInt(endMonth)
+            endDay = parseInt(endDay)
+            if (startYear==endYear){
+              if (startMonth == endMonth){
+                for (let day = startDay; day<=endDay; day++){
+                  const dateString = [startYear, startMonth, day].join("-")
+                  duration.push(dateString)
+                }
+              }
+          }}
+          )
+          .then(()=>{            
             console.log(snapshot.val())
             task = snapshot.val()
             snapshot.forEach((childSnapshot) => {
                 const childData = childSnapshot.val();
                 savedTasks.push(childData)
-            });
+                displayTaskDetails(task)
+            });})
     }}
     )
-    .then(()=> console.log(savedTasks))
-    .then(()=> displayTaskDetails(task));
 
 //----------------------------------------------display task detail------------------------------------------------------------------
 function displayTaskDetails(savedTasks){
@@ -242,7 +273,77 @@ function displayTaskDetails(savedTasks){
     } else {
         taskNameElement.textContent = "Task not found.";
     }
+
+    const xValues = [];
+    const yValues = [];
+    const dateSet = new Set(duration);
+
+    duration.forEach(date => {
+      // Check if the date exists in logTimeSpentDataArray
+      const timeData = logTimeSpentDataArray.find(time => time.date === date);
+
+      if (timeData) {
+        // If found, push the timeSpent value
+        xValues.push(new Date(timeData.date));
+        yValues.push(timeData.timeSpent);
+      } else {
+        // If not found, push 0
+        xValues.push(new Date(date));
+        yValues.push(0);
+      }
+    });
+
+    logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const formattedDates = xValues.map((date) => {
+        const day = date.getDate().toLocaleString('en-GB',{year:"numeric"})
+        const month = (date.getMonth() + 1).toLocaleString('en-GB',{month:"2-digit"})
+        const year = date.getFullYear();
+        return [year,month,day].join("-");
+      });
+
+    // if (formattedDates !== null){
+    //   formattedDates
+    // }
+
+    var data = {
+      labels: duration,
+      datasets: [{
+        label: "Total hour spent",
+        backgroundColor:"rgba(0,0,255,1.0)",
+        borderColor: "rgba(0,0,255,255)",
+        data: yValues,
+        fill: false,
+        tension: 0
+    }]
+    }
+
+    generateChart(data);
 }
+
+// ------------------------------------------ generate view chart------------------------------------------------------------------------
+function generateChart(data){
+      var ctx = document.getElementById('lineChart2').getContext('2d');
+      var lineChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date' // Set the X-axis label
+        }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Time Spent' // Set the Y-axis label
+        }
+      }]
+    }
+  }
+    });}
 
 //----------------------------------------------edit button------------------------------------------------------------------
 

@@ -166,9 +166,15 @@
     
 
   </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+//--------------------------------------------------DOWNLOAD CHART.JS-----------------------------------------------------------------------
+</script>
+
 <script type="module">
+//--------------------------------------------------EDIT-----------------------------------------------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, update,push } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, update, push, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -227,23 +233,49 @@ let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX
 //----------------------------------------------loading------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
-  const savedTasks = []
+  const savedTasks = [];
+  const logTimeSpentDataArray = [];
+  const duration = [];
   var task = {}
 
   get(dataRef).then((snapshot) => {
       if (snapshot.exists()) {
-          console.log(snapshot.val())
-          console.log(Object.keys(snapshot.val()))
-          const data = snapshot.val()
+
+          const log_Time_Spent = snapshot.val()["logTimeSpent"];
+          for(const ele in snapshot.val()["logTimeSpent"]){
+            logTimeSpentDataArray.push(log_Time_Spent[ele])
+          }
+
+          get(ref(db,`newsprint/${sprintId}`)).then((sprint)=> {
+            var[startYear,startMonth,startDay] = sprint.val()["startDate"].split("-");
+            var[endYear,endMonth,endDay] = sprint.val()["endDate"].split("-");
+            startYear = parseInt(startYear)
+            startMonth = parseInt(startMonth)
+            startDay = parseInt(startDay)
+            endYear = parseInt(endYear)
+            endMonth = parseInt(endMonth)
+            endDay = parseInt(endDay)
+            if (startYear==endYear){
+              if (startMonth == endMonth){
+                for (let day = startDay; day<=endDay; day++){
+                  const dateString = [startYear, startMonth, day].join("-")
+                  duration.push(dateString)
+                }
+              }
+          }}
+          )
+  
+          .then(() => {          
+            const data = snapshot.val()
           task = data
           console.log(task)
           snapshot.forEach((childSnapshot) => {
               const childData = childSnapshot.val();
               savedTasks.push(childData)
-          });
+              displayTaskDetails(task)
+          });})
   }}
   )
-  .then(()=> displayTaskDetails(task));
 
 //----------------------------------------------display task detail------------------------------------------------------------------
   function displayTaskDetails(savedTasks){
@@ -300,7 +332,76 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
           taskNameElement.textContent = "Task not found.";
       }
+
+      const xValues = [];
+      const yValues = [];
+ 
+      const dateSet = new Set(duration);
+
+      duration.forEach(date => {
+        // Check if the date exists in logTimeSpentDataArray
+        const timeData = logTimeSpentDataArray.find(time => time.date === date);
+
+        if (timeData) {
+          // If found, push the timeSpent value
+          xValues.push(new Date(timeData.date));
+          yValues.push(timeData.timeSpent);
+        } else {
+          // If not found, push 0
+          xValues.push(new Date(date));
+          yValues.push(0);
+        }
+      });
+
+
+      logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const formattedDates = xValues.map((date) => {
+          const day = date.getDate().toLocaleString('en-GB',{year:"numeric"})
+          const month = (date.getMonth() + 1).toLocaleString('en-GB',{month:"2-digit"})
+          const year = date.getFullYear();
+          return [year,month,day].join("-");
+        }); 
+        
+      var data = {
+        labels: duration,
+        datasets: [{
+          label: "Total hour spent",
+          backgroundColor:"rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,255)",
+          data: yValues,
+          fill: false,
+          tension: 0
+      }]
+      }
+
+      generateChart(data);
+
   }
+
+// ------------------------------------------ generate view chart------------------------------------------------------------------------
+function generateChart(data){
+      var ctx = document.getElementById('lineChart2').getContext('2d');
+      var lineChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+    scales: {
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date' // Set the X-axis label
+        }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Total Time Spent' // Set the Y-axis label
+        }
+      }]
+    }
+  }
+    });}
 // ------------------------------------------ add button for log time spent------------------------------------------------------------------------
   addbutton.addEventListener("click",function(){
     const date1 = document.getElementById("date-time-spent")
@@ -310,17 +411,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const minute_startTime = startTime.value.split(":")[1]/60*100
     const hour_endTime = endTime.value.split(":")[0];
     const minute_endTime = endTime.value.split(":")[1]/60*100;
-    console.log(minute_endTime)
     const timeSpent1 = parseFloat(`${hour_endTime}.${minute_endTime}`) - parseFloat(`${hour_startTime}.${minute_startTime}`);
-    const timeSpent2 = timeSpent1.toFixed(2)
-    console.log(timeSpent2)
+    let timeSpent2 = timeSpent1.toFixed(2);
+    const timeSpent3 = timeSpent1.toFixed(2);
+
     if (timeSpent2 >= 0){
-      const logTimeSpent = {
-      date: date1.value,
-      timeSpent: timeSpent2
+      const selectedDate = date1.value;
+      const timeSpentRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${selectedDate}`);
+      if (duration.includes(selectedDate)){
+        get(timeSpentRef)
+      .then((snapshot) => {
+        let existingTimeSpent = 0;
+        if (snapshot.exists()) {// check if the date has existed or not
+          existingTimeSpent = snapshot.val().timeSpent
+          timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
+        }
+        const logTimeSpent = {
+          date: selectedDate,
+          timeSpent: timeSpent2
       }
       logTimeSpentArray.push(logTimeSpent)
-      accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent2);
+      accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
+      }
+      )
+      }
+      else{
+        alert('Please enter the date within the start and end date')
+      }
     }
     else{
       alert('Please enter a valid input')
@@ -365,11 +482,17 @@ savebutton.addEventListener("click",function(){
 
   tags = tags.filter(tag => taskTag.includes(tag));
   
-  const abc = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent`)
-  const newLogTime = push(abc)
+  // const abc = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent`)
+  // const newLogTime = push(abc)
+  // logTimeSpentArray.forEach((logTimeSpent)=>{
+  //   console.log(logTimeSpent.date)
+  //   set(newLogTime,logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
+  // })
+
   logTimeSpentArray.forEach((logTimeSpent)=>{
-    set(newLogTime,logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
+    set(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${logTimeSpent.date}`),logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
   })
+
   const status = document.querySelector('input[name="status"]:checked').value
   const taskDescription = document.querySelector("#task-description").value,
   taskAssignee = document.querySelector("#AssigneeList").value,
@@ -407,7 +530,7 @@ savebutton.addEventListener("click",function(){
         const month = date.toLocaleString('en-GB',{month:"2-digit"})
         const day = date.toLocaleString('en-GB',{day:"2-digit"})
         const dateString = [year,month,day].join("-")
-        console.log(dateString)
+
         update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with date completed if completed
         {
           taskAssignee :document.querySelector("#AssigneeList").value,
