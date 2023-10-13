@@ -92,12 +92,7 @@
       
       <div class="task-description">
         <div class="text">Task description:</div>
-        <div class="description" id="task-description">Requirements:
-
-          User Registration:
-          
-          Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
-          Regularly review and update security libraries and dependencies</div>
+        <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
       </div>
 
       <div class="taskview">
@@ -208,7 +203,7 @@ function displayTaskDetails(savedTasks){
             "accumulationOfTime":savedTasks["accumulationOfTime"]
         } 
         taskNameElement.textContent = task["taskName"];
-        taskDescriptionElement.textContent = task["taskDescription"];
+        taskDescriptionElement.value = task["taskDescription"];
         if (task["taskPriority"] == "Low"){
           taskPriorityElement.style.color = "green";
         }

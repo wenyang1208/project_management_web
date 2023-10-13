@@ -92,8 +92,7 @@
       
       <div class="task-description">
         <div class="text">Task description:</div>
-        <div class="description" id="task-description">Requirements:...
-          </div>
+        <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
       </div>
     </div>
       <div class="button-container">
@@ -183,7 +182,7 @@ function displayTaskDetails(savedTasks){
             "taskTags": savedTasks["taskTags"]
         } 
         taskNameElement.textContent = task["taskName"];
-        taskDescriptionElement.textContent = task["taskDescription"];
+        taskDescriptionElement.value = task["taskDescription"];
         if (task["taskPriority"] == "Low"){
           taskPriorityElement.style.color = "green";
         }
