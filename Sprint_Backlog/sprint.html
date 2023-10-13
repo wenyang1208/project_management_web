@@ -205,20 +205,19 @@ const selectedTasks = []
     const actualData = []
     var remainingStoryPoints = totalStoryPoints
     const actualKeys = Object.keys(actualStoryPointsDone)
-    console.log(actualKeys[0])
-    console.log(duration[7])
-    console.log(duration[7]==actualKeys[0])
     const actualValues = Object.values(actualStoryPointsDone)
+    console.log(actualData)
     for (let i=0;i<duration.length;i++){
-      for (let j=0;j<actualKeys.length;j++)
-        if (duration[i] == actualKeys[j]){
-          remainingStoryPoints = remainingStoryPoints - actualValues[j]
-          actualData.push(remainingStoryPoints)
-        }
-        else {
-          actualData.push(remainingStoryPoints)
-        }
-    }
+      if (actualKeys.includes(duration[i])){
+        remainingStoryPoints = remainingStoryPoints - actualValues[actualKeys.indexOf(duration[i])]
+        actualData.push(remainingStoryPoints)
+        console.log(actualData)
+      }
+      else{
+        actualData.push(remainingStoryPoints)
+          console.log(actualData)
+      }}
+ 
     /*get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((logtimeSpent)=>{
       const logTimeSpent = logtimeSpent.val()
       const logTimeSpent_Date = Object.keys(logTimeSpent)
@@ -233,8 +232,6 @@ const selectedTasks = []
       })
     })*/
     // Define your data as an array of data points
-    console.log(expectedData)
-    console.log(actualData)
     var data = {
       labels: duration,
       datasets: [{
@@ -253,7 +250,6 @@ const selectedTasks = []
         tension: 0              // Fill under the line (false for line chart)
       }]
     };
-    generateChart(data)
     generateChart(data)
       }})
         /*  for (let month = startMonth;month<=endMonth;month++){

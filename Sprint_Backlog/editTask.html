@@ -307,8 +307,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const startTime = document.getElementById("start-time-spent");
     const endTime = document.getElementById("end-time-spent");
     const hour_startTime = startTime.value.split(":")[0]
+    console.log(hour_startTime)
     const minute_startTime = startTime.value.split(":")[1]/60*100
+    console.log(minute_startTime)
     const hour_endTime = endTime.value.split(":")[0];
+    console.log(hour_endTime)
     const minute_endTime = endTime.value.split(":")[1]/60*100;
     console.log(minute_endTime)
     const timeSpent1 = parseFloat(`${hour_endTime}.${minute_endTime}`) - parseFloat(`${hour_startTime}.${minute_startTime}`);
@@ -385,7 +388,7 @@ savebutton.addEventListener("click",function(){
   }
   else{
     get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
-      if (task.val()["taskStatus"] == "Completed" || status !="Completed"){
+      if (task.val()["taskStatus"] == "Completed" && status !="Completed"){
         update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
     {
       taskAssignee :taskAssigneeElement.value,
@@ -421,6 +424,21 @@ savebutton.addEventListener("click",function(){
           accumulationOfTime: accTime.textContent,
           dateCompleted: dateString
         })
+      }
+      else if(task.val()["taskStatus"] == "Completed" && status =="Completed"){
+        update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
+    {
+      taskAssignee :taskAssigneeElement.value,
+      taskPriority :taskPriorityElement.value,
+      taskStage : taskStageElement.value,
+      taskStoryPoints : storyPointsElement.value,
+      taskName: taskNameElement.textContent,
+      taskStatus : status,      
+      taskCategory : taskType,
+      taskDescription : taskDescriptionElement.value,
+      taskTags : taskTag,
+      accumulationOfTime: accTime.textContent
+    })
       }
     })
     .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
