@@ -39,26 +39,26 @@
     <div class="light-blue-frame">
         <div class="dark-blue-frame">
             <div class="horizontal-scroll">
-                <div class="kanban-column">
-                    <div class="kanban-card" id="Todo">Not Started</div>
+                <div class="kanban-column" id="To-Do-kanban">
+                    <div class="kanban-card" id="Not Started">To Do</div>
                     <div class="light-blue-card-frame">
-                        <div class="card-views" id="card-views-container">
+                        <div class="card-views" id="Not Started-container">
                             
                         </div>
                     </div>
                 </div>
-                <div class="kanban-column">
-                    <div class="kanban-card" id="Inprogress">In Progress</div>
+                <div class="kanban-column" id = "In-Progress-kanban">
+                    <div class="kanban-card" id="In Progress">In Progress</div>
                     <div class="light-blue-card-frame">
-                        <div class="card-views" id="card-views-container">
+                        <div class="card-views" id="In Progress-container">
                             
                         </div>
                     </div>
                 </div>
-                <div class="kanban-column">
-                    <div class="kanban-card" id="Done">Completed</div>
+                <div class="kanban-column" id = "Done-kanban">
+                    <div class="kanban-card" id="Completed">Done</div>
                     <div class="light-blue-card-frame">
-                        <div class="card-views" id="card-views-container">
+                        <div class="card-views" id="Completed-container">
                             
                         </div>
                     </div>
@@ -86,7 +86,7 @@
   </div>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -108,7 +108,7 @@ const originalTasks = [];
 const urlParams = new URLSearchParams(window.location.search),
     sprintId = urlParams.get("sprintId")
 document.addEventListener("DOMContentLoaded", function(){
-  const firebaseConfig2 = {
+  const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
     databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -117,21 +117,18 @@ document.addEventListener("DOMContentLoaded", function(){
     messagingSenderId: "971400388443",
     appId: "1:971400388443:web:fc495758d4109f4a1f847e"
 };
-const app2 = initializeApp(firebaseConfig2);
-const urlParams2 = new URLSearchParams(window.location.search),
-    sprintId2 = urlParams2.get("sprintId")
-    console.log(sprintId2)
+const app = initializeApp(firebaseConfig);
+const urlParams = new URLSearchParams(window.location.search),
+    sprintId = urlParams.get("sprintId")
   var totalSP = 0
-const db2 = getDatabase(app2);
+const db = getDatabase(app);
 const selectedTasks = []
-    get(ref(db2,`newsprint/${sprintId2}/selectedTasks`)).then((e)=>{
-      console.log(e.val())
+    get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((e)=>{
       if (e.exists()) {
             e.forEach((childSnapshot) => {
                 const childData = childSnapshot.val();
                 console.log(childData)
                 selectedTasks.push(childData)
-                console.log(selectedTasks.length)
             });
     }
     }).then(()=>{totalSP=displayBurnDownChart(selectedTasks)})
@@ -141,58 +138,105 @@ const selectedTasks = []
         totalStoryPoints += parseInt(task['taskStoryPoints'])
         
       })
-      console.log(totalStoryPoints)
-      const completedTasks = []
-      get(ref(db2,`newsprint/${sprintId2}/selectedTasks`)).then((selectedTasks)=>{
+      get(ref(db,`newsprint/${sprintId}`)).then((sprint)=>{
+        const duration = []
+        const sprintObj = sprint.val()
+        const startDate = sprintObj["startDate"]
+        const endDate = sprintObj["endDate"]
+        var [startYear,startMonth,startDay] = startDate.split("-"),
+            [endYear,endMonth,endDay] = endDate.split("-")
+        startYear = parseInt(startYear)
+        startMonth = parseInt(startMonth)
+        startDay = parseInt(startDay)
+        endYear = parseInt(endYear)
+        endMonth = parseInt(endMonth)
+        endDay = parseInt(endDay)
+        if (startYear==endYear){
+          if (startMonth == endMonth){
+            for (let day = startDay;day<=endDay;day++){
+              const dateString = [startYear,startMonth,day].join("-")
+              duration.push(dateString)
+            }
+          }
+        }
+        console.log(duration.length)
+        const actualStoryPointsDone = {}
+        get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((selectedTasks)=>{
+        const completedTasks = []
         selectedTasks.forEach((task)=>{
-          if (task.val()["taskStatus"] == "Completed") {
-          completedTasks.push(task.val())
+          const taskObj = task.val()
+          if (taskObj["taskStatus"] == "Completed") {
+          completedTasks.push(taskObj)
         }
         })
-      }).then(()=>{
-        const burndownChartData = {
-
-        }
         completedTasks.forEach((task)=>{
-          if (burndownChartData[task.dateCompleted] == null){
-            burndownChartData[task.dateCompleted] = parseInt(task.taskStoryPoints)
+          if (actualStoryPointsDone[task.dateCompleted] == null){
+            actualStoryPointsDone[task.dateCompleted] = parseInt(task.taskStoryPoints)
           }
           else {
-            burndownChartData[task.dateCompleted] += parseInt(task.taskStoryPoints);
+            actualStoryPointsDone[task.dateCompleted] += parseInt(task.taskStoryPoints);
           }
         })
-        console.log(Object.keys(burndownChartData))
-        console.log(Object.values(burndownChartData))
-      })
-      return totalStoryPoints
-    }
+        console.log(Object.keys(actualStoryPointsDone))
+        console.log(Object.values(actualStoryPointsDone))
+        console.log(duration.length)
+
+      
     // Get a reference to the canvas element
-    const starttime = performance.now()
-    var ctx = document.getElementById('lineChart').getContext('2d');
-    const dateLabel = []
+    //const starttime = performance.now()
+    console.log(totalStoryPoints)
+    console.log(actualStoryPointsDone)
+    console.log(duration.length)
+    abc(totalStoryPoints,actualStoryPointsDone,duration)
+    function abc(totalStoryPoints,actualStoryPointsDone,duration){
+      console.log(totalStoryPoints)
+      console.log(actualStoryPointsDone)
+      console.log(duration)
+      console.log(duration.length)
     const expectedData =[]
+    const average = totalStoryPoints/(duration.length-1)
+    console.log(average)
+    console.log(duration.length)
+    for (let i=duration.length-1;i>=0;i--){
+      expectedData.push(Math.round(average*i))
+      console.log(i)
+    }
+    console.log(expectedData)
     const actualData = []
-    get(ref(db2,"burnDownChartEg")).then((logtimeSpent)=>{
+    var remainingStoryPoints = totalStoryPoints
+    const actualKeys = Object.keys(actualStoryPointsDone)
+    console.log(actualKeys[0])
+    console.log(duration[7])
+    console.log(duration[7]==actualKeys[0])
+    const actualValues = Object.values(actualStoryPointsDone)
+    for (let i=0;i<duration.length;i++){
+      for (let j=0;j<actualKeys.length;j++)
+        if (duration[i] == actualKeys[j]){
+          remainingStoryPoints = remainingStoryPoints - actualValues[j]
+          actualData.push(remainingStoryPoints)
+        }
+        else {
+          actualData.push(remainingStoryPoints)
+        }
+    }
+    /*get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((logtimeSpent)=>{
       const logTimeSpent = logtimeSpent.val()
       const logTimeSpent_Date = Object.keys(logTimeSpent)
       logTimeSpent_Date.forEach((date)=>{
         dateLabel.push(date)
       })
       const logTimeSpent_StoryPoints = Object.values(logTimeSpent)
-      expectedData.push(20)
-      expectedData.push(15)
-      expectedData.push(11)
-      expectedData.push(5)
-      expectedData.push(0)
       var totalStoryP = 20
       logTimeSpent_StoryPoints.forEach((SP)=>{
         totalStoryP = totalStoryP - parseInt(SP)
         actualData.push(totalStoryP)
       })
-    })
+    })*/
     // Define your data as an array of data points
+    console.log(expectedData)
+    console.log(actualData)
     var data = {
-      labels: dateLabel,
+      labels: duration,
       datasets: [{
         label: 'Expected velocity',
         data: expectedData, // Example data points
@@ -209,9 +253,36 @@ const selectedTasks = []
         tension: 0              // Fill under the line (false for line chart)
       }]
     };
+    generateChart(data)
+    generateChart(data)
+      }})
+        /*  for (let month = startMonth;month<=endMonth;month++){
+        }
+        for (let year=startYear;year<=endYear;year++){
+          if (year==endYear){
+            for (let month=startMonth;month<=endMonth;month++){
+              if (startMonth==endMonth && startYear==endYear){
+                for (let day=startDay;day<=endDay;day++){
+                  const dateString = [day,month,year].join("/")
+                  duration.push(dateString)
+                }
+              }else if (month<endMonth && month==startMonth && year==startYear){
+                  for (let day=startDay;day<=endDay;day++){
+                  const dateString = [day,month,year].join("/")
+                  duration.push(dateString)
+                }
+              }
+            }
+          }
+          for (let month=parseInt(startMonth);month<=parseInt(endMonth);month++){}
+        }
+        console.log(endDateString)*/
+    })
   
     // Create the line chart
-    function generateChart(){var lineChart = new Chart(ctx, {
+    function generateChart(data){
+      var ctx = document.getElementById('lineChart').getContext('2d');
+      var lineChart = new Chart(ctx, {
       type: 'line',
       data: data,
       options: {
@@ -231,11 +302,11 @@ const selectedTasks = []
     }
   }
     });}
-    generateChart()
-    generateChart()
-    const endtime = performance.now()
-    const timeSpent = endtime - starttime
-    console.log(`TimeSpent:${timeSpent}ms`)
+    
+    //const endtime = performance.now()
+    //const timeSpent = endtime - starttime
+    //console.log(`TimeSpent:${timeSpent}ms`)
+  }
     var ctx2 = document.getElementById('lineChart2').getContext('2d');
   
     // Define your data as an array of data points
@@ -308,20 +379,18 @@ const selectedTasks = []
     addNewTask.addEventListener("click",function(){
       window.location.href = `addtask.html?sprintId=${sprintId}`
     })
-    })
+    
   
 
 
     // DISPLAY
     function displayTasks(taskData) {
-        if (taskList !== null){
             console.log(taskData)
-            taskList.innerHTML = "";
             taskData.forEach(function (task, index) {
     
                 const taskCard = document.createElement("div");
                 taskCard.classList.add("cardview");
-                taskCard.id = `${index}`;
+                taskCard.id = task.taskName;
                 taskCard.draggable = true;
     
                 const taskName = document.createElement("div");
@@ -357,9 +426,9 @@ const selectedTasks = []
                 taskCard.appendChild(tagsContainer)
                 taskCard.addEventListener("click",function (){
                 window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskName.textContent}`})
-                taskList.appendChild(taskCard); 
+                document.getElementById(`${task.taskStatus}-container`).appendChild(taskCard); 
             });
-        }
+        
         return taskData;
     }
 
@@ -382,6 +451,7 @@ function allowDrop(event) {
 function drop(event) {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text/plain");
+    console.log(taskId)
     const taskCard = document.getElementById(taskId);
     
     // Find the target light blue frame
@@ -393,6 +463,24 @@ function drop(event) {
         
         // Update the task status (To do, In Progress, Done) based on the target light blue frame
         const status = targetLightBlueFrame.querySelector('.kanban-card').id;
+        console.log(`status: ${status}`)
+        console.log(sprintId)
+        get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
+          if (status == "Completed" && task.val()["taskStatus"] != "Completed"){
+            const date = new Date()
+            const dateString = date.toLocaleString('en-GB',{year:"numeric",month:"2-digit",day:"2-digit"})
+            update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
+            taskStatus:status,
+            dateCompleted:dateString
+            })
+          }
+          else {
+            update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
+            taskStatus:status,
+            dateCompleted:null
+        })
+          }
+        })
         // You can update the task status in your savedTasks or database here
         
     }
@@ -403,7 +491,7 @@ function drop(event) {
 function onDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
 }
-
+})
 
 
 

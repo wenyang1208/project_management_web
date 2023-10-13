@@ -354,7 +354,7 @@ function checkTag() {
 const check = setInterval(checkTag,10)
 
 //--------------------------------------------------save button-----------------------------------------------------
-savebutton.addEventListener("click",function(event){
+savebutton.addEventListener("click",function(){
   event.preventDefault();
   let taskTag = [];
         tagOptionList.forEach((tag) => {
@@ -370,77 +370,62 @@ savebutton.addEventListener("click",function(event){
   logTimeSpentArray.forEach((logTimeSpent)=>{
     set(newLogTime,logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
   })
-
   const status = document.querySelector('input[name="status"]:checked').value
-  const taskDescription = document.querySelector("#task-description").value
+  const taskDescription = document.querySelector("#task-description").value,
+  taskAssignee = document.querySelector("#AssigneeList").value,
+  taskPriority = document.querySelector("#priorities").value
+  const taskType = document.querySelector('input[name="category"]:checked').value
+  
+
   if (taskDescription == ""){
   alert("Task Description cannot be empty!")
   }
   else if (taskTag.length == 0){
     alert("Task must have at least 1 tag!")
   }
-  else if (status != "Completed"){
+  else{
     get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
-      if (task["taskStatus"] == "Completed"){
-        update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with accumulation of time
+      if (task.val()["taskStatus"] == "Completed" || status !="Completed"){
+        update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
     {
-      taskAssignee :document.querySelector("#AssigneeList").value,
-      taskPriority :document.querySelector("#priorities").value,
-      taskStage : document.querySelector("#SOT").value,
-      taskStoryPoints : document.querySelector("#storyPoints").value,
+      taskAssignee :taskAssigneeElement.value,
+      taskPriority :taskPriorityElement.value,
+      taskStage : taskStageElement.value,
+      taskStoryPoints : storyPointsElement.value,
+      taskName: taskNameElement.textContent,
       taskStatus : status,      
-      taskCategory : document.querySelector('input[name="category"]:checked').value,
-      taskDescription : taskDescription,
+      taskCategory : taskType,
+      taskDescription : taskDescriptionElement.value,
       taskTags : taskTag,
-      accumulationOfTime: accTime.textContent
+      accumulationOfTime: accTime.textContent,
+      dateCompleted:null
     })
       }
-      else {
+      else if (task.val()["taskStatus"] != "Completed" && status =="Completed"){
         const date = new Date()
         const year = date.toLocaleString('en-GB',{year:"numeric"})
-        console.log(year)
         const month = date.toLocaleString('en-GB',{month:"2-digit"})
         const day = date.toLocaleString('en-GB',{day:"2-digit"})
-        const [year1,month1,day1] = date_.split("-")
-        
-        const date_ = [year,month,day].join("-")
-        console.log(date_)
+        const dateString = [year,month,day].join("-")
+        console.log(dateString)
         update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),// Update with date completed if completed
         {
           taskAssignee :document.querySelector("#AssigneeList").value,
           taskPriority :document.querySelector("#priorities").value,
           taskStage : document.querySelector("#SOT").value,
           taskStoryPoints : document.querySelector("#storyPoints").value,
-          taskStatus : document.querySelector('input[name="status"]:checked').value,      
+          taskStatus : status,      
           taskCategory : document.querySelector('input[name="category"]:checked').value,
-          taskDescription : document.querySelector("#task-description").value,
+          taskDescription : taskDescriptionElement.value,
           taskTags : taskTag,
           accumulationOfTime: accTime.textContent,
-          dateCompleted: date_
+          dateCompleted: dateString
         })
       }
     })
     .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
 
   }
-  else {
-    update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),
-    {
-      taskAssignee :document.querySelector("#AssigneeList").value,
-      taskPriority :document.querySelector("#priorities").value,
-      taskStage : document.querySelector("#SOT").value,
-      taskStoryPoints : document.querySelector("#storyPoints").value,
-      taskStatus : document.querySelector('input[name="status"]:checked').value,      
-      taskCategory : document.querySelector('input[name="category"]:checked').value,
-      taskDescription : document.querySelector("#task-description").value,
-      taskTags : taskTag,
-      accumulationOfTime: accTime.textContent
-    })
-    .then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
-  }
-
-    //.then(() => { window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskId}`});
-
 })
 
 //--------------------------------------------------back button-----------------------------------------------------
