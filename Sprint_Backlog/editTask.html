@@ -236,6 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const savedTasks = [];
   const logTimeSpentDataArray = [];
   const duration = [];
+  const currentDate = new Date();
   var task = {}
 
   get(dataRef).then((snapshot) => {
@@ -422,21 +423,26 @@ function generateChart(data){
       const selectedDate = date1.value;
       const timeSpentRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${selectedDate}`);
       if (duration.includes(selectedDate)){
-        get(timeSpentRef)
-      .then((snapshot) => {
-        let existingTimeSpent = 0;
-        if (snapshot.exists()) {// check if the date has existed or not
-          existingTimeSpent = snapshot.val().timeSpent
-          timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
+        if (currentDate > new Date(selectedDate)){
+          get(timeSpentRef)
+          .then((snapshot) => {
+            let existingTimeSpent = 0;
+            if (snapshot.exists()) {// check if the date has existed or not
+              existingTimeSpent = snapshot.val().timeSpent
+              timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
+            }
+            const logTimeSpent = {
+              date: selectedDate,
+              timeSpent: timeSpent2
+          }
+          logTimeSpentArray.push(logTimeSpent)
+          accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
+          }
+        )
         }
-        const logTimeSpent = {
-          date: selectedDate,
-          timeSpent: timeSpent2
-      }
-      logTimeSpentArray.push(logTimeSpent)
-      accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
-      }
-      )
+        else{
+          alert('This day is unavailable now.')
+        }
       }
       else{
         alert('Please enter the date within the start and end date')
