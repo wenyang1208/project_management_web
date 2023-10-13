@@ -42,9 +42,9 @@ import { getDatabase, ref, set, get, child, query, update } from "https://www.gs
     };
   
     const 
-      username = document.getElementById("create_new_desc"),
-      email = document.getElementById("create_new_email"),
-      password = document.getElementById("create_new_pwd"),
+      username = document.getElementById("username"),
+      email = document.getElementById("email"),
+      password = document.getElementById("password"),
   
       urlParams = new URLSearchParams(window.location.search),
       taskId = urlParams.get("taskId");
