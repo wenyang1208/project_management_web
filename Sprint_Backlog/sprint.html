@@ -130,13 +130,12 @@ const selectedTasks = []
                 console.log(childData)
                 selectedTasks.push(childData)
             });
-    }
-    }).then(()=>{totalSP=displayBurnDownChart(selectedTasks)})
+      }
+    }).then(()=>{displayBurnDownChart(selectedTasks)})
     function displayBurnDownChart(selectedTasks){
       var totalStoryPoints = 0
       selectedTasks.forEach((task)=>{
         totalStoryPoints += parseInt(task['taskStoryPoints'])
-        
       })
       get(ref(db,`newsprint/${sprintId}`)).then((sprint)=>{
         const duration = []
@@ -158,6 +157,204 @@ const selectedTasks = []
               duration.push(dateString)
             }
           }
+          else {
+            for (let month = startMonth;month<=endMonth;month++) {
+                if (month == startMonth){
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = startDay;day<=31;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = startDay;day<=30;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((startYear % 4 == 0 && startYear % 100 != 0) || startYear % 400 == 0){
+                      for (let day = startDay;day<=29;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = startDay;day<=28;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else if (month < endMonth) {
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((startYear % 4 == 0 && startYear % 100 != 0) || startYear % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else if (month == endMonth) {
+                  for (let day = 1;day<=endDay;day++){
+                    const dateString = [startYear,month,day].join("-")
+                    duration.push(dateString)
+                  }
+                } 
+            }
+          }
+        }
+        else {
+          for (let year = startYear;year<=endYear;year++){
+            if (year == startYear){
+              for (let month = startMonth;month<=12;month++) {
+                if (month == startMonth){
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = startDay;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = startDay;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = startDay;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = startDay;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else {
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            else if (year < endYear){
+              for (let month = 1;month<=12;month++){
+                if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+              }   
+            }
+            else if (year == endYear){
+              for (let month = 1;month<=endMonth;month++){
+                if (month != endMonth){
+                if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else {
+                  for (let day = 1;day <= endDay;day++){
+                    const dateString = [year,month,day].join("-")
+                    duration.push(dateString)
+                  }
+                }
+              }  
+            }
+          }
         }
         console.log(duration.length)
         const actualStoryPointsDone = {}
@@ -177,22 +374,10 @@ const selectedTasks = []
             actualStoryPointsDone[task.dateCompleted] += parseInt(task.taskStoryPoints);
           }
         })
-        console.log(Object.keys(actualStoryPointsDone))
-        console.log(Object.values(actualStoryPointsDone))
-        console.log(duration.length)
 
       
     // Get a reference to the canvas element
     //const starttime = performance.now()
-    console.log(totalStoryPoints)
-    console.log(actualStoryPointsDone)
-    console.log(duration.length)
-    abc(totalStoryPoints,actualStoryPointsDone,duration)
-    function abc(totalStoryPoints,actualStoryPointsDone,duration){
-      console.log(totalStoryPoints)
-      console.log(actualStoryPointsDone)
-      console.log(duration)
-      console.log(duration.length)
     const expectedData =[]
     const average = totalStoryPoints/(duration.length-1)
     console.log(average)
@@ -205,20 +390,17 @@ const selectedTasks = []
     const actualData = []
     var remainingStoryPoints = totalStoryPoints
     const actualKeys = Object.keys(actualStoryPointsDone)
-    console.log(actualKeys[0])
-    console.log(duration[7])
-    console.log(duration[7]==actualKeys[0])
     const actualValues = Object.values(actualStoryPointsDone)
+    console.log(actualData)
     for (let i=0;i<duration.length;i++){
-      for (let j=0;j<actualKeys.length;j++)
-        if (duration[i] == actualKeys[j]){
-          remainingStoryPoints = remainingStoryPoints - actualValues[j]
-          actualData.push(remainingStoryPoints)
-        }
-        else {
-          actualData.push(remainingStoryPoints)
-        }
-    }
+      if (actualKeys.includes(duration[i])){
+        remainingStoryPoints = remainingStoryPoints - actualValues[actualKeys.indexOf(duration[i])]
+        actualData.push(remainingStoryPoints)
+      }
+      else{
+        actualData.push(remainingStoryPoints)
+      }}
+ 
     /*get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((logtimeSpent)=>{
       const logTimeSpent = logtimeSpent.val()
       const logTimeSpent_Date = Object.keys(logTimeSpent)
@@ -233,8 +415,6 @@ const selectedTasks = []
       })
     })*/
     // Define your data as an array of data points
-    console.log(expectedData)
-    console.log(actualData)
     var data = {
       labels: duration,
       datasets: [{
@@ -254,8 +434,7 @@ const selectedTasks = []
       }]
     };
     generateChart(data)
-    generateChart(data)
-      }})
+      })
         /*  for (let month = startMonth;month<=endMonth;month++){
         }
         for (let year=startYear;year<=endYear;year++){
@@ -283,25 +462,26 @@ const selectedTasks = []
     function generateChart(data){
       var ctx = document.getElementById('lineChart').getContext('2d');
       var lineChart = new Chart(ctx, {
-      type: 'line',
-      data: data,
-      options: {
-    scales: {
-      xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Date' // Set the X-axis label
+        type: 'line',
+        data: data,
+        options: {
+          scales: {
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Date' // Set the X-axis label
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Remaining Story Points' // Set the Y-axis label
+              }
+            }]
+          }
         }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Remaining Story Points' // Set the Y-axis label
-        }
-      }]
+      });
     }
-  }
-    });}
     
     //const endtime = performance.now()
     //const timeSpent = endtime - starttime
@@ -471,22 +651,39 @@ function drop(event) {
             const year = date.toLocaleString('en-GB',{year:"numeric"})
             const month = date.toLocaleString('en-GB',{month:"2-digit"})
             const day = date.toLocaleString('en-GB',{day:"2-digit"})
-            const dateString = [year,month,day].join("-")
+            const monthInt = parseInt(month)
+            const dayInt = parseInt(day)
+            const dateString = [year,monthInt,dayInt].join("-")
             update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
             taskStatus:status,
             dateCompleted:dateString
             })
           }
-          else {
+          else if (status == "Completed" && task.val()["taskStatus"] == "Completed"){
+            update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
+            taskStatus:status
+            })
+          }
+          else{
             update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
             taskStatus:status,
             dateCompleted:null
-        })
+            })
           }
         })
         // You can update the task status in your savedTasks or database here
         
     }
+    const selectedTasks = []
+    get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((e)=>{
+      if (e.exists()) {
+            e.forEach((childSnapshot) => {
+                const childData = childSnapshot.val();
+                console.log(childData)
+                selectedTasks.push(childData)
+            });
+      }
+    }).then(()=>{displayBurnDownChart(selectedTasks)})
 }
 
 
