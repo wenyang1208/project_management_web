@@ -468,7 +468,10 @@ function drop(event) {
         get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
           if (status == "Completed" && task.val()["taskStatus"] != "Completed"){
             const date = new Date()
-            const dateString = date.toLocaleString('en-GB',{year:"numeric",month:"2-digit",day:"2-digit"})
+            const year = date.toLocaleString('en-GB',{year:"numeric"})
+            const month = date.toLocaleString('en-GB',{month:"2-digit"})
+            const day = date.toLocaleString('en-GB',{day:"2-digit"})
+            const dateString = [year,month,day].join("-")
             update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
             taskStatus:status,
             dateCompleted:dateString
