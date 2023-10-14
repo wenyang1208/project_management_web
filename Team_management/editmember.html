@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<script type="module" src=".js"> 
+<script type="module"> 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getDatabase, ref, set, get, child, query, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
     const firebaseConfig = {
@@ -47,7 +47,7 @@ import { getDatabase, ref, set, get, child, query, update } from "https://www.gs
       password = document.getElementById("password"),
   
       urlParams = new URLSearchParams(window.location.search),
-      taskId = urlParams.get("taskId");
+      memberID = urlParams.get("memberID");
   
     document.addEventListener("DOMContentLoaded",function(){
       const app = initializeApp(firebaseConfig);
@@ -56,7 +56,7 @@ import { getDatabase, ref, set, get, child, query, update } from "https://www.gs
       // const email = document.getElementById("create_new_email");
       // const password = document.getElementById("create_new_pwd");
   
-      const dataRef = ref(db, `addMember/` + taskId);
+      const dataRef = ref(db, `addMember/` + memberID);
       const savedTasks = []
       var task = {}
   
@@ -98,7 +98,7 @@ import { getDatabase, ref, set, get, child, query, update } from "https://www.gs
   
           e.preventDefault(); // Not sure if need this line yet
           if(username.value !== "" && email.value !== "" && password.value !== ""){
-          update(ref(db, 'addMember/' + taskId), // testing with a specific username
+          update(ref(db, 'addMember/' + memberID), // testing with a specific username
           {
             username : username.value,
             email : email.value,

@@ -148,6 +148,10 @@ document.addEventListener("DOMContentLoaded", function(){
             memberDetails.appendChild(detailsFrame);
             console.log(detailsFrame);
 
+            editButton.addEventListener("click",function (){
+                window.location.href = `editmember.html?memberID=${nameInput.textContent}`
+            })
+
         });
 
     return memberData;
