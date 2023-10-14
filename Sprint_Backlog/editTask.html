@@ -462,6 +462,7 @@ function generateChart(data){
     const timeSpent1 = parseFloat(`${hour_endTime}.${minute_endTime}`) - parseFloat(`${hour_startTime}.${minute_startTime}`);
     let timeSpent2 = timeSpent1.toFixed(2);
     const timeSpent3 = timeSpent1.toFixed(2);
+    let flag = false
 
     if (timeSpent2 >= 0){
       const selectedDate = date1.value;
@@ -475,11 +476,19 @@ function generateChart(data){
               existingTimeSpent = snapshot.val().timeSpent
               timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
             }
-            const logTimeSpent = {
+            logTimeSpentArray.forEach((logTime)=>{
+              if(selectedDate === logTime.date){
+                logTime.timeSpent = parseFloat(timeSpent2) + parseFloat(logTime.timeSpent)
+                flag = true
+              }
+            })
+            if (flag === false){
+              const logTimeSpent = {
               date: selectedDate,
               timeSpent: timeSpent2
           }
           logTimeSpentArray.push(logTimeSpent)
+            }
           accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
           }
         )
