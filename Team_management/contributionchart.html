@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit member</title>
+  <link rel="stylesheet" href="contributionchart.css">
+</head>
+<body>
+<div class="white-frame">
+    <div class="header-menu-container">
+            
+        <div class="menu-bar">
+            <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
+            <div class="menu-items" id="menu-items">
+                <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
+                <a href="scrumboard.html">Scrumboard</a>
+                <a href="contributionchart.html">Team management</a>
+                <a href="../Team_management/profilepage.html">Profile</a>
+                <a href="../Team_management/resetpassword.html">Reset password</a>
+                <a href="#">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="light-yellow-frame">
+        <div class="white-new-frame">
+            <h2 id="timeSpentHeader">Time spent of Alice for the project on each day</h2>
+            <canvas id="lineChart1"></canvas>
+        </div>
+        <div class="assignee">
+            <span class="text">View time spent for: </span>
+            <select name="team-member" id="AssigneeList">
+              <option value="Alice">Alice</option>
+              <option value="Bob">Bob</option>
+              <option value="Larry">Larry</option>
+              <option value="Zam">Zam</option>
+              <option value="All member">All member</option>
+              </select>
+          </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const assigneeList = document.getElementById("AssigneeList");
+      const timeSpentHeader = document.getElementById("timeSpentHeader");
+    
+      assigneeList.addEventListener("change", function() {
+        const selectedValue = assigneeList.value;
+        timeSpentHeader.textContent = `Time spent of ${selectedValue} for the project on each day`;
+      });
+    });
+</script>
+
