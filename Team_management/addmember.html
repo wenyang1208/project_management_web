@@ -1,54 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Task</title>
-  <link rel="stylesheet" href="addmember.css">
+  <title>Edit member</title>
+  <link rel="stylesheet" href="editmember.css">
 </head>
 <body>
-
-  <div class="white-frame">
-      <div class="previous-page">
-        <a href = "#"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
-      </div>
-      <div class="menu-bar">
-        <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
-        <div class="menu-items" id="menu-items">
-          <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
-          <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
-          <a href="#">Team management</a>
-          <a href="profilepage.html">Profile</a>
-          <a href="resetpassword.html">Reset password</a>
-          <a href="#">Log out</a>
-        </div>
-      </div>
-
+<div class="white-frame">
     <div class="light-blue-frame">
         <header>
             <h1>Create new user</h1>
-        </header>
-
-        <div class="task-description">
-            <div class="text">Please create new username:</div>
-            <textarea rows="1" class="description text" id="create_new_desc" value="..."></textarea>
+            </header>
+            <div class="inputsection">
+            <label for="username">Please create new username</label>
+            <input type="text" id="username" name="username">
+            <br>
+            <label for="email">Please create new email</label>
+            <input type="text" id="email" name="email">
+            <br>
+            <label for="password">Please create new password</label>
+            <input type="password" id="password" name="password">
         </div>
-
-        <div class="task-description">
-            <div class="text">Please create new email:</div>
-            <textarea rows="1" class="description text" id="create_new_email" value="..."></textarea>
-        </div>
-
-        <div class="task-description">
-            <div class="text">Please create new password:</div>
-            <textarea rows="1" class="description text" id="create_new_pwd" value="..."></textarea>
-        </div>
-
+            <br>
         <div class="button-container">
-          <a href="#" id="confirm-button" class="confirm-button">Confirm</a>
-          <a href="#" id="cancel-button" class="cancel-button">Cancel</a>
+            <a href="profilepage.html" id="confirm-button" class="confirm-button">Confirm</a>
+            <a href="profilepage.html" id="cancel-button" class="cancel-button">Cancel</a>
         </div>
-
-        
     </div>
+</div>
     
 <script type="module">
 
