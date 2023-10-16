@@ -7,31 +7,27 @@
 <body>
 
   <div class="white-frame">
-      <div class="previous-page">
-        <div class = "previous-button" id = "previous-button"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></div>
+    <div class="previous-page">
+      <div class = "previous-button" id = "previous-button">
+        <img src="../Product_Backlog/previouspage.png" width=30px height = 30px>
       </div>
-      <div class="menu-bar">
-        <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
-        <div class="menu-items" id="menu-items">
-          <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
-          <a href="scrumboard.html">Scrumboard</a>
-          <a href="../Team_management/contributionchart.html">Team management</a>
-          <a href="../Team_management/profilepage.html">Profile</a>
-          <a href="../Team_management/resetpassword.html">Reset password</a>
-          <a href="#">Log out</a>
-        </div>
+    </div>
+    <div class="menu-bar">
+      <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
+      <div class="menu-items" id="menu-items">
+        <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+        <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+        <a id="teamManagement" style="cursor: pointer;">Team management</a>
+        <a id="profile" style="cursor: pointer;">Profile</a>
+        <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+        <a id="LogOutButton" style="cursor: pointer;">Log out</a>
       </div>
+    </div>
 
     <div class="task-frame flex col">
-      <!-- <div class="taskName"></div> -->
       <h1 id="taskNameHeader"></h1>
-
       <div class="taskview">
         <div class="flex col">
-          <!-- <div class="assignee">
-            <span class="text">Assignee: </span>
-            <span class="text" id="Assignee">...</span>
-          </div> -->
           <div class="task-info">
             <span class="info-label">Assignee:</span>
             <span class="info-value" id="asignees"></span>
@@ -42,54 +38,41 @@
             <span class="text" id="taskPriority"></span>
           </div>
 
-          <!-- <div class="stage-of-task">
-            <span class="text">Stage of task: </span>
-            <span class="text" id="stages">...</span>
-          </div> -->
           <div class="task-info">
             <span class="info-label">Stage of task:</span>
             <span class="text" id="stages"></span>
-        </div>
-
-          <!-- Remap description here
-          <div class="task-description">
-            <div class="text">Task description:</div>
-            <div class="description" id="task-description"></div>
-          </div>-->
-
+          </div>
         </div>
 
         <div class="flex col">
           <div class="story-points">
             <span class="text">Story Points: </span>
-            <span class="text" id="storyPoints"></span>
+            <span class="text" id="storyPoints">...</span>
           </div>
 
           <div class="status">
             <span class="text">Status: </span>
             <span class="text" id="status">...</span>
           </div>
+
           <div class="category">
             <span class="text">Task Type: </span>
             <span class="text" id="category">...</span>
           </div>
-
         </div>
 
-          <div class="tags-container">
-            <div class="tags tags1" id="FE">Frontend</div>
-            <div class="tags tags2" id="BE">Backend</div>
-            <div class="tags tags3" id="API">API</div>
-            <div class="tags tags4" id="DB">Database</div>
-            <div class="tags tags5" id="FW">Framework</div>
-            <div class="tags tags6" id="TEST">Testing</div>
-            <div class="tags tags7" id="UI">UI</div>
-            <div class="tags tags8" id="UX">UX</div>
-          </div>
-
+        <div class="tags-container">
+          <div class="tags tags1" id="FE">Frontend</div>
+          <div class="tags tags2" id="BE">Backend</div>
+          <div class="tags tags3" id="API">API</div>
+          <div class="tags tags4" id="DB">Database</div>
+          <div class="tags tags5" id="FW">Framework</div>
+          <div class="tags tags6" id="TEST">Testing</div>
+          <div class="tags tags7" id="UI">UI</div>
+          <div class="tags tags8" id="UX">UX</div>
+        </div>
       </div>
 
-      
       <div class="task-description">
         <div class="text">Task description:</div>
         <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
@@ -112,7 +95,7 @@
       <div class="button-container">
         <div id="edit-button" class="edit-button">Edit</div>
         <!-- <a href="editTask.html" id="edit-button" class="edit-button">Edit</a> -->
-        <a href="sprint.html" id="delete-button" class="delete-button">Delete</a>
+        <a style="cursor: pointer;" id="delete-button" class="delete-button">Delete</a>
       </div>
 
  
@@ -127,7 +110,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild,remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -170,13 +153,51 @@ const urlParams = new URLSearchParams(window.location.search);
 const sprintId = urlParams.get("sprintId");
 const taskId = urlParams.get("taskId");
 document.addEventListener("DOMContentLoaded", function () {
+  const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const username = urlParams.get("username")
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+    get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
   previousbutton.addEventListener("click",function(){
     window.location.href = `sprint.html?sprintId=${sprintId}`
   })
 
 //----------------------------------------------get data------------------------------------------------------------------
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
     const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
     var task ={}
 
@@ -349,8 +370,13 @@ function generateChart(data){
 
     editbutton.addEventListener("click",function(event){
         event.preventDefault()
-        window.location.href=`edittask.html?sprintId=${sprintId}&taskId=${taskId}`
+        window.location.href=`edittask.html?username=${username}&sprintId=${sprintId}&taskId=${taskId}`
     })
+    const deletebutton = document.getElementById("delete-button")
+    deletebutton.addEventListener("click",function(){
+  remove(ref(db,`newsprint/${sprintId}/selectedTasks/${taskId}`))
+  window.location.href = `sprint.html?username=${username}&sprintId=${sprintId}`
+})
 });
 </script>
 </body>

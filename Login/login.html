@@ -49,7 +49,7 @@
         <div class="light-blue-frame">
 
             <form action="../Product_Backlog/prodBacklog.html" method="post">
-                <label for="username">Please enter your username / email</label>
+                <label for="username">Please enter your username</label>
                 <input type="text" id="username" name="username">
                 <br>
                 <label for="password">Please enter your password</label>
@@ -98,7 +98,7 @@
 
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        import { getDatabase, ref, set, get, child,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
   
       
         // Your web app's Firebase configuration
@@ -116,21 +116,31 @@
         const app = initializeApp(firebaseConfig);
   
         const db = getDatabase(app);
-  
         document.getElementById("submit").addEventListener('click', function(e){
           
           e.preventDefault();
 
           const username = document.getElementById("username").value;
           const password = document.getElementById("password").value;
-  
-          set(ref(db, 'user/' + document.getElementById("username").value),
+          get(ref(db,`addMember/${username}`)).then((user)=>{
+            if (user.val() == null || user.val()["password"] != password){
+              alert("username or password is incorrect")
+            }
+            else {
+              update(ref(db,`addMember/${username}`),{
+                status:"Log in"
+              })
+              alert("Login successful. Welcome, " + username + "!")
+              window.location.href = `../Product_Backlog/prodBacklog.html?username=${username}`
+            }
+          })
+          /*set(ref(db, 'user/' + document.getElementById("username").value),
           {
             username : username,
             password : password
           })
           .then(() => {alert("Login successful. Welcome, " + username + "!")})
-          .then(() => {window.location.href = "../Product_Backlog/prodBacklog.html"});
+          .then(() => {window.location.href = `../Product_Backlog/prodBacklog.html?authority=${}`});*/
         });
 
       </script>

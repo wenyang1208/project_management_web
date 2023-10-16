@@ -7,8 +7,8 @@
 <body>
 
   <div class="light-blue-frame">
-    <div class="previous-page">
-      <a href = "scrumboard.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+    <div class="previous-page" id="previous-page">
+      <a><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
   </div>
 
     <div class="sprint-frame flex col">
@@ -49,9 +49,9 @@
  
     <br>
     <div class="button-container">
-        <a href="scrumboard.html" id="save-button" class="save-button">Add new sprint</a>
+        <a id="save-button" class="save-button">Add new sprint</a>
 
-        <a href="scrumboard.html" id="discard-button" class="discard-button">Discard</a>
+        <a id="discard-button" class="discard-button">Discard</a>
     </div>
     
 
@@ -74,6 +74,20 @@ document.addEventListener("DOMContentLoaded",function(){
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
+const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    
+    get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
 
 document.getElementById("save-button").addEventListener('click', function(e){
           
@@ -94,7 +108,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
                 endDate : endDate,
                 selectedStatus : selectedStatus.value
             })
-            .then(() => {window.location.href = "scrumboard.html"})  
+            .then(() => {window.location.href = `scrumboard.html?username=${username}`})  
         }else{
             alert("Start date must be smaller than or equal to the end date.")
         }
@@ -103,6 +117,12 @@ document.getElementById("save-button").addEventListener('click', function(e){
         alert("Please enter all the sprint details.")
     }
   });
+  document.getElementById("discard-button").addEventListener("click",function(){
+    window.location.href = `scrumboard.html?username=${username}`
+  })
+  document.getElementById("previous-page").addEventListener("click",function(){
+    window.location.href = `scrumboard.html?username=${username}`
+  })
 })
 
 </script>

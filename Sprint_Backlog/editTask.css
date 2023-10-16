@@ -10,9 +10,9 @@ body {
 }
 .green-frame {
   background-color: #b5dbaf;
+  padding: 20px;
   margin: 10px;
   border-radius: 5px;
-  width: 100%;
 }
 .green-frame h2 {
   margin-left: 20px; /* Add spacing between the heading and the green frame's border */
@@ -397,6 +397,12 @@ select:focus option {
 
 table {
   margin-top: 10px;
+}
+.pink-frame {
+  background-color: #E8CACA;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
 }
 
 .tablebg{

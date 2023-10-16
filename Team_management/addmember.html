@@ -22,8 +22,8 @@
         </div>
             <br>
         <div class="button-container">
-            <a href="profilepage.html" id="confirm-button" class="confirm-button">Confirm</a>
-            <a href="profilepage.html" id="cancel-button" class="cancel-button">Cancel</a>
+            <a style="cursor: pointer;" id="confirm-button" class="confirm-button">Confirm</a>
+            <a style="cursor: pointer;" id="cancel-button" class="cancel-button">Cancel</a>
         </div>
     </div>
 </div>
@@ -48,20 +48,48 @@
     const username = document.getElementById("create_new_desc");
     const email = document.getElementById("create_new_email");
     const password = document.getElementById("create_new_pwd");
+    const urlParams = new URLSearchParams(window.location.search)
+    const usernameUrl = urlParams.get("username")
+    get(ref(db,`addMember/${usernameUrl}`)).then((user)=>{
+      if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["identity"] != "admin"){
+        alert("You have no access to add member")
+        window.location.href = `../Product_Backlog/prodBacklog.html?username=${usernameUrl}`
+      }
+    })
 
   // ------------------------------------------- Confirm button------------------------------------------------------------------
 
     document.getElementById("confirm-button").addEventListener('click', function(e){
-      if(username.value !== "" && email.value !== "" && password.value !== "")
+      function isValidEmail(email) {
+        const emailPattern = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/ 
+        const bool = emailPattern.test(email.value)
+        console.log(bool)
+        // Regular expression pattern for a valid email address
+        if (bool){
+          return true
+        }
+        else {
+          alert("Invalid Email Address")
+          return false
+        }
+      }
+      const valid_email = isValidEmail(email)
+      if(username.value !== "" && password.value !== "")
       {
+        if (valid_email){
         set(ref(db, 'addMember/' + username.value),
         {
           username : username.value,
           email : email.value,
           password : password.value,
+          identity: "member"
         })
         .then(() => {alert(username.value + ' is added as the new member.')})
-        .then(() => {window.location.href = 'profilepage.html'});
+        .then(() => {window.location.href = `profilepage.html?username=${usernameUrl}`});
+        }
       }else{
         alert("Please fill in all the member's details.");
       }
@@ -70,13 +98,13 @@
   // ------------------------------------------- Cancel button------------------------------------------------------------------
 
     document.getElementById("cancel-button").addEventListener('click', function(e){
-        window.location.href = "profilepage.html";
+        window.location.href = `profilepage.html?username=${usernameUrl}`;
       }) 
 
   // ------------------------------------------- Back button------------------------------------------------------------------
 
     document.querySelector(".previous-page").addEventListener('click', function(e){
-          window.location.href = 'profilepage.html';
+          window.location.href = `profilepage.html?username=${usernameUrl}`;
         }) 
   })
 
