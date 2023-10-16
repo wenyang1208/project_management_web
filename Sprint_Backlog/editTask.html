@@ -379,31 +379,37 @@ function trialVersionFunction(){
       const xValues = [];
       const yValues = [];
       const dateSet = new Set(duration);
-
+      logTimeSpentArray.sort((a, b) => new Date(a.date) - new Date(b.date));
       console.log(logTimeSpentDataArray)
       console.log(logTimeSpentArray)
-
       duration.forEach(date => {
         // Check if the date exists in logTimeSpentDataArray
         const timeData = logTimeSpentDataArray.find(time => time.date === date);
         const timeData2 = logTimeSpentArray.find(time => time.date === date);
-        // console.log('timedata' + timeData)
+
         if (timeData && timeData2){
           yValues.push(timeData2.timeSpent)
         }
         else if (timeData) {
+          console.log(timeData)
           yValues.push(timeData.timeSpent);
         } else if (timeData2){
+          console.log(timeData2)
           yValues.push(timeData2.timeSpent);
         }
         else{
           yValues.push(0)
         }
       });
-        
+      
       for(let i=0; i<yValues.length ;i++){
+        console.log(yValues[i])
         if(yValues[i] === 0 && i !== 0){
           yValues[i] = yValues[i-1]
+        if(yValues[i] < yValues[i-1] && i !== 0){
+          yValues[i] = yValues[i] + yValues[i-1]
+          console.log(yValues[i])
+        }
         }
       }
       var data = {
@@ -492,11 +498,11 @@ function generateChart(data){
     const startTime = document.getElementById("start-time-spent");
     const endTime = document.getElementById("end-time-spent");
     const hour_startTime = startTime.value.split(":")[0]
-    console.log(hour_startTime)
+    // console.log(hour_startTime)
     const minute_startTime = startTime.value.split(":")[1]/60*100
-    console.log(minute_startTime)
+    // console.log(minute_startTime)
     const hour_endTime = endTime.value.split(":")[0];
-    console.log(hour_endTime)
+    // console.log(hour_endTime)
     const minute_endTime = endTime.value.split(":")[1]/60*100;
     const timeSpent1 = parseFloat(`${hour_endTime}.${minute_endTime}`) - parseFloat(`${hour_startTime}.${minute_startTime}`);
     let timeSpent2 = timeSpent1.toFixed(2);
@@ -504,6 +510,7 @@ function generateChart(data){
     const timeSpent3 = timeSpent1.toFixed(2);
     let flag = false
     let flag2 = false
+    let isExist = false
 
     if (timeSpent2 >= 0){
       const selectedDate = date1.value;
@@ -517,30 +524,37 @@ function generateChart(data){
             if (snapshot.exists()) {// check if the date has existed or not
               existingTimeSpent = snapshot.val().timeSpent
               timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
+              isExist = true
             }
             console.log(logTimeSpentArray)
-            console.log(logTimeSpentDataArray)
-            logTimeSpentArray.forEach((logTime)=>{
+            logTimeSpentArray.forEach((logTime)=>{// update the added date (not saved)
               if(selectedDate === logTime.date){
                 logTime.timeSpent = parseFloat(logTime.timeSpent) + parseFloat(timeSpent3);
                 flag = true
               }
+              if(new Date(logTime.date) > new Date(selectedDate)){// update the dates after the selected date (not saved) 
+                logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
+              }
             })
-            logTimeSpentDataArray.forEach((logTime) => {
+            logTimeSpentDataArray.forEach((logTime) => {// update the dates after the selected date (saved)
               if(new Date(logTime.date) >= new Date(selectedDate)){
                 logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
                 flag = true
               }
             })
-            console.log(parseFloat(accTime.textContent) + parseFloat(timeSpent3))
-            if (flag === false){
+            if (flag === false){// if the added date is not updated
               const logTimeSpent = {
               date: selectedDate,
-              // timeSpent: timeSpent2
               timeSpent: parseFloat(accTime.textContent) + parseFloat(timeSpent3)
           }
           logTimeSpentArray.push(logTimeSpent)
-          console.log(logTimeSpentArray)
+            }
+            if (isExist === true){// if the date exists
+              const logTimeSpent = {
+              date: selectedDate,
+              timeSpent: timeSpent2
+          }
+          logTimeSpentArray.push(logTimeSpent)
             }
           accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
           }
@@ -608,7 +622,7 @@ const check = setInterval(checkTag,10)
 
 //--------------------------------------------------save button-----------------------------------------------------
 savebutton.addEventListener("click",function(){
-  console.log('hi')
+
   event.preventDefault();
   let taskTag = [];
         tagOptionList.forEach((tag) => {
