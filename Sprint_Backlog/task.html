@@ -294,17 +294,17 @@ function displayTaskDetails(savedTasks){
     });
 
     logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-
+    for(let i=0; i<yValues.length ;i++){
+        if(yValues[i] === 0 && i !== 0){
+          yValues[i] = yValues[i-1]
+        }
+      }
     const formattedDates = xValues.map((date) => {
         const day = date.getDate().toLocaleString('en-GB',{year:"numeric"})
         const month = (date.getMonth() + 1).toLocaleString('en-GB',{month:"2-digit"})
         const year = date.getFullYear();
         return [year,month,day].join("-");
       });
-
-    // if (formattedDates !== null){
-    //   formattedDates
-    // }
 
     var data = {
       labels: duration,

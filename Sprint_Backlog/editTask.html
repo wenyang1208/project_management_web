@@ -364,6 +364,11 @@ function trialVersionFunction(){
         }
       });
         
+      for(let i=0; i<yValues.length ;i++){
+        if(yValues[i] === 0 && i !== 0){
+          yValues[i] = yValues[i-1]
+        }
+      }
       var data = {
         labels: duration,
         datasets: [{
@@ -402,14 +407,11 @@ function viewChartFunction(){
 
 
       logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-      const formattedDates = xValues.map((date) => {
-          const day = date.getDate().toLocaleString('en-GB',{year:"numeric"})
-          const month = (date.getMonth() + 1).toLocaleString('en-GB',{month:"2-digit"})
-          const year = date.getFullYear();
-          return [year,month,day].join("-");
-        }); 
-        
+      for(let i=0; i<yValues.length ;i++){
+        if(yValues[i] === 0 && i !== 0){
+          yValues[i] = yValues[i-1]
+        }
+      }
       var data = {
         labels: duration,
         datasets: [{
@@ -476,16 +478,26 @@ function generateChart(data){
               existingTimeSpent = snapshot.val().timeSpent
               timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
             }
+            console.log(logTimeSpentArray)
+            console.log(logTimeSpentDataArray)
             logTimeSpentArray.forEach((logTime)=>{
               if(selectedDate === logTime.date){
-                logTime.timeSpent = parseFloat(timeSpent2) + parseFloat(logTime.timeSpent)
+                logTime.timeSpent = parseFloat(logTime.timeSpent) + parseFloat(timeSpent3);
                 flag = true
               }
             })
+            logTimeSpentDataArray.forEach((logTime) => {
+              if(new Date(logTime.date) >= new Date(selectedDate)){
+                logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
+                flag = true
+              }
+            })
+            console.log(parseFloat(accTime.textContent) + parseFloat(timeSpent3))
             if (flag === false){
               const logTimeSpent = {
               date: selectedDate,
-              timeSpent: timeSpent2
+              // timeSpent: timeSpent2
+              timeSpent: parseFloat(accTime.textContent) + parseFloat(timeSpent3)
           }
           logTimeSpentArray.push(logTimeSpent)
             }
@@ -535,6 +547,7 @@ const check = setInterval(checkTag,10)
 
 //--------------------------------------------------save button-----------------------------------------------------
 savebutton.addEventListener("click",function(){
+  console.log('hi')
   event.preventDefault();
   let taskTag = [];
         tagOptionList.forEach((tag) => {
@@ -554,6 +567,16 @@ savebutton.addEventListener("click",function(){
 
   logTimeSpentArray.forEach((logTimeSpent)=>{
     set(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${logTimeSpent.date}`),logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
+  })
+
+  logTimeSpentDataArray.forEach((logTimeSpent)=>{
+    get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${logTimeSpent.date}`)).then((task)=>{
+      if(task.val()["timeSpent"] < logTimeSpent.timeSpent){
+        console.log('hi')
+        set(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${logTimeSpent.date}`),logTimeSpent)
+      }
+    })// Setting reference, store log time spent (date and time) in the ref
+
   })
 
   const status = document.querySelector('input[name="status"]:checked').value
