@@ -524,30 +524,51 @@ function generateChart(data){
             if (snapshot.exists()) {// check if the date has existed or not
               existingTimeSpent = snapshot.val().timeSpent
               timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
+              console.log(timeSpent2)
               isExist = true
+              flag = true
             }
-            console.log(logTimeSpentArray)
             logTimeSpentArray.forEach((logTime)=>{// update the added date (not saved)
               if(selectedDate === logTime.date){
                 logTime.timeSpent = parseFloat(logTime.timeSpent) + parseFloat(timeSpent3);
                 flag = true
               }
-              if(new Date(logTime.date) > new Date(selectedDate)){// update the dates after the selected date (not saved) 
+              else if(new Date(logTime.date) > new Date(selectedDate)){// update the dates after the selected date (not saved) 
                 logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
               }
+              // else if((new Date(selectedDate) - new Date(logTime.date))/ 3600000 === 1)
+              // {
+              //   const timeDifference = new Date(selectedDate) - new Date(logTime.date);
+              //   console.log(timeDifference)
+              // }
             })
             logTimeSpentDataArray.forEach((logTime) => {// update the dates after the selected date (saved)
               if(new Date(logTime.date) >= new Date(selectedDate)){
                 logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
-                flag = true
               }
             })
             if (flag === false){// if the added date is not updated
-              const logTimeSpent = {
+              let insertIndex = 0
+              for(let i = 0; i<logTimeSpentDataArray.length ; i++){
+                if(new Date(selectedDate) > new Date(logTimeSpentDataArray[i].date)){
+                  insertIndex = i + 1;
+                }else{
+                  break;
+                }
+              }
+              if (logTimeSpentDataArray.length !== 0){
+                const logTimeSpent = {
               date: selectedDate,
-              timeSpent: parseFloat(accTime.textContent) + parseFloat(timeSpent3)
-          }
-          logTimeSpentArray.push(logTimeSpent)
+              timeSpent: parseFloat(logTimeSpentDataArray[insertIndex-1].timeSpent) + parseFloat(timeSpent3)
+              }
+              logTimeSpentArray.push(logTimeSpent) 
+              }else{
+                const logTimeSpent = {
+              date: selectedDate,
+              timeSpent: timeSpent2
+              }
+              logTimeSpentArray.push(logTimeSpent) 
+              }
             }
             if (isExist === true){// if the date exists
               const logTimeSpent = {
