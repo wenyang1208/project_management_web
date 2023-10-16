@@ -606,12 +606,19 @@ function generateChart(data){
                 logTimeSpentArray.push(logTimeSpent) 
               }
               else if(logTimeSpentDataArray.length === 0 && logTimeSpentArray.length !== 0){ //first time add, add more than one date
-              console.log(updateTimeSpent)
-              const logTimeSpent = {
+              if (updateTimeSpent.length > 0){
+                const logTimeSpent = {
               date: selectedDate,
               timeSpent: parseFloat(timeSpent3) + parseFloat(updateTimeSpent[updateTimeSpent.length - 1])
               }
               logTimeSpentArray.push(logTimeSpent) 
+              }else{
+                const logTimeSpent = {
+              date: selectedDate,
+              timeSpent: timeSpent2
+              }
+              logTimeSpentArray.push(logTimeSpent)  
+              }
               }
               else if(logTimeSpentDataArray.length === 0 && logTimeSpentArray.length === 0){ // first time add, add one date
               const logTimeSpent = {
