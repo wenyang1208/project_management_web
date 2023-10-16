@@ -17,18 +17,18 @@
 <div class="menu-bar">
 <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
 <div class="menu-items" id="menu-items">
-<a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
-<a href="scrumboard.html">Scrumboard</a>
-<a href="../Team_management/contributionchart.html">Team management</a>
-<a href="../Team_management/profilepage.html">Profile</a>
-<a href="../Team_management/resetpassword.html">Reset password</a>
-<a href="#">Log out</a>
+  <a id="productBacklog" style="cursor: pointer;">Product backlog</a>
+  <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+  <a id="teamManagement" style="cursor: pointer;">Team management</a>
+  <a id="profile" style="cursor: pointer;">Profile</a>
+  <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+  <a id="LogOutButton" style="cursor: pointer;">Log out</a>
 </div>
 </div>
 
 
 <div class="button-container">
-<a href="createnewsprint.html" id="add-button" class="add-button">Create new sprint</a>
+<a id="add-button" class="add-button">Create new sprint</a>
 </div>
 
 
@@ -61,7 +61,7 @@
 <script type="module">
 //----------------------------------------------DISPLAYING SPRINT--------------------------------------------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child ,update} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -76,6 +76,48 @@ document.addEventListener("DOMContentLoaded",function(){
     const app = initializeApp(firebaseConfig);
 
     const db = getDatabase(app);
+    const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    document.getElementById("add-button").addEventListener("click",function(){
+      window.location.href= `createnewsprint.html?username=${username}`
+    })
+    document.getElementById("productBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+    get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
     const newsprintRef = ref(db, "newsprint/");
 
     // data array
@@ -95,8 +137,11 @@ document.addEventListener("DOMContentLoaded",function(){
                 cardView.classList.add("cardview");
                 cardView.id = `sprint${index + 1}`;
 
-                const anchor = document.createElement("a");
-                anchor.href = `sprint.html?sprintId=${sprintData.sprint}`;
+                const anchor = document.createElement("div");
+                anchor.style.cursor = "pointer";
+                anchor.addEventListener("click",function(){
+                  window.location.href = `sprint.html?username=${username}&sprintId=${sprintData.sprint}`;
+                })
 
                 const sprintName = document.createElement("div");
                 sprintName.classList.add("sprint-name");
@@ -125,14 +170,14 @@ document.addEventListener("DOMContentLoaded",function(){
                 deletecheckbox.appendChild(checkboxinput)
                 deletecheckbox.appendChild(checkmark)
 
-                anchor.appendChild(sprintName);
-                anchor.appendChild(startDate);
-                anchor.appendChild(endDate);
-                anchor.appendChild(status);
-                anchor.appendChild(deletecheckbox);
+                cardView.appendChild(sprintName);
+                cardView.appendChild(startDate);
+                cardView.appendChild(endDate);
+                cardView.appendChild(status);
+                cardView.appendChild(deletecheckbox);
 
-                cardView.appendChild(anchor);
-                sprintList.appendChild(cardView);
+                anchor.appendChild(cardView);
+                sprintList.appendChild(anchor);
             })
         } else {
             console.log("No data available");

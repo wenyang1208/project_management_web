@@ -14,18 +14,15 @@
 
 <div class="white-frame"> 
 <div class="header-menu-container">
-<div class="previous-page">
-<a href = "../Product_Backlog/prodBacklog.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
-</div>
 <div class="menu-bar">
 <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
 <div class="menu-items" id="menu-items">
-<a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
-<a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
-<a href="contributionchart.html">Team management</a>
-<a href="profilepage.html">Profile</a>
-<a href="../Team_management/resetpassword.html">Reset password</a>
-<a href="#">Log out</a>
+    <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+    <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+    <a id="teamManagement" style="cursor: pointer;">Team management</a>
+    <a id="profile" style="cursor: pointer;">Profile</a>
+    <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+    <a id="LogOutButton" style="cursor: pointer;">Log out</a>
 </div>
 </div>
 </div>
@@ -98,6 +95,49 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+    get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["identity"] != "admin"){
+        alert("You have no access to view the members' profile")
+        window.location.href = `../Product_Backlog/prodBacklog.html?username=${username}`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
     const que = query(ref(db, "addMember/"));
     const memberDetails = document.querySelector('.member-details');
     const savedMemberDetails = [];
@@ -138,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function(){
             editInput.classList.add("edit-input");
 
             const editButton = document.createElement("a");
-            editButton.href = "../Team_management/editmember.html";
+            editButton.href = `../Team_management/editmember.html?username=${username}&memberId=${member.username}`;
             editButton.id = "edit-button";
             editButton.classList.add("edit-button");
             editButton.textContent = "Edit";
@@ -147,10 +187,6 @@ document.addEventListener("DOMContentLoaded", function(){
             detailsFrame.appendChild(editInput);
             memberDetails.appendChild(detailsFrame);
             console.log(detailsFrame);
-
-            editButton.addEventListener("click",function (){
-                window.location.href = `editmember.html?memberID=${nameInput.textContent}`
-            })
 
         });
 
