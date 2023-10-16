@@ -508,6 +508,7 @@ function generateChart(data){
     let timeSpent2 = timeSpent1.toFixed(2);
     let timeSpent4 = timeSpent1.toFixed(2)
     const timeSpent3 = timeSpent1.toFixed(2);
+    const updateTimeSpent = [];
     let flag = false
     let flag2 = false
     let isExist = false
@@ -536,11 +537,9 @@ function generateChart(data){
               else if(new Date(logTime.date) > new Date(selectedDate)){// update the dates after the selected date (not saved) 
                 logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
               }
-              // else if((new Date(selectedDate) - new Date(logTime.date))/ 3600000 === 1)
-              // {
-              //   const timeDifference = new Date(selectedDate) - new Date(logTime.date);
-              //   console.log(timeDifference)
-              // }
+              else{
+                updateTimeSpent.push(logTime.timeSpent)
+              }
             })
             logTimeSpentDataArray.forEach((logTime) => {// update the dates after the selected date (saved)
               if(new Date(logTime.date) >= new Date(selectedDate)){
@@ -562,8 +561,15 @@ function generateChart(data){
               timeSpent: parseFloat(logTimeSpentDataArray[insertIndex-1].timeSpent) + parseFloat(timeSpent3)
               }
               logTimeSpentArray.push(logTimeSpent) 
-              }else{
-                const logTimeSpent = {
+              }else if(logTimeSpentArray.length !== 0){
+              const logTimeSpent = {
+              date: selectedDate,
+              timeSpent: parseFloat(timeSpent3) + parseFloat(updateTimeSpent[updateTimeSpent.length - 1])
+              }
+              logTimeSpentArray.push(logTimeSpent) 
+              }
+              else if(logTimeSpentArray.length === 0){
+              const logTimeSpent = {
               date: selectedDate,
               timeSpent: timeSpent2
               }
