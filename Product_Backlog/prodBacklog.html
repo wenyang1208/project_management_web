@@ -7,7 +7,7 @@
 <body>
 <div class="onoffbutton">
 <label class="switch">
-  <input type="checkbox">
+  <input type="checkbox" id="toggleButton">
   <span class="slider round"></span>
 </label>
 </div>
@@ -303,7 +303,8 @@ document.addEventListener("DOMContentLoaded", function(){
                   const urlParams = new URLSearchParams(window.location.search)
                   const username = urlParams.get("username")
                 window.location.href = `task.html?username=${username}&taskId=${taskName.textContent}`})
-                taskList.appendChild(taskCard);    
+                taskList.appendChild(taskCard);
+                console.log(taskList)    
             });
         }
         return taskData;
@@ -422,6 +423,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   </script>
 
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  // const priorityElement = document.querySelector(".priority");
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      // priorityElement.style.color = "gray";
+    } else {
+      body.classList.remove("color-blind-friendly");
+      // priorityElement.style.color = "";
+    }
+  });
+</script>
 
 </body>
 </html>

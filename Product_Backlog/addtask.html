@@ -7,7 +7,7 @@
 <body>
 <div class="onoffbutton">
 <label class="switch">
-  <input type="checkbox">
+  <input type="checkbox" id="toggleButton">
   <span class="slider round"></span>
 </label>
 </div>
@@ -345,6 +345,21 @@ const prioritiesSelect = document.getElementById("priorities");
 
     // Call the changeSelectColor function initially to set the initial color
     changeSelectColor();
+</script>
+
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  // const priorityElement = document.querySelector(".priority");
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      // priorityElement.style.color = "gray";
+    } else {
+      body.classList.remove("color-blind-friendly");
+      // priorityElement.style.color = "";
+    }
+  });
 </script>
 </body>
 </html>
