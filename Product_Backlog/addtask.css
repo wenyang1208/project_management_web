@@ -140,13 +140,21 @@ position: inline;
   cursor: pointer;
 }
 
+.color-blind-friendly .menu-bar button {
+  background-color: #887c80; /* Change menu button background color to dark gray */
+  color: #ffffff; /* Change menu button text color to white */
+}
+
 .menu-items {
   display: none;
   position: absolute;
   background-color: gray;
   padding: 5px;
 }
-
+.color-blind-friendly .menu-items {
+  background-color: #887c80; /* Change menu button background color to dark gray */
+  color: #ffffff; /* Change menu button text color to white */
+}
 .menu-items a {
 display: block;
   color: white;
@@ -176,6 +184,26 @@ display: block;
   line-height: center; 
   margin-left: auto;
   display: block;
+}
+
+.color-blind-friendly .edit-button{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
+}
+
+.color-blind-friendly .delete-button{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
+}
+
+.color-blind-friendly .save-button{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
+}
+
+.color-blind-friendly .tag-button{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
 }
 
 
@@ -304,6 +332,10 @@ display: block;
 }
 .text {
   font-family: arial, helvetica, sans-serif;
+}
+
+.color-blind-friendly .description{
+  background-color: #e8d2da; /* Change menu button text color to white */
 }
 
 /* Default styles for the <select> element */
