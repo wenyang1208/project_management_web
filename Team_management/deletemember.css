@@ -3,7 +3,10 @@ body {
     padding: 20px;
     }
     
-    
+    .color-blind-friendly {
+      background-color: #DCD6F1; 
+      color: #000000;
+    }
     .white-frame{
     background-color: white;
     padding: 20px;
@@ -45,6 +48,26 @@ body {
     margin: 10px;
     border-radius: 5px;
     }
+    
+  .color-blind-friendly .light-blue-frame {
+    background-color: #dcd2f4;
+  }
+
+  .color-blind-friendly .light-blue-card-frame {
+    background-color: #dcd2f4;
+  }
+
+  .color-blind-friendly .dark-blue-frame {
+    background-color: #7d82a8;
+  }
+
+  .color-blind-friendly .pink-frame {
+    background-color: #e2caca;
+  }
+
+  .color-blind-friendly .green-frame {
+    background-color: #e9c9b6;
+  }
     .flex {
     display: flex;
     }
@@ -123,7 +146,10 @@ body {
     cursor: pointer;
     }
     
-    
+    .color-blind-friendly .menu-bar button {
+      background-color: #887c80;
+      color: #ffffff;
+    }
     .menu-items {
     display: none;
     position: absolute;
@@ -131,7 +157,10 @@ body {
     padding: 5px;
     }
     
-    
+    .color-blind-friendly .menu-items {
+      background-color: #887c80;
+      color: #ffffff;
+    }
     .menu-items a {
     display: block;
     color: white;
@@ -211,7 +240,14 @@ body {
         margin-left: auto;
         display: block;
     }
-
+    .color-blind-friendly .delete-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    .color-blind-friendly .discard-button{
+      background-color: #0e2a45;
+      color: white;
+    }
             /* The switch - the box around the slider */
 .switch {
     position: relative;

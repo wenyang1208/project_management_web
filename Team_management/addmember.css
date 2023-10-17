@@ -2,7 +2,10 @@ body {
     background-color: #A8CAEA;
     padding: 20px;
   }
-
+  .color-blind-friendly {
+    background-color: #DCD6F1; /* Change background color to white */
+    color: #000000; /* Change text color to black */
+  }
 .white-frame{
   background-color: white;
   padding: 20px;
@@ -15,7 +18,9 @@ body {
     position: relative;
     padding: 7%;
 }
-
+.color-blind-friendly .light-blue-frame {
+  background-color: #dcd2f4;
+}
 .content {
   display: flex;
   flex-direction: row;
@@ -45,6 +50,10 @@ main {
   justify-content: space-between;
 }
 
+.color-blind-friendly .task-frame {
+  background-color: #fceefa;
+}
+
   .menu-bar {
     position: relative;
     display: inline-block;
@@ -72,14 +81,18 @@ main {
     border: none;
     cursor: pointer;
 }
-
+.color-blind-friendly .menu-bar button {
+  background-color: #887c80; /* Change menu button background color to dark gray */
+}
 .menu-items {
     display: none;
     position: absolute;
     background-color: gray;
     padding: 5px;
 }
-
+.color-blind-friendly .menu-items {
+  background-color: #887c80; /* Change menu button background color to dark gray */
+}
 .menu-items a {
   display: block;
     color: white;
@@ -111,7 +124,14 @@ main {
   display: block;
 }
 
-
+.color-blind-friendly .confirm-button{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
+}
+.color-blind-friendly .cancel-button{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
+}
 
 .task-description {
     width: 50%;

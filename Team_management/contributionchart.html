@@ -7,7 +7,7 @@
 <body>
 <div class="onoffbutton">
 <label class="switch">
-  <input type="checkbox">
+  <input type="checkbox" id="toggleButton">
   <span class="slider round"></span>
 </label>
 </div>
@@ -138,18 +138,44 @@ const db = getDatabase(app);
             })
         }
       })
-    
+      const color = ['red','blue','green','yellow','RGB(53,76,112)','RGB(0, 0, 0)',
+                            'RGB(66, 60, 60)','RGB(71, 33, 33)','RGB(211, 242, 241)']
+      const colorBlindness = ['#9b7a26','#204f7f','#85682c','#fdf5eb','#404c6d','#000000',
+                              '#453e3f', '#372e25','#fae5f4']
+      const toggleButton = document.getElementById("toggleButton");
       assigneeList.addEventListener("change", function() {
         const assignee = assigneeList.value;
         const sprint = sprintList.value;
         timeSpentHeader.textContent = `Time spent of ${assignee} for ${sprint} on each day`;
-        generateChartData()
+        toggleButton.addEventListener("change", function(){
+          if(toggleButton.checked){
+            generateChartData(colorBlindness) 
+          }else{
+            generateChartData(color)
+          }
+        })
+        if(toggleButton.checked){
+            generateChartData(colorBlindness) 
+          }else{
+            generateChartData(color)
+          }
       });
       sprintList.addEventListener("change", function() {
         const assignee = assigneeList.value;
         const sprint = sprintList.value;
         timeSpentHeader.textContent = `Time spent of ${assignee} for ${sprint} on each day`;
-        generateChartData()
+        toggleButton.addEventListener("change", function(){
+          if(toggleButton.checked){
+            generateChartData(colorBlindness) 
+          }else{
+            generateChartData(color)
+          }
+        })
+        if(toggleButton.checked){
+            generateChartData(colorBlindness) 
+          }else{
+            generateChartData(color)
+          }
       });
 function getIntervalsBetweenDates(startD, endD) {
   const intervals = [];
@@ -168,15 +194,18 @@ function getIntervalsBetweenDates(startD, endD) {
 
   return intervals;
 }
-    function generateChartData(){
+    function generateChartData(color){
         const datasets = []
       get(ref(db,`teamManagement/${sprintList.value}`)).then((sprint)=>{
         if (sprint.exists()){
+            // const toggleButton = document.getElementById("toggleButton");
             const startDate = sprint.val()["startDate"]
             const endDate = sprint.val()["endDate"]
             const interval = getIntervalsBetweenDates(startDate,endDate)
-            const color = ['red','blue','green','yellow','RGB(53,76,112)','RGB(0, 0, 0)',
-                            'RGB(66, 60, 60)','RGB(71, 33, 33)','RGB(211, 242, 241)']
+            // const color = ['red','blue','green','yellow','RGB(53,76,112)','RGB(0, 0, 0)',
+            //                 'RGB(66, 60, 60)','RGB(71, 33, 33)','RGB(211, 242, 241)']
+            // const colorBlindness = ['#9b7a26','#204f7f','#85682c','#fdf5eb','#404c6d','#000000',
+            //                         '#453e3f', '#372e25','#fae5f4']
             if (assigneeList.value == "All member"){
                 get(ref(db,`teamManagement/${sprintList.value}/taskAssignees`)).then((allMember)=>{
                     if (allMember.exists()){
@@ -269,6 +298,18 @@ function getIntervalsBetweenDates(startD, endD) {
         }
       })
     }
+</script>
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+    } else {
+      body.classList.remove("color-blind-friendly");
+    }
+  });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </body>

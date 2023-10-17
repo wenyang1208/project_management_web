@@ -2,6 +2,12 @@ body {
     text-align: center;
     background-color: #A8CAEA;
   }
+
+  .color-blind-friendly {
+    background-color: #DCD6F1; /* Change background color to white */
+    color: #000000; /* Change text color to black */
+  }
+
   .white-frame {
     margin: 0 auto; 
     position: relative;
@@ -15,6 +21,11 @@ body {
       position: relative;
       padding: 10px;
   }
+
+  .color-blind-friendly .light-blue-frame {
+    background-color: #dcd2f4;
+  }
+
   label {
     display: block;
     margin-bottom: 5px;
@@ -37,7 +48,10 @@ body {
       cursor: pointer; 
       transition: background-color 0.3s ease; 
   }
-
+.color-blind-friendly input[type="submit"]{
+  background-color: #0e2a45; /* Change menu button background color to dark gray */
+  color: white; /* Change menu button text color to white */
+}
   .inputsection {
     text-align: center;
     
@@ -56,6 +70,14 @@ body {
     line-height: center; 
     margin-left: auto;
     display: block;
+  }
+  .color-blind-friendly .confirm-button{
+    background-color: #0e2a45; /* Change menu button background color to dark gray */
+    color: white; /* Change menu button text color to white */
+  }
+  .color-blind-friendly .cancel-button{
+    background-color: #0e2a45; /* Change menu button background color to dark gray */
+    color: white; /* Change menu button text color to white */
   }
 
           /* The switch - the box around the slider */

@@ -3,7 +3,10 @@ body {
     padding: 20px;
     }
     
-    
+    .color-blind-friendly {
+      background-color: #DCD6F1; /* Change background color to white */
+      color: #000000; /* Change text color to black */
+    }
     .white-frame{
     background-color: white;
     padding: 20px;
@@ -45,6 +48,11 @@ body {
     margin: 10px;
     border-radius: 5px;
     }
+
+    .color-blind-friendly .dark-blue-frame {
+      background-color: #7d82a8;
+    }
+    
     .flex {
     display: flex;
     }
@@ -111,6 +119,10 @@ body {
     display: block;
     }
     
+    .color-blind-friendly .add-button{
+      background-color: #0e2a45;
+      color: white;
+    }
     
     .menu-bar {
     position: relative;
@@ -147,7 +159,10 @@ body {
     border: none;
     cursor: pointer;
     }
-    
+    .color-blind-friendly .menu-bar button {
+      background-color: #887c80; 
+      color: #ffffff; 
+    }
     
     .menu-items {
     display: none;
@@ -155,7 +170,10 @@ body {
     background-color: gray;
     padding: 5px;
     }
-    
+    .color-blind-friendly .menu-items {
+      background-color: #887c80; 
+      color: #ffffff; 
+    }
     
     .menu-items a {
     display: block;
@@ -188,7 +206,12 @@ body {
     margin-bottom: 10px;
     }
     
-    
+    .color-blind-friendly .card {
+      background-color: #fceefa;
+    }
+    .color-blind-friendly .cardview {
+      background-color: #fceefa;
+    }
     .cardview a {
     text-decoration: none;
     color: black;
@@ -248,6 +271,21 @@ body {
         display: block;
     }
 
+    .color-blind-friendly .view-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    .color-blind-friendly .create-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    
+    .color-blind-friendly .delete-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    
+
     .details-frame {
         text-decoration: none;
         cursor: pointer;
@@ -296,7 +334,11 @@ body {
         margin-left: auto;
         display: block;
     }
-
+    .color-blind-friendly .edit-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    
         /* The switch - the box around the slider */
 .switch {
     position: relative;
