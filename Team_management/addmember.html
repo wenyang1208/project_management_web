@@ -57,7 +57,10 @@
     const urlParams = new URLSearchParams(window.location.search)
     const usernameUrl = urlParams.get("username")
     get(ref(db,`addMember/${usernameUrl}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      if (!user.exists()){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
       else if (user.val()["identity"] != "admin"){

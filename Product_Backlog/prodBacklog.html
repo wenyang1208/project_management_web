@@ -184,8 +184,11 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("resetpassword").addEventListener("click",function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })

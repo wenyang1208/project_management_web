@@ -263,8 +263,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("resetpassword").addEventListener("click",function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })
@@ -274,6 +277,19 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       window.location.href = `../Login/login.html`
     })
+  get(ref(db,`addMember`)).then((allMember)=>{
+        if (allMember.exists()) {
+            const allMemberVal = allMember.val()
+            const allMemberName = Object.keys(allMemberVal)
+            console.log(allMemberName)
+            allMemberName.forEach((member)=>{
+                let newOption = document.createElement('option');
+                newOption.value = member
+                newOption.textContent = member
+                taskAssigneeElement.appendChild(newOption)
+            })
+        }
+      })
   const dataRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`);
   const savedTasks = [];
   const logTimeSpentDataArray = [];
@@ -513,11 +529,9 @@ function generateChart(data){
     let timeSpent2 = timeSpent1.toFixed(2);
     let timeSpent4 = timeSpent1.toFixed(2)
     const timeSpent3 = timeSpent1.toFixed(2);
-    const updateTimeSpent = [];
     let flag = false
     let flag2 = false
-    let isExist = false
-    console.log(duration)
+
     if (timeSpent2 >= 0){
       const selectedDate = date1.value;
       const timeSpentRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${selectedDate}`);
@@ -529,115 +543,25 @@ function generateChart(data){
             let existingTimeSpent = 0;
             if (snapshot.exists()) {// check if the date has existed or not
               existingTimeSpent = snapshot.val().timeSpent
-              // console.log(existingTimeSpent)
-              // console.log(timeSpent2)
-              if(logTimeSpentArray.length === 0){
-                timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
-                console.log("timeSpent " + timeSpent2)
-                isExist = true
-                flag = true
-              }
+              timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
             }
-            logTimeSpentArray.forEach((logTime)=>{// update the added date (from not saved)
+            logTimeSpentArray.forEach((logTime)=>{
               if(selectedDate === logTime.date){
-                logTime.timeSpent = parseFloat(logTime.timeSpent) + parseFloat(timeSpent3);
+                logTime.timeSpent = parseFloat(timeSpent2) + parseFloat(logTime.timeSpent)
                 flag = true
               }
-              else if(new Date(logTime.date) > new Date(selectedDate)){// update the dates after the selected date (from not saved) 
-                logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent) 
-              }
-              else{
-                updateTimeSpent.push(logTime.timeSpent)
-              }
             })
-            console.log(logTimeSpentDataArray)
-            logTimeSpentDataArray.forEach((logTime) => {// update the dates after the selected date (from saved)
-              if(logTime.date === selectedDate && logTimeSpentArray.length !== 0){
-                logTime.timeSpent = parseFloat(timeSpent2) + parseFloat(logTime.timeSpent)
-              }
-              if(new Date(logTime.date) > new Date(selectedDate)){
-                logTime.timeSpent = parseFloat(timeSpent3) + parseFloat(logTime.timeSpent)
-              }
-            })
-            if (flag === false){// if the added date is not updating the original date
-              let insertIndex = 0
-              for(let i = 0; i<logTimeSpentDataArray.length ; i++){// find the date before the updated date (previous date is saved)
-                if(new Date(selectedDate) > new Date(logTimeSpentDataArray[i].date)){
-                  insertIndex = i + 1;
-                }else{
-                  break;
-                }
-              }
-
-              let unIndex = 0
-              for(let i = 0; i<logTimeSpentArray.length ; i++){// find the date before the updated date (previous date is not saved)
-                if(new Date(selectedDate) > new Date(logTimeSpentArray[i].date)){
-                  unIndex = i + 1;
-                }else{
-                  break;
-                }
-              }
-              console.log(logTimeSpentDataArray)
-              if (logTimeSpentDataArray.length !== 0 && logTimeSpentArray.length === 0){ // update the selected date from the previous date (previous date is saved)
-                if(insertIndex !== 0 ){
-                  const logTimeSpent = {
-                  date: selectedDate,
-                  timeSpent: parseFloat(logTimeSpentDataArray[insertIndex-1].timeSpent) + parseFloat(timeSpent3)
-                  }
-                  logTimeSpentArray.push(logTimeSpent) 
-                }else{
-                  const logTimeSpent = {
-                  date: selectedDate,
-                  timeSpent: timeSpent2
-                  }
-                  logTimeSpentArray.push(logTimeSpent) 
-                }
-              }else if(logTimeSpentDataArray.length !== 0 && logTimeSpentArray.length !== 0){// update the selected date from the previous date (previous date is not saved)
-                let timeSpentAdd = 0
-                logTimeSpentDataArray.forEach((ele) => {
-                  if(ele.date === selectedDate){
-                    timeSpentAdd = ele.timeSpent
-                  }
-                })
-                const logTimeSpent = {
-                date: selectedDate,
-                timeSpent: timeSpentAdd
-                }
-                logTimeSpentArray.push(logTimeSpent) 
-              }
-              else if(logTimeSpentDataArray.length === 0 && logTimeSpentArray.length !== 0){ //first time add, add more than one date
-              if (updateTimeSpent.length > 0){
-                const logTimeSpent = {
-              date: selectedDate,
-              timeSpent: parseFloat(timeSpent3) + parseFloat(updateTimeSpent[updateTimeSpent.length - 1])
-              }
-              logTimeSpentArray.push(logTimeSpent) 
-              }else{
-                const logTimeSpent = {
-              date: selectedDate,
-              timeSpent: timeSpent2
-              }
-              logTimeSpentArray.push(logTimeSpent)  
-              }
-              }
-              else if(logTimeSpentDataArray.length === 0 && logTimeSpentArray.length === 0){ // first time add, add one date
-              const logTimeSpent = {
-              date: selectedDate,
-              timeSpent: timeSpent2
-              }
-              logTimeSpentArray.push(logTimeSpent) 
-              }
-            }
-            if (isExist === true){// if the date exists, and this is the first date to update
-              console.log(timeSpent2)
+            if (flag === false){
               const logTimeSpent = {
               date: selectedDate,
               timeSpent: timeSpent2
           }
           logTimeSpentArray.push(logTimeSpent)
+          console.log(logTimeSpentArray)
             }
           accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
           }
+        
         ).then(() => {
           get(timeSpentRefAccordingToAssignee).then((assignee)=>{
           if (assignee.exists()){
@@ -660,7 +584,9 @@ function generateChart(data){
         }})
         })
           .then(() => {trialVersionFunction()})
-        }
+      }
+
+        
         else{
           alert('This day is unavailable now.')
         }
@@ -717,8 +643,11 @@ savebutton.addEventListener("click",function(){
   logTimeSpentArray.forEach((logTimeSpent)=>{
     set(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${logTimeSpent.date}`),logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
   })
+  update(ref(db,`teamManagement/${sprintId}/taskAssignees/${taskAssigneeElement.value}`),{
+    name: taskAssigneeElement.value
+  })
   timeSpentAccordingToAssigneeArray.forEach((logTimeSpent)=>{
-    update(ref(db,`teamManagement/${taskAssigneeElement.value}`),logTimeSpent)
+    update(ref(db,`teamManagement/${sprintId}/taskAssignees/${taskAssigneeElement.value}/logTimeSpent`),logTimeSpent)
   })
 
   logTimeSpentDataArray.forEach((logTimeSpent)=>{
