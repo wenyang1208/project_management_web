@@ -306,7 +306,6 @@ function displayTaskDetails(savedTasks){
         taskNameElement.textContent = "Task not found.";
     }
 
-    const xValues = [];
     const yValues = [];
     const dateSet = new Set(duration);
 
@@ -315,28 +314,16 @@ function displayTaskDetails(savedTasks){
       const timeData = logTimeSpentDataArray.find(time => time.date === date);
 
       if (timeData) {
-        // If found, push the timeSpent value
-        xValues.push(new Date(timeData.date));
         yValues.push(timeData.timeSpent);
       } else {
-        // If not found, push 0
-        xValues.push(new Date(date));
         yValues.push(0);
       }
     });
 
     logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-    for(let i=0; i<yValues.length ;i++){
-        if(yValues[i] === 0 && i !== 0){
-          yValues[i] = yValues[i-1]
-        }
+    for (let i = 1; i < yValues.length; i++){
+        yValues[i] = parseFloat(yValues[i]) + parseFloat(yValues[i-1])
       }
-    const formattedDates = xValues.map((date) => {
-        const day = date.getDate().toLocaleString('en-GB',{year:"numeric"})
-        const month = (date.getMonth() + 1).toLocaleString('en-GB',{month:"2-digit"})
-        const year = date.getFullYear();
-        return [year,month,day].join("-");
-      });
 
     var data = {
       labels: duration,

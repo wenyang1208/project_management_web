@@ -397,12 +397,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ------------------------------------------ add time in chart ------------------------------------------------------------------------
 function trialVersionFunction(){
-      const xValues = [];
       const yValues = [];
       const dateSet = new Set(duration);
       logTimeSpentArray.sort((a, b) => new Date(a.date) - new Date(b.date));
       console.log(logTimeSpentDataArray)
       console.log(logTimeSpentArray)
+
       duration.forEach(date => {
         // Check if the date exists in logTimeSpentDataArray
         const timeData = logTimeSpentDataArray.find(time => time.date === date);
@@ -414,25 +414,28 @@ function trialVersionFunction(){
         else if (timeData) {
           console.log(timeData)
           yValues.push(timeData.timeSpent);
-        } else if (timeData2){
-          console.log(timeData2)
+        } else if (timeData2){// find the added value (not saved yet)
           yValues.push(timeData2.timeSpent);
         }
         else{
           yValues.push(0)
         }
       });
-      
-      for(let i=0; i<yValues.length ;i++){
-        console.log(yValues[i])
-        if(yValues[i] === 0 && i !== 0){
-          yValues[i] = yValues[i-1]
-        if(yValues[i] < yValues[i-1] && i !== 0){
-          yValues[i] = yValues[i] + yValues[i-1]
-          console.log(yValues[i])
-        }
-        }
+
+      for (let i = 1; i < yValues.length; i++){
+        yValues[i] = parseFloat(yValues[i]) + parseFloat(yValues[i-1])
       }
+      console.log(yValues)
+      // for(let i=0; i<yValues.length ;i++){
+      //   console.log(yValues[i])
+      //   if(yValues[i] === 0 && i !== 0){
+      //     yValues[i] = yValues[i-1]
+      //   if(yValues[i] < yValues[i-1] && i !== 0){
+      //     yValues[i] = yValues[i] + yValues[i-1]
+      //     console.log(yValues[i])
+      //   }
+      //   }
+      // }
       var data = {
         labels: duration,
         datasets: [{
@@ -449,7 +452,6 @@ function trialVersionFunction(){
 }
 // ------------------------------------------ view chart function------------------------------------------------------------------------
 function viewChartFunction(){
-      const xValues = [];
       const yValues = [];
  
       const dateSet = new Set(duration);
@@ -460,22 +462,19 @@ function viewChartFunction(){
 
         if (timeData) {
           // If found, push the timeSpent value
-          xValues.push(new Date(timeData.date));
           yValues.push(timeData.timeSpent);
         } else {
           // If not found, push 0
-          xValues.push(new Date(date));
           yValues.push(0);
         }
       });
 
-
-      logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-      for(let i=0; i<yValues.length ;i++){
-        if(yValues[i] === 0 && i !== 0){
-          yValues[i] = yValues[i-1]
-        }
+      for (let i = 1; i < yValues.length; i++){
+        yValues[i] = parseFloat(yValues[i]) + parseFloat(yValues[i-1])
       }
+      
+      logTimeSpentDataArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+
       var data = {
         labels: duration,
         datasets: [{
