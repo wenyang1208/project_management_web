@@ -7,6 +7,12 @@
     body {
       text-align: center;
     }
+
+    .color-blind-friendly {
+    background-color: #DCD6F1; /* Change background color to white */
+    color: #000000; /* Change text color to black */
+    }
+
     .white-frame {
       margin: 0 auto; 
       position: relative;
@@ -18,6 +24,11 @@
         position: relative;
         padding: 7%;
     }
+
+    .color-blind-friendly .light-blue-frame {
+    background-color: #d6cae8; /* Change background color to white */
+    }
+
     label {
       display: block;
       margin-bottom: 5px;
@@ -39,7 +50,10 @@
         cursor: pointer; 
         transition: background-color 0.3s ease; 
     }
-    
+
+    .color-blind-friendly input[type="submit"]{
+    background-color: #0e2a45;; /* Change background color to white */
+    }
             /* The switch - the box around the slider */
 .switch {
     position: relative;
@@ -113,7 +127,7 @@
 <body>
 <div class="onoffbutton">
 <label class="switch">
-  <input type="checkbox">
+  <input type="checkbox" id="toggleButton">
   <span class="slider round"></span>
 </label>
 </div>
@@ -135,41 +149,6 @@
     </div>
 
     <script type="module">
-        // document.addEventListener("DOMContentLoaded", function () {
-        //   const form = document.querySelector("form");
-      
-        //   form.addEventListener("submit", function (event) {
-        //     const username = document.getElementById("username").value;
-        //     const password = document.getElementById("password").value;
-      
-        //     if (!username || !password) {
-        //       event.preventDefault(); // Prevent form submission
-        //       alert("Please fill in both username and password fields.");
-        //     }
-      
-        //     // You can add more validation logic here
-            
-        //     // Assume you have a user database (users) with username and email fields
-
-        //     const users = [
-        //     { userName: "Amy", userEmail: "amy@email.com", passWord: "12345" },
-        //     { userName: "Bob", userEmail: "bob@email.com", passWord: "44e44" }
-        //     ];
-
-        //     const user = users.find(u => (u.userName === username) || 
-        //     (u.userEmail === username) &&
-        //     (u.passWord === password));
-
-        //     if (!user){
-        //       event.preventDefault();
-        //       alert("Invalid username/email or password.");
-        //     }else{
-        //       alert("Login successful. Welcome, " + user.username + "!");
-        //     }
-
-        //   });
-        // });
-
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getDatabase, ref, set, get, child,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
@@ -218,6 +197,16 @@
         });
 
       </script>
-
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+    } else {
+      body.classList.remove("color-blind-friendly");
+    }
+  });
+</script>
 </body>
 </html>

@@ -3,6 +3,9 @@ body {
   padding: 20px;
 }
 
+.color-blind-friendly{
+  background-color: white;
+}
 .white-frame{
 background-color: white;
 padding: 20px;
@@ -34,6 +37,9 @@ row-gap: 50px;
 main {
 flex-wrap:wrap;
 justify-content: space-between;
+}
+.color-blind-friendly .sprint-frame{
+  background-color: #fceefa;
 }
 
 .sprintview {
@@ -157,6 +163,13 @@ display: block;
   line-height: center; 
   margin-left: auto;
   display: block;
+}
+.color-blind-friendly .discard-button {
+  background-color: #0e2a45;
+}
+
+.color-blind-friendly .save-button {
+  background-color: #0e2a45;
 }
 
 .text {

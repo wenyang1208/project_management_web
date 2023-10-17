@@ -2,7 +2,10 @@ body {
     background-color: #A8CAEA;
     padding: 20px;
   }
+.color-blind-friendly {
+  background-color: #DCD6F1;
 
+}
 .white-frame{
   background-color: white;
   padding: 20px;
@@ -56,7 +59,25 @@ body {
     gap: 10px; 
   }
 
+  .color-blind-friendly .light-blue-frame {
+    background-color: #dcd2f4;
+  }
 
+  .color-blind-friendly .light-blue-card-frame {
+    background-color: #dcd2f4;
+  }
+
+  .color-blind-friendly .dark-blue-frame {
+    background-color: #7d82a8;
+  }
+
+  .color-blind-friendly .pink-frame {
+    background-color: #e2caca;
+  }
+
+  .color-blind-friendly .green-frame {
+    background-color: #e9c9b6;
+  }
   .card-views {
     display: grid;
     gap: 10px;
@@ -76,6 +97,9 @@ body {
     margin-bottom: 15px;
   }
 
+  .color-blind-friendly .kanban-card {
+    background-color: #dcd2f4;
+  }
 
 .header-menu-container {
     display: flex;
@@ -107,6 +131,10 @@ body {
     margin-left: auto;
     display: block;
 }
+.color-blind-friendly .add-button{
+  background-color: #0e2a45;
+  color: white;
+}
 
   .menu-bar {
     position: relative;
@@ -137,14 +165,20 @@ body {
     border: none;
     cursor: pointer;
 }
-
+.color-blind-friendly .menu-bar button {
+  background-color: #887c80; /* Change menu button background color to dark gray */
+  color: #ffffff; /* Change menu button text color to white */
+}
 .menu-items {
     display: none;
     position: absolute;
     background-color: gray;
     padding: 5px;
 }
-
+.color-blind-friendly .menu-items {
+  background-color: #887c80; /* Change menu button background color to dark gray */
+  color: #ffffff; /* Change menu button text color to white */
+}
 .menu-items a {
   display: block;
     color: white;
@@ -174,6 +208,13 @@ body {
     margin-bottom: 10px;
   }
 
+  .color-blind-friendly .card {
+    background-color: #fceefa;
+  }
+
+  .color-blind-friendly .cardview {
+    background-color: #fceefa;
+  }
   .cardview a {
     text-decoration: none;
     color: black;
@@ -280,7 +321,36 @@ body {
   .tags.tags8::before {
     content: "UX"; 
   }
-
+  .color-blind-friendly .tags.tags1{
+    background-color: #6d6d86; /* Change menu button background color to dark gray */
+  }
+  .color-blind-friendly .tags.tags2{
+    background-color: #c19732; /* Change menu button text color to white */
+  }
+  
+  .color-blind-friendly .tags.tags3{
+    background-color: #f5c150; /* Change menu button text color to white */
+  }
+  
+  .color-blind-friendly .tags.tags4{
+    background-color: #caa154; /* Change menu button text color to white */
+  }
+  
+  .color-blind-friendly .tags.tags5{
+    background-color: #91aaf5; /* Change menu button background color to dark gray */
+  }
+  .color-blind-friendly .tags.tags6{
+    background-color: #3477c7; /* Change menu button text color to white */
+  }
+  
+  .color-blind-friendly .tags.tags7{
+    background-color: #a095a0; /* Change menu button text color to white */
+  }
+  
+  .color-blind-friendly .tags.tags8{
+    background-color: #755c1b; /* Change menu button text color to white */
+  }
+  
 
         /* The switch - the box around the slider */
 .switch {

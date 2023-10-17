@@ -7,7 +7,7 @@
 <body>
 <div class="onoffbutton">
 <label class="switch">
-  <input type="checkbox">
+  <input type="checkbox" id="toggleButton">
   <span class="slider round"></span>
 </label>
 </div>
@@ -329,8 +329,7 @@ function displayTaskDetails(savedTasks){
       labels: duration,
       datasets: [{
         label: "Total hour spent",
-        backgroundColor:"rgba(0,0,255,1.0)",
-        borderColor: "rgba(0,0,255,255)",
+        borderColor: "black",
         data: yValues,
         fill: false,
         tension: 0
@@ -377,5 +376,38 @@ function generateChart(data){
 })
 });
 </script>
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  const colorMappings = {
+  "green": "#85682c",
+  "yellow": "#fdf5eb",
+  "orange": "#e1af3b",
+  "red": "#9b7a26",
+  "rgb(133, 104, 44)": "green",
+  "rgb(253, 245, 235)": "yellow",
+  "rgb(225, 175, 59)": "orange",
+  "rgb(155, 122, 38)": "red"
+  };
+
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      updatePriorityColor();
+    } else {
+      body.classList.remove("color-blind-friendly");
+      updatePriorityColor();
+    }
+  });
+
+  function updatePriorityColor() {
+    const taskPriorityElement = document.getElementById("taskPriority");
+    const currentColor = taskPriorityElement.style.color;
+      if (colorMappings[currentColor]) {
+        taskPriorityElement.style.color = colorMappings[currentColor];
+      }
+  }
+</script>
+
 </body>
 </html>
