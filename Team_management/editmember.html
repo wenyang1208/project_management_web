@@ -60,7 +60,10 @@ import { getDatabase, ref, set, get, child, query, update,remove } from "https:/
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
       get(ref(db,`addMember/${usernameUrl}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+        if (!user.exists()){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
       else if (user.val()["identity"] != "admin"){

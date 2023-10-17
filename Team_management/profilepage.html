@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function(){
       get(ref(db,`addMember/${username}`)).then((user)=>{
       if (user.val()["identity"] != "admin")
       {
-        alert("You don't have the access to view the Team_Management")
+        alert("You don't have the access to view the members' profile")
       }
       else
       {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
@@ -124,7 +124,10 @@ document.addEventListener("DOMContentLoaded", function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
     get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+        if (!user.exists()){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
       else if (user.val()["identity"] != "admin"){

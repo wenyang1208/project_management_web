@@ -13,7 +13,7 @@
 </div>
   <div class="white-frame">
     <div class="previous-page">
-      <div class = "previous-button" id = "previous-button">
+      <div class = "previous-button" id = "previous-page">
         <img src="../Product_Backlog/previouspage.png" width=30px height = 30px>
       </div>
     </div>
@@ -128,7 +128,7 @@ const firebaseConfig = {
 
 // taskdetails.js (for taskdetails.html)
 const
-previousbutton = document.getElementById("previous-button"),
+previouspage = document.getElementById("previous-page"),
 FE = document.getElementById("FE"),
 BE = document.getElementById("BE"),
 API = document.getElementById("API"),
@@ -161,6 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const username = urlParams.get("username")
+    document.getElementById("previous-page").addEventListener("click",function(){
+      window.location.href = `scrumboard.html?username=${username}`
+    })
     document.getElementById("prodBacklog").addEventListener("click",function(){
       window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
     
@@ -187,8 +190,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("resetpassword").addEventListener("click",function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })
@@ -198,8 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       window.location.href = `../Login/login.html`
     })
-  previousbutton.addEventListener("click",function(){
-    window.location.href = `sprint.html?sprintId=${sprintId}`
+  previouspage.addEventListener("click",function(){
+    window.location.href = `sprint.html?username=${username}&sprintId=${sprintId}`
   })
 
 //----------------------------------------------get data------------------------------------------------------------------

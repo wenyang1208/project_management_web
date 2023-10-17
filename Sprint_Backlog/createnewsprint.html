@@ -37,11 +37,11 @@
               <label for="status">Status:</label> <br><br>
             </div>
             <div class = "statusoptions">
-            <input type="radio" id="notstarted" name="check" value="Not Started">
+            <input type="radio" id="notstarted" name="check" value="Not Started" disabled>
             <label for="notstarted"> Not Started</label><br><br>
-            <input type="radio" id="active" name="check" value="Active">
+            <input type="radio" id="active" name="check" value="Active" disabled>
             <label for="active"> Active</label><br><br>
-            <input type="radio" id="completed" name="check" value="Completed">
+            <input type="radio" id="completed" name="check" value="Completed" disabled>
             <label for="completed"> Completed</label><br><br>
           </div>
           </div>
@@ -80,40 +80,134 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 const urlParams = new URLSearchParams(window.location.search)
-    const username = urlParams.get("username")
+const username = urlParams.get("username")
+const NotStarted = document.getElementById("notstarted"),
+active = document.getElementById("active"),
+completed = document.getElementById("completed");
+const sprint = document.getElementById("sprint");
+const startDate = document.getElementById("start-date");
+const endDate = document.getElementById("end-date");
+// Create an empty array to store selected status options
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })
-    document.getElementById("LogOutButton").addEventListener("click",function(){
-      update((ref(db,`addMember/${username}`)),{
-        status: "Log out"
-      })
-      window.location.href = `../Login/login.html`
-    })
+startDate.addEventListener("change",function(){
+  const startDate1 = this.value;
+  const endDate1 = endDate.value;
+  if (endDate1 !== "") {
+    if (startDate1 <= endDate1){
+    const currentDate = new Date()
+    const startDate2 = new Date(startDate1)
+    const endDate2 = new Date(endDate1)
+    console.log(currentDate <= startDate2)
+    if (currentDate < startDate2){
+      NotStarted.disabled = false
+      NotStarted.checked = true
+      active.disabled = true
+      completed.disabled = true
+    }
+    else if (startDate2 <= currentDate && currentDate <= endDate2){
+      active.disabled = false
+      active.checked = true
+      NotStarted.disabled = true
+      completed.disabled = true
+    }
+    else if (startDate2 <= currentDate && currentDate > endDate2){
+      completed.disabled = false
+      completed.checked = true
+      active.disabled = true
+      NotStarted.disabled = true
+    }
+  }
+  else{
+            alert("Start date must be smaller than or equal to the end date.")
+        }
+}
+})
+endDate.addEventListener("change",function(){
+  const endDate1 = this.value;
+  const startDate1 = startDate.value;
+  if (startDate1 !== "") {
+    if (startDate1 <= endDate1){
+    const currentDate = new Date()
+    const startDate2 = new Date(startDate1)
+    const endDate2 = new Date(endDate1)
+    console.log(currentDate <= startDate2)
+    if (currentDate < startDate2){
+      NotStarted.disabled = false
+      NotStarted.checked = true
+      active.disabled = true
+      completed.disabled = true
+    }
+    else if (startDate2 <= currentDate && currentDate <= endDate2){
+      active.disabled = false
+      active.checked = true
+      NotStarted.disabled = true
+      completed.disabled = true
+    }
+    else if (startDate2 <= currentDate && currentDate > endDate2){
+      completed.disabled = false
+      completed.checked = true
+      NotStarted.disabled = true
+      active.disabled = true
+    }
+  }
+  else{
+            alert("Start date must be smaller than or equal to the end date.")
+        }
+}
+})
+function getIntervalsBetweenDates(startDate, endDate) {
+  const intervals = [];
+  let currentDate = new Date(startDate);
+
+  while (currentDate <= endDate) {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // Month is zero-based, so add 1
+    const day = currentDate.getDate();
+    
+    intervals.push(`${year}-${month}-${day}`);
+    
+    currentDate.setDate(currentDate.getDate() + 1); // Increment by one day
+  }
+
+  return intervals;
+}
+
+// Example usage:
+const startDate5 = new Date('2024-02-15');
+const endDate5 = new Date('2024-03-10');
+
+const dateIntervals = getIntervalsBetweenDates(startDate5, endDate5);
+console.log(dateIntervals);
 
 document.getElementById("save-button").addEventListener('click', function(e){
           
     e.preventDefault();
-
-    const sprint = document.getElementById("sprint").value;
-    const startDate = document.getElementById("start-date").value;
-    const endDate = document.getElementById("end-date").value;
-    // Create an empty array to store selected status options
     const selectedStatus = document.querySelector('input[type="radio"]:checked');
 
-    if(sprint.length !== 0 && startDate.length !== 0 && endDate.length !== 0 && selectedStatus.value !== null){
-        if(startDate <= endDate){
-            set(ref(db, 'newsprint/' + document.getElementById("sprint").value),
+    if(sprint.value.length !== 0 && startDate.value.length !== 0 && endDate.value.length !== 0 && selectedStatus.value !== null){
+        if(startDate.value <= endDate.value){
+            set(ref(db, 'newsprint/' + sprint.value),
             {
-                sprint : sprint,
-                startDate : startDate,
-                endDate : endDate,
+                sprint : sprint.value,
+                startDate : startDate.value,
+                endDate : endDate.value,
                 selectedStatus : selectedStatus.value
             })
-            .then(() => {window.location.href = `scrumboard.html?username=${username}`})  
+            .then(() => {
+              set(ref(db,`teamManagement/${sprint.value}`),{
+                startDate : startDate.value,
+                endDate : endDate.value
+              })}).then(()=>{
+                window.location.href = `scrumboard.html?username=${username}`  
+              })
         }else{
             alert("Start date must be smaller than or equal to the end date.")
         }

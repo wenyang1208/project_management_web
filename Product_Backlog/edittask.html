@@ -209,8 +209,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("resetpassword").addEventListener("click",function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })
@@ -220,6 +223,19 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       window.location.href = `../Login/login.html`
     })
+  get(ref(db,`addMember`)).then((allMember)=>{
+        if (allMember.exists()) {
+            const allMemberVal = allMember.val()
+            const allMemberName = Object.keys(allMemberVal)
+            console.log(allMemberName)
+            allMemberName.forEach((member)=>{
+                let newOption = document.createElement('option');
+                newOption.value = member
+                newOption.textContent = member
+                taskAssigneeElement.appendChild(newOption)
+            })
+        }
+      })
   const dataRef = ref(db, "productBacklog/" + taskId);
   const savedTasks = []
   var task = {}

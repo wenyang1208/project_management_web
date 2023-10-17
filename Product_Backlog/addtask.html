@@ -38,10 +38,6 @@
             <span class="text">Assignee: </span>
             <select name="team-member" id="AssigneeList">
             <option value="" disabled selected>Select an assignee</option>
-              <option value="Alice">Alice</option>
-              <option value="Bob">Bob</option>
-              <option value="Larry">Larry</option>
-              <option value="Zam">Zam</option>
               </select>
           </div>
           <div class="priority">
@@ -187,8 +183,11 @@ const urlParams = new URLSearchParams(window.location.search)
     document.getElementById("resetpassword").addEventListener("click",function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })
@@ -239,7 +238,21 @@ const
   increment = document.getElementById("increment"),
   decrement = document.getElementById("decrement"),
   previousPage = document.getElementById("previous-page"),
+  assigneeList = document.getElementById("AssigneeList"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
+  get(ref(db,`addMember`)).then((allMember)=>{
+        if (allMember.exists()) {
+            const allMemberVal = allMember.val()
+            const allMemberName = Object.keys(allMemberVal)
+            console.log(allMemberName)
+            allMemberName.forEach((member)=>{
+                let newOption = document.createElement('option');
+                newOption.value = member
+                newOption.textContent = member
+                assigneeList.appendChild(newOption)
+            })
+        }
+      })
 
 function displayTag() {
   tagOptionList.forEach(tag => {

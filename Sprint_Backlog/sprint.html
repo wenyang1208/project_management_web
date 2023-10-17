@@ -14,8 +14,8 @@
   <div class="white-frame">
         <div class="header-menu-container">
             
-            <div class="previous-page">
-                <a href = "scrumboard.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+            <div class="previous-page" id="previous-page">
+                <a><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
             </div>
 
             
@@ -80,7 +80,6 @@
 
     <!--If this code is commented the add task btn in the sprint is not working and
     the tasks in the kanban board will be gone -->
-    <canvas id="lineChart2"></canvas>
     
     <!--The original code for the view chart-->
     <!-- <div class="green-frame">
@@ -127,6 +126,9 @@ const urlParams = new URLSearchParams(window.location.search),
     sprintId = urlParams.get("sprintId")
 const db = getDatabase(app);
     const username = urlParams.get("username")
+    document.getElementById("previous-page").addEventListener("click",function(){
+      window.location.href = `scrumboard.html?username=${username}`
+    })
     document.getElementById("prodBacklog").addEventListener("click",function(){
       window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
     
@@ -153,8 +155,11 @@ const db = getDatabase(app);
     document.getElementById("resetpassword").addEventListener("click",function(){
       window.location.href= `../Team_management/resetpassword.html?username=${username}`})
     
-    get(ref(db,`addMember/${username}`)).then((user)=>{
-      if (user.val()["status"] != "Log in"){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
         window.location.href = `../Login/login.html`
       }
     })
@@ -490,10 +495,6 @@ const selectedTasks = []
         }
       });
     }
-    
-    //const endtime = performance.now()
-    //const timeSpent = endtime - starttime
-    //console.log(`TimeSpent:${timeSpent}ms`)
   }
 
 
@@ -523,7 +524,7 @@ const selectedTasks = []
     });
     console.log(savedTasks)
     addNewTask.addEventListener("click",function(){
-      window.location.href = `addtask.html?sprintId=${sprintId}`
+      window.location.href = `addtask.html?username=${username}&sprintId=${sprintId}`
     })
     
   
