@@ -165,27 +165,6 @@ document.addEventListener("DOMContentLoaded",function(){
                 
                 const status = document.createElement("div");
                 status.classList.add("status");
-                const startDate2 = new Date(sprintData.startDate)
-                const endDate2 = new Date(sprintData.endDate)
-                console.log(currentDate <= startDate2)
-                if (currentDate < startDate2){
-                  NotStarted.disabled = false
-                  NotStarted.checked = true
-                  active.disabled = true
-                  completed.disabled = true
-                }
-                else if (startDate2 <= currentDate && currentDate <= endDate2){
-                  active.disabled = false
-                  active.checked = true
-                  NotStarted.disabled = true
-                  completed.disabled = true
-                }
-                else if (startDate2 <= currentDate && currentDate > endDate2){
-                  completed.disabled = false
-                  completed.checked = true
-                  active.disabled = true
-                  NotStarted.disabled = true
-                }
                 status.textContent = `Status: ${sprintData.selectedStatus}`;
 
                 const deletecheckbox = document.createElement("label")

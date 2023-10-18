@@ -13,8 +13,8 @@
 </div>
 <div class="white-frame"> 
 <div class="header-menu-container">
-<div class="previous-page">
-<a href = "profilepage.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+<div class="previous-page" id="previous-page">
+<a><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
 </div>
 <div class="menu-bar">
 <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
@@ -81,12 +81,14 @@
 </div>
 
 <div class="button-container">
-    <a href="#" id="delete-button" class="delete-button">Delete</a>
-    <a href="profilepage.html" id="discard-button" class="discard-button">Discard</a>
+    <a style="cursor: pointer;" id="delete-button" class="delete-button">Delete</a>
+    <a style="cursor: pointer;" id="discard-button" class="discard-button">Discard</a>
 </div>
 
 </div>
 <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getDatabase, ref, set, get, child, query, orderByChild,remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
     const toggleButton = document.getElementById("toggleButton");
     const body = document.body;
   
@@ -98,8 +100,6 @@
       }
     });
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-    import { getDatabase, ref, set, get, child, query, orderByChild,remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
     const firebaseConfig = {
         apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
         authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -112,8 +112,64 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    get(ref(db,`addMember`)).then((allmember)=>{
+        if (allmember.exists()){
+            const allmembersName = Object.keys(allmember.val())
+            console.log(allmembersName)
+            
+        }
+    })
+    document.getElementById("previous-page").addEventListener("click",function(){
+      window.location.href = `profilepage.html?username=${username}`
+    })
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the members' profile")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+    get(ref(db,`addMember/${username}`)).then((user)=>{
+        if (!user.exists()){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+      else if (user.val()["identity"] != "admin"){
+        alert("You have no access to view the members' profile")
+        window.location.href = `../Product_Backlog/prodBacklog.html?username=${username}`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
 
         // Add event listener to the delete button
         document.getElementById("delete-button").addEventListener("click", function (e) {
@@ -142,7 +198,7 @@
             }
         });
 
-        document.getElementById("discard-button").addEventListener("click", function (e) {
+        document.getElementById("cancel-button").addEventListener("click", function (e) {
             window.location.href = "profilepage.html";
         });
 
