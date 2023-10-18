@@ -51,9 +51,9 @@
   document.addEventListener("DOMContentLoaded",function(){
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    const username = document.getElementById("create_new_desc");
-    const email = document.getElementById("create_new_email");
-    const password = document.getElementById("create_new_pwd");
+    const username = document.getElementById("username");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
     const urlParams = new URLSearchParams(window.location.search)
     const usernameUrl = urlParams.get("username")
     get(ref(db,`addMember/${usernameUrl}`)).then((user)=>{
