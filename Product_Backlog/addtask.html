@@ -125,7 +125,7 @@
             </div>
             <div class="tag-button" id="tag-button">Tag</div>
         </div>
-        <a style="cursor: pointer;" id="delete-button" class="delete-button">Discard</a>
+        <a style="cursor: pointer;" id="discard-button" class="save-button">Discard</a>
     </div>
     
 
@@ -196,6 +196,9 @@ const urlParams = new URLSearchParams(window.location.search)
         status: "Log out"
       })
       window.location.href = `../Login/login.html`
+    })
+    document.getElementById("discard-button").addEventListener("click",function(){
+      window.location.href = `prodBacklog.html?username=${username}`
     })
 
 const decrementButton = document.querySelector(".decrement-button");
