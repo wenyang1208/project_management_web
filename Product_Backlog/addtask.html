@@ -5,20 +5,25 @@
   <link rel="stylesheet" href="addtask.css">
 </head>
 <body>
-
+<div class="onoffbutton">
+<label class="switch">
+  <input type="checkbox" id="toggleButton">
+  <span class="slider round"></span>
+</label>
+</div>
   <div class="white-frame">
-      <div class="previous-page">
-        <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
+      <div class="previous-page" id="previous-page" onclick="goBack()">
+        <a><img src="previouspage.png" width=30px height = 30px></a>
       </div>
       <div class="menu-bar">
         <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
         <div class="menu-items" id="menu-items">
-          <a href="prodBacklog.html">Product backlog</a>
-          <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
-          <a href="#">Team management</a>
-          <a href="#">Profile</a>
-          <a href="#">Reset password</a>
-          <a href="#">Log out</a>
+          <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+          <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+          <a id="teamManagement" style="cursor: pointer;">Team management</a>
+          <a id="profile" style="cursor: pointer;">Profile</a>
+          <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+          <a id="LogOutButton" style="cursor: pointer;">Log out</a>
         </div>
       </div>
 
@@ -33,20 +38,16 @@
             <span class="text">Assignee: </span>
             <select name="team-member" id="AssigneeList">
             <option value="" disabled selected>Select an assignee</option>
-              <option value="Alice">Alice</option>
-              <option value="Bob">Bob</option>
-              <option value="Larry">Larry</option>
-              <option value="Zam">Zam</option>
               </select>
           </div>
           <div class="priority">
             <span class="text">Priority: </span>
             <select name="priority" id="priorities">
-                <option value="" disabled selected>Select an option</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="Important">Important</option>
-                <option value="Urgent">Urgent</option>
+                <option value="" style="color: #333333" disabled selected>Select an option</option>
+                <option value="Low" style="color: green;">Low</option>
+                <option value="Medium" style="color: yellow;">Medium</option>
+                <option value="Important" style="color: orange;">Important</option>
+                <option value="Urgent" style="color: red;">Urgent</option>
               </select>
           </div>
           <div class="stage-of-task">
@@ -64,35 +65,27 @@
           <div class="story-points">
             <span class="text">Story Points: </span>
             <button class="decrement-button">-</button>
-            <input type="number" class="input-field" id="StoryPoints" value="0" min="1" max="10" disabled>
+            <input type="number" class="input-field" id="StoryPoints" value="1" min="1" max="10" disabled>
             <button class="increment-button">+</button>
           </div>
           <div class="status">
             <span class="text">Status: </span>
-            <input type="radio" id="Not Started" name="status" value="Not Started">
+            <input type="radio" id="Not Started" name="status" value="Not Started" checked>
             <label for="Not Started"> Not Started </label>
-            <input type="radio" id="In Progress" name="status" value="In Progress">
+            <!--<input type="radio" id="In Progress" name="status" value="In Progress">
             <label for="In Progress"> In Progress </label>
             <input type="radio" id="Completed" name="status" value="Completed">
-            <label for="Completed"> Completed</label>
+            <label for="Completed"> Completed</label>-->
           </div>
           <div class="category">
-            <span class="text">Category: </span>
-            <input type="radio" id="Story" name="category" value="Story">
+            <span class="text">Task Type: </span>
+            <input type="radio" id="Story" name="category" value="Story" checked>
             <label for="Story"> Story </label>
             <input type="radio" id="Bug" name="category" value="Bug">
             <label for="Bug"> Bug </label>
           </div>
         </div>
 
-        <!-- <sideBar id="sideBar" class="flex col">
-          <div class="sort-container">
-            <button class="sort">Sort</button>
-            <button class="sort1" id="Newest-To-Oldest" value="Newest-To-Oldest">Newest to Oldest</button>
-            <button class="sort2" id="Oldest-To-Newest" value="Oldest-To-Newest">Oldest to Newest</button>
-            <button class="sort3" id="Low-To-Urgent" value="Low-To-Urgent">Low to Urgent</button>
-            <button class="sort4" id="Urgent-To-Low" value="Urgent-To-Low">Urgent to Low</button>
-          </div> -->
 
           <div class="tags-container">
             <div class="tags tags1" id="FE"></div>
@@ -118,7 +111,7 @@
  
     <br>
     <div class="button-container">
-        <a href="prodBacklog.html" id="save-button" class="save-button">Save</a>
+        <a style="cursor: pointer;" id="save-button" class="save-button">Save</a>
         <div class="tag-bar" id="tag-bar">
             <div class="tag-menu" id="tag-menu">
                 <label class="tag1" for="FEoption"><input type="checkbox" id="FEoption" name="tag" value="Frontend">Frontend</label>
@@ -132,7 +125,7 @@
             </div>
             <div class="tag-button" id="tag-button">Tag</div>
         </div>
-        <a href="prodBacklog.html" id="delete-button" class="delete-button">Delete</a>
+        <a style="cursor: pointer;" id="delete-button" class="delete-button">Discard</a>
     </div>
     
 
@@ -141,7 +134,13 @@
 <script type = "module">
   // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+function goBack(){
+  const previousPageUrl = document.referrer;
+            if (previousPageUrl) {
+                window.location.replace(previousPageUrl);
+            }
+}
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -155,6 +154,49 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
+const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
 
 const decrementButton = document.querySelector(".decrement-button");
 const incrementButton = document.querySelector(".increment-button");
@@ -195,9 +237,24 @@ const
   UX = document.getElementById("UX"),
   increment = document.getElementById("increment"),
   decrement = document.getElementById("decrement"),
+  previousPage = document.getElementById("previous-page"),
+  assigneeList = document.getElementById("AssigneeList"),
   tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
+  get(ref(db,`addMember`)).then((allMember)=>{
+        if (allMember.exists()) {
+            const allMemberVal = allMember.val()
+            const allMemberName = Object.keys(allMemberVal)
+            console.log(allMemberName)
+            allMemberName.forEach((member)=>{
+                let newOption = document.createElement('option');
+                newOption.value = member
+                newOption.textContent = member
+                assigneeList.appendChild(newOption)
+            })
+        }
+      })
 
-function checkTag() {
+function displayTag() {
   tagOptionList.forEach(tag => {
     if (tag.checked == true){
       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
@@ -206,8 +263,10 @@ function checkTag() {
       tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
     }
   })}
-const check = setInterval(checkTag,10)
-
+const check = setInterval(displayTag,10)
+previousPage.addEventListener("click",function(){
+  window.location.href = `prodBacklog.html?username=${username}`
+})
 document.getElementById("save-button").addEventListener('click', function(e){
           
   e.preventDefault();
@@ -260,7 +319,7 @@ document.getElementById("save-button").addEventListener('click', function(e){
   //     selectedStatus.push(statusCheckboxes[i].value)
   // }
   if (taskName.trim() !== "" && taskAssignee!== "" && taskPriority!== "" && taskPriority!== "" && taskStage!== ""
-  && storyPointsElement!== 0 && taskStatus!== "" && taskCategory!== "" && taskDescription!== "") {
+  && storyPointsElement!== 0 && taskStatus!== "" && taskCategory!== "" && taskDescription!== "" && taskTags.length >0) {
 
     set(ref(db, 'productBacklog/' + document.getElementById("task-name").value),
     {
@@ -276,157 +335,64 @@ document.getElementById("save-button").addEventListener('click', function(e){
         taskTags : taskTags
 
     })
-    .then(() => {window.location.href = "prodBacklog.html"});
+    .then(() => {window.location.href = `prodBacklog.html?username=${username}`});
+  }else{
+    alert("Please fill out all fields!")
   }
 });
 
-// To receive the input and display it
-// const decrementButton = document.querySelector(".decrement-button");
-// const incrementButton = document.querySelector(".increment-button");
-// const 
-  // taskNameElement = document.getElementById("task-name"),
-  // taskDescriptionElement = document.getElementById("task-description"),
-  // taskPriorityElement = document.getElementById("priorities"),
-  // storyPointsElement = document.getElementById("StoryPoints"),
-  // AssigneeListElement = document.getElementById("AssigneeList"),
+  
+//--------------------------------------------------priority colour-----------------------------------------------------
+const prioritiesSelect = document.getElementById("priorities");
 
-  // radioNotStarted = document.getElementById("Not Started"),
-  // radioInProgress = document.getElementById("In Progress"),
-  // radioCompleted = document.getElementById("Completed"),
+    // Function to change the color of the select element
+    function changeSelectColor() {
+      console.log(window.getComputedStyle(prioritiesSelect.options[0]).color);
+      const selectedOption = prioritiesSelect.options[prioritiesSelect.selectedIndex];
+      const color = window.getComputedStyle(selectedOption).color;
+      prioritiesSelect.style.color = color;
+    }
 
-  // taskStageElement = document.getElementById("SOT"),
-  // taskTagsElement = document.getElementById("tags-container"),
-  // tagsOptionsElement = document.getElementById("tag-menu"),
-  // savebutton = document.getElementById("save-button")
-  // FEoption = document.getElementById("FEoption"),
-  // BEoption = document.getElementById("BEoption"),
-  // APIoption = document.getElementById("APIoption"),
-  // DBoption = document.getElementById("DBoption"),
-  // FWoption = document.getElementById("FWoption"),
-  // TESToption = document.getElementById("TESToption"),
-  // UIoption = document.getElementById("UIoption"),
-  // UXoption = document.getElementById("UXoption"),
-  // tagOptionList = [FEoption,BEoption,APIoption,DBoption,FWoption,TESToption,UIoption,UXoption],
-  // FE = document.getElementById("FE"),
-  // BE = document.getElementById("BE"),
-  // API = document.getElementById("API"),
-  // DB = document.getElementById("DB"),
-  // FW = document.getElementById("FW"),
-  // TEST = document.getElementById("TEST"),
-  // UI = document.getElementById("UI"),
-  // UX = document.getElementById("UX"),
-  // increment = document.getElementById("increment"),
-  // decrement = document.getElementById("decrement"),
-  // tagDisplayList = [FE,BE,API,DB,FW,TEST,UI,UX]
-  // story = document.getElementById("Story"),
-  // bug = document.getElementById("Bug")
-// decrementButton.addEventListener("click", function () {
-//   const currentValue = parseInt(storyPointsElement.value);
-//   if (currentValue > 1) {
-//     storyPointsElement.value = currentValue - 1;
-//   }
-// });
+    // Add an event listener to update the select element color on change
+    prioritiesSelect.addEventListener("change", changeSelectColor);
 
-// incrementButton.addEventListener("click", function () {
-//   const currentValue = parseInt(storyPointsElement.value);
-//   if (currentValue < 10) {
-//     storyPointsElement.value = currentValue + 1;
-//   }
-// });
-// function checkTag() {
-//     tagOptionList.forEach(tag => {
-//       if (tag.checked == true){
-//         tagDisplayList[tagOptionList.indexOf(tag)].style.display = "block"
-//       }
-//       else {
-//         tagDisplayList[tagOptionList.indexOf(tag)].style.display = "none"
-//       }
-//     })}
-//   const check = setInterval(checkTag,10)
+    // Call the changeSelectColor function initially to set the initial color
+    changeSelectColor();
+</script>
 
-document.addEventListener("DOMContentLoaded", function () {
-    const saveTaskButton = document.getElementById("save-button");
-    const taskForm = document.getElementById("taskForm")
+<script>
+  const colorMappings = {
+  "green": "#85682c",
+  "yellow": "#fdf5eb",
+  "orange": "#e1af3b",
+  "red": "#9b7a26",
+  "rgb(133, 104, 44)": "green",
+  "rgb(253, 245, 235)": "yellow",
+  "rgb(225, 175, 59)": "orange",
+  "rgb(155, 122, 38)": "red"
+  };
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      updatePriorityColor();
+    } else {
+      body.classList.remove("color-blind-friendly");
+      updatePriorityColor();
+    }
 
-    // Click event for "Save" button
-    saveTaskButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        // Get task inputs
-        const taskName = taskNameElement.value;
-        const taskDescription = taskDescriptionElement.value;
-        const taskPriority = taskPriorityElement.value;
-        const taskStage = taskStageElement.value;
-        const taskAssignee = AssigneeListElement.value;
-        const storyPoints = storyPointsElement.value;
-        // nned modify
-        //let taskTags = taskTagsInput.value;
-        let taskTags = [];
-        tagOptionList.forEach((tag) => {
-            if (tag.checked){
-                taskTags.push(tag.value)
-            }
-        })
- 
-        let taskStatus = ""
-        // Determine and select Status
-        if (radioNotStarted.checked){
-            taskStatus = radioNotStarted.value
-        } else if (radioInProgress.checked){
-            taskStatus = radioInProgress.value
-        } else if (radioCompleted.checked){
-            taskStatus = radioCompleted.value
-        }
-        let taskCategory = ""
-        if (story.checked){
-            taskCategory = story.value
-        }
-        else if (bug.checked){
-            taskCategory= bug.value
-        }
-
-        // Add the new task to the savedTasks array
-        if (taskName.trim() !== "" && taskStatus!== "") {
-            // Load existing tasks from local storage
-            const savedTasks = JSON.parse((localStorage.getItem("tasks"))) || [];
-            
-            // Add the new task
-            savedTasks.push({ name: taskName, 
-                description: taskDescription, 
-                priority: taskPriority, 
-                stage: taskStage, 
-                assignee: taskAssignee, 
-                status: taskStatus,
-                storyPoints: storyPoints, 
-                tags: taskTags,//taskTags  here should be a arraylist now is undefined/null
-                category:taskCategory
-                
-            });
-            // // Function to display tasks
-            // function displayTasks() {
-            //     taskList.innerHTML = "";
-            //     savedTasks.forEach(function (task, index) {
-            //             // Create a task card with a link to view details
-            //             const taskCard = document.createElement("div");
-            //             taskCard.classList.add("cardview");
-
-            //             taskCard.innerHTML = `<a href="task.html?id=${index}"><strong>${task.name}</strong>
-            //                                     <br>Priority: ${task.priority}
-            //                                     <br>Story Points: ${task.storyPoints}
-            //                                     <br>Tags: ${task.tags}`;
-            //             taskList.appendChild(taskCard);
-
-
-            //     });
-            // }
-
-            // Save the updated tasks array to local storage
-            localStorage.setItem("tasks", JSON.stringify(savedTasks));
-
-            // Navigate back to the index.html page
-            window.location.href = "prodBacklog.html";
-        }
-    });
-});
+    function updatePriorityColor() {
+    const priorities = document.getElementById("priorities");
+    for (let i = 0; i < priorities.options.length; i++) {
+      const option = priorities.options[i];
+      const currentColor = option.style.color;
+      if (colorMappings[currentColor]) {
+        option.style.color = colorMappings[currentColor];
+      }
+    }
+  }
+  });
 </script>
 </body>
 </html>

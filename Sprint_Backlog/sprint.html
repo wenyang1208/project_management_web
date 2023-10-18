@@ -5,24 +5,29 @@
   <link rel="stylesheet" href="sprint.css">
 </head>
 <body>
-
+<div class="onoffbutton">
+<label class="switch">
+  <input type="checkbox" id="toggleButton">
+  <span class="slider round"></span>
+</label>
+</div>
   <div class="white-frame">
         <div class="header-menu-container">
             
-            <div class="previous-page">
-                <a href = "scrumboard.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+            <div class="previous-page" id="previous-page">
+                <a><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
             </div>
 
             
             <div class="menu-bar">
                 <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
                 <div class="menu-items" id="menu-items">
-                    <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
-                    <a href="scrumboard.html">Scrumboard</a>
-                    <a href="#">Team management</a>
-                    <a href="#">Profile</a>
-                    <a href="#">Reset password</a>
-                    <a href="#">Log out</a>
+                  <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+                  <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+                  <a id="teamManagement" style="cursor: pointer;">Team management</a>
+                  <a id="profile" style="cursor: pointer;">Profile</a>
+                  <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+                  <a id="LogOutButton" style="cursor: pointer;">Log out</a>
                 </div>
             </div>
 
@@ -39,26 +44,26 @@
     <div class="light-blue-frame">
         <div class="dark-blue-frame">
             <div class="horizontal-scroll">
-                <div class="kanban-column">
-                    <div class="kanban-card" id="Todo">To do</div>
+                <div class="kanban-column" id="To-Do-kanban">
+                    <div class="kanban-card" id="Not Started">To Do</div>
                     <div class="light-blue-card-frame">
-                        <div class="card-views" id="card-views-container">
+                        <div class="card-views" id="Not Started-container">
                             
                         </div>
                     </div>
                 </div>
-                <div class="kanban-column">
-                    <div class="kanban-card" id="Inprogress">In Progress</div>
+                <div class="kanban-column" id = "In-Progress-kanban">
+                    <div class="kanban-card" id="In Progress">In Progress</div>
                     <div class="light-blue-card-frame">
-                        <div class="card-views" id="card-views-container">
+                        <div class="card-views" id="In Progress-container">
                             
                         </div>
                     </div>
                 </div>
-                <div class="kanban-column">
-                    <div class="kanban-card" id="Done">Done</div>
+                <div class="kanban-column" id = "Done-kanban">
+                    <div class="kanban-card" id="Completed">Done</div>
                     <div class="light-blue-card-frame">
-                        <div class="card-views" id="card-views-container">
+                        <div class="card-views" id="Completed-container">
                             
                         </div>
                     </div>
@@ -72,15 +77,21 @@
         <h2>Story Points Burndown Chart</h2>
         <canvas id="lineChart"></canvas>
     </div>
-    <div class="green-frame">
+
+
+    <!--If this code is commented the add task btn in the sprint is not working and
+    the tasks in the kanban board will be gone -->
+    
+    <!--The original code for the view chart-->
+    <!-- <div class="green-frame">
         <h2>Total Time Spent</h2>
         <canvas id="lineChart2"></canvas>
-    </div>
+    </div> -->
 
   </div>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -102,7 +113,7 @@ const originalTasks = [];
 const urlParams = new URLSearchParams(window.location.search),
     sprintId = urlParams.get("sprintId")
 document.addEventListener("DOMContentLoaded", function(){
-  const firebaseConfig2 = {
+  const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
     databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -111,168 +122,419 @@ document.addEventListener("DOMContentLoaded", function(){
     messagingSenderId: "971400388443",
     appId: "1:971400388443:web:fc495758d4109f4a1f847e"
 };
-const app2 = initializeApp(firebaseConfig2);
-const urlParams2 = new URLSearchParams(window.location.search),
-    sprintId2 = urlParams2.get("sprintId")
-    console.log(sprintId2)
-  var totalSP = 0
-const db2 = getDatabase(app2);
+const app = initializeApp(firebaseConfig);
+const urlParams = new URLSearchParams(window.location.search),
+    sprintId = urlParams.get("sprintId")
+const db = getDatabase(app);
+    const username = urlParams.get("username")
+    document.getElementById("previous-page").addEventListener("click",function(){
+      window.location.href = `scrumboard.html?username=${username}`
+    })
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
 const selectedTasks = []
-    get(ref(db2,`newsprint/${sprintId2}/selectedTasks`)).then((e)=>{
-      console.log(e.val())
+    get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((e)=>{
       if (e.exists()) {
             e.forEach((childSnapshot) => {
                 const childData = childSnapshot.val();
                 console.log(childData)
                 selectedTasks.push(childData)
-                console.log(selectedTasks.length)
             });
-    }
-    }).then(()=>{totalSP=displayBurnDownChart(selectedTasks)})
+      }
+    }).then(()=>{displayBurnDownChart(selectedTasks)})
     function displayBurnDownChart(selectedTasks){
       var totalStoryPoints = 0
       selectedTasks.forEach((task)=>{
         totalStoryPoints += parseInt(task['taskStoryPoints'])
-        
       })
-      console.log(totalStoryPoints)
-      const completedTasks = []
-      get(ref(db2,`newsprint/${sprintId2}/selectedTasks`)).then((selectedTasks)=>{
-        selectedTasks.forEach((task)=>{
-          if (task.val()["taskStatus"] == "Completed") {
-          completedTasks.push(task.val())
-        }
-        })
-      }).then(()=>{
-        const burndownChartData = {
-
-        }
-        completedTasks.forEach((task)=>{
-          if (burndownChartData[task.dateCompleted] == null){
-            burndownChartData[task.dateCompleted] = parseInt(task.taskStoryPoints)
+      get(ref(db,`newsprint/${sprintId}`)).then((sprint)=>{
+        const duration = []
+        const sprintObj = sprint.val()
+        const startDate = sprintObj["startDate"]
+        const endDate = sprintObj["endDate"]
+        var [startYear,startMonth,startDay] = startDate.split("-"),
+            [endYear,endMonth,endDay] = endDate.split("-")
+        startYear = parseInt(startYear)
+        startMonth = parseInt(startMonth)
+        startDay = parseInt(startDay)
+        endYear = parseInt(endYear)
+        endMonth = parseInt(endMonth)
+        endDay = parseInt(endDay)
+        if (startYear==endYear){
+          if (startMonth == endMonth){
+            for (let day = startDay;day<=endDay;day++){
+              const dateString = [startYear,startMonth,day].join("-")
+              duration.push(dateString)
+            }
           }
           else {
-            burndownChartData[task.dateCompleted] += parseInt(task.taskStoryPoints);
+            for (let month = startMonth;month<=endMonth;month++) {
+                if (month == startMonth){
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = startDay;day<=31;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = startDay;day<=30;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((startYear % 4 == 0 && startYear % 100 != 0) || startYear % 400 == 0){
+                      for (let day = startDay;day<=29;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = startDay;day<=28;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else if (month < endMonth) {
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [startYear,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((startYear % 4 == 0 && startYear % 100 != 0) || startYear % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [startYear,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else if (month == endMonth) {
+                  for (let day = 1;day<=endDay;day++){
+                    const dateString = [startYear,month,day].join("-")
+                    duration.push(dateString)
+                  }
+                } 
+            }
+          }
+        }
+        else {
+          for (let year = startYear;year<=endYear;year++){
+            if (year == startYear){
+              for (let month = startMonth;month<=12;month++) {
+                if (month == startMonth){
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = startDay;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = startDay;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = startDay;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = startDay;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else {
+                  if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                  else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            else if (year < endYear){
+              for (let month = 1;month<=12;month++){
+                if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+              }   
+            }
+            else if (year == endYear){
+              for (let month = 1;month<=endMonth;month++){
+                if (month != endMonth){
+                if ([1,3,5,7,8,10,12].includes(month)){
+                    for (let day = 1;day<=31;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if ([4,6,9,11].includes(month)){
+                    for (let day = 1;day<=30;day++){
+                      const dateString = [year,month,day].join("-")
+                      duration.push(dateString)
+                    }
+                  }
+                else if (month == 2){
+                    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+                      for (let day = 1;day<=29;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                    else {
+                      for (let day = 1;day<=28;day++){
+                        const dateString = [year,month,day].join("-")
+                        duration.push(dateString)
+                      }
+                    }
+                  }
+                }
+                else {
+                  for (let day = 1;day <= endDay;day++){
+                    const dateString = [year,month,day].join("-")
+                    duration.push(dateString)
+                  }
+                }
+              }  
+            }
+          }
+        }
+        console.log(duration.length)
+        const actualStoryPointsDone = {}
+        get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((selectedTasks)=>{
+        const completedTasks = []
+        selectedTasks.forEach((task)=>{
+          const taskObj = task.val()
+          if (taskObj["taskStatus"] == "Completed") {
+          completedTasks.push(taskObj)
+        }
+        })
+        completedTasks.forEach((task)=>{
+          if (actualStoryPointsDone[task.dateCompleted] == null){
+            actualStoryPointsDone[task.dateCompleted] = parseInt(task.taskStoryPoints)
+          }
+          else {
+            actualStoryPointsDone[task.dateCompleted] += parseInt(task.taskStoryPoints);
           }
         })
-        console.log(Object.keys(burndownChartData))
-        console.log(Object.values(burndownChartData))
-      })
-      return totalStoryPoints
-    }
+
+      
     // Get a reference to the canvas element
-    const starttime = performance.now()
-    var ctx = document.getElementById('lineChart').getContext('2d');
-    const dateLabel = []
+    //const starttime = performance.now()
     const expectedData =[]
+    const average = totalStoryPoints/(duration.length-1)
+    console.log(average)
+    console.log(duration.length)
+    for (let i=duration.length-1;i>=0;i--){
+      expectedData.push(Math.round(average*i))
+      console.log(i)
+    }
+    console.log(expectedData)
     const actualData = []
-    get(ref(db2,"burnDownChartEg")).then((logtimeSpent)=>{
-      const logTimeSpent = logtimeSpent.val()
-      const logTimeSpent_Date = Object.keys(logTimeSpent)
-      logTimeSpent_Date.forEach((date)=>{
-        dateLabel.push(date)
-      })
-      const logTimeSpent_StoryPoints = Object.values(logTimeSpent)
-      expectedData.push(20)
-      expectedData.push(15)
-      expectedData.push(11)
-      expectedData.push(5)
-      expectedData.push(0)
-      var totalStoryP = 20
-      logTimeSpent_StoryPoints.forEach((SP)=>{
-        totalStoryP = totalStoryP - parseInt(SP)
-        actualData.push(totalStoryP)
-      })
-    })
-    // Define your data as an array of data points
-    var data = {
-      labels: dateLabel,
+    var remainingStoryPoints = totalStoryPoints
+    const actualKeys = Object.keys(actualStoryPointsDone)
+    const actualValues = Object.values(actualStoryPointsDone)
+    console.log(actualData)
+    for (let i=0;i<duration.length;i++){
+      if (actualKeys.includes(duration[i])){
+        remainingStoryPoints = remainingStoryPoints - actualValues[actualKeys.indexOf(duration[i])]
+        actualData.push(remainingStoryPoints)
+      }
+      else{
+        actualData.push(remainingStoryPoints)
+      }}
+    const toggleButton = document.getElementById("toggleButton");
+    let color = 'blue';
+    let color2 = 'red';
+    toggleButton.addEventListener("change", function() {
+      if (toggleButton.checked) {
+        color = "#204f7f";
+        color2 = "#9b7a26";
+      } else {
+        color = 'blue';
+        color2 = 'red';
+      }
+      var data = {
+      labels: duration,
       datasets: [{
         label: 'Expected velocity',
         data: expectedData, // Example data points
-        borderColor: 'blue',    // Line color
+        borderColor: color,    // Line color
         borderWidth: 2,         // Line width
         fill: false,
         tension: 0              // Fill under the line (false for line chart)
       },{
         label: 'Actual velocity',
         data: actualData, // Example data points
-        borderColor: 'red',    // Line color
+        borderColor: color2,    // Line color
         borderWidth: 2,         // Line width
         fill: false,
         tension: 0              // Fill under the line (false for line chart)
       }]
     };
-  
-    // Create the line chart
-    function generateChart(){var lineChart = new Chart(ctx, {
-      type: 'line',
-      data: data,
-      options: {
-    scales: {
-      xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Date' // Set the X-axis label
-        }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Remaining Story Points' // Set the Y-axis label
-        }
-      }]
-    }
-  }
-    });}
-    generateChart()
-    generateChart()
-    const endtime = performance.now()
-    const timeSpent = endtime - starttime
-    console.log(`TimeSpent:${timeSpent}ms`)
-    var ctx2 = document.getElementById('lineChart2').getContext('2d');
-  
+    generateChart(data)
+    });
     // Define your data as an array of data points
+    if (toggleButton.checked) {
+        color = "#204f7f";
+        color2 = "#9b7a26";
+      } else {
+        color = 'blue';
+        color2 = 'red';
+      }
     var data = {
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+      labels: duration,
       datasets: [{
-        label: 'Task1',
-        data: [0, 0.5, 2, 2.5, 3], // Example data points
-        borderColor: 'blue',    // Line color
+        label: 'Expected velocity',
+        data: expectedData, // Example data points
+        borderColor: color,    // Line color
         borderWidth: 2,         // Line width
         fill: false,
         tension: 0              // Fill under the line (false for line chart)
       },{
-        label: 'Task2',
-        data: [0, 2, 2, 3, 4], // Example data points
-        borderColor: 'red',    // Line color
+        label: 'Actual velocity',
+        data: actualData, // Example data points
+        borderColor: color2,    // Line color
         borderWidth: 2,         // Line width
         fill: false,
         tension: 0              // Fill under the line (false for line chart)
       }]
     };
+    generateChart(data)
+      })
+    })
   
     // Create the line chart
-    var lineChart2 = new Chart(ctx2, {
-      type: 'line',
-      data: data,
-      options: {
-    scales: {
-      xAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Date' // Set the X-axis label
+    function generateChart(data){
+      var ctx = document.getElementById('lineChart').getContext('2d');
+      var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+          scales: {
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Date' // Set the X-axis label
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Remaining Story Points' // Set the Y-axis label
+              }
+            }]
+          }
         }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString: 'Total Time Spent (hrs)' // Set the Y-axis label
-        }
-      }]
+      });
     }
   }
-    });
+
 
     const que = query(ref(db, `newsprint/${sprintId}/selectedTasks`));
 
@@ -300,22 +562,21 @@ const selectedTasks = []
     });
     console.log(savedTasks)
     addNewTask.addEventListener("click",function(){
-      window.location.href = `addtask.html?sprintId=${sprintId}`
+      window.location.href = `addtask.html?username=${username}&sprintId=${sprintId}`
     })
-    })
+    
   
 
 
     // DISPLAY
     function displayTasks(taskData) {
-        if (taskList !== null){
             console.log(taskData)
-            taskList.innerHTML = "";
             taskData.forEach(function (task, index) {
     
                 const taskCard = document.createElement("div");
                 taskCard.classList.add("cardview");
-                taskCard.id = `${index}`;
+                taskCard.id = task.taskName;
+                taskCard.style.cursor = "pointer";
                 taskCard.draggable = true;
     
                 const taskName = document.createElement("div");
@@ -350,10 +611,10 @@ const selectedTasks = []
                 taskCard.appendChild(storyPoints)
                 taskCard.appendChild(tagsContainer)
                 taskCard.addEventListener("click",function (){
-                window.location.href = `task.html?sprintId=${sprintId}&taskId=${taskName.textContent}`})
-                taskList.appendChild(taskCard); 
+                window.location.href = `task.html?username=${username}&sprintId=${sprintId}&taskId=${taskName.textContent}`})
+                document.getElementById(`${task.taskStatus}-container`).appendChild(taskCard); 
             });
-        }
+        
         return taskData;
     }
 
@@ -376,6 +637,7 @@ function allowDrop(event) {
 function drop(event) {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text/plain");
+    console.log(taskId)
     const taskCard = document.getElementById(taskId);
     
     // Find the target light blue frame
@@ -387,9 +649,47 @@ function drop(event) {
         
         // Update the task status (To do, In Progress, Done) based on the target light blue frame
         const status = targetLightBlueFrame.querySelector('.kanban-card').id;
+        console.log(`status: ${status}`)
+        console.log(sprintId)
+        get(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`)).then((task)=>{
+          if (status == "Completed" && task.val()["taskStatus"] != "Completed"){
+            const date = new Date()
+            const year = date.toLocaleString('en-GB',{year:"numeric"})
+            const month = date.toLocaleString('en-GB',{month:"2-digit"})
+            const day = date.toLocaleString('en-GB',{day:"2-digit"})
+            const monthInt = parseInt(month)
+            const dayInt = parseInt(day)
+            const dateString = [year,monthInt,dayInt].join("-")
+            update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
+            taskStatus:status,
+            dateCompleted:dateString
+            })
+          }
+          else if (status == "Completed" && task.val()["taskStatus"] == "Completed"){
+            update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
+            taskStatus:status
+            })
+          }
+          else{
+            update(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}`),{
+            taskStatus:status,
+            dateCompleted:null
+            })
+          }
+        })
         // You can update the task status in your savedTasks or database here
         
     }
+    const selectedTasks = []
+    get(ref(db,`newsprint/${sprintId}/selectedTasks`)).then((e)=>{
+      if (e.exists()) {
+            e.forEach((childSnapshot) => {
+                const childData = childSnapshot.val();
+                console.log(childData)
+                selectedTasks.push(childData)
+            });
+      }
+    }).then(()=>{displayBurnDownChart(selectedTasks)})
 }
 
 
@@ -397,16 +697,22 @@ function drop(event) {
 function onDragStart(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
 }
-
+})
 
 
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+  <script>
+    const toggleButton = document.getElementById("toggleButton");
+    const body = document.body;
+    toggleButton.addEventListener("change", function() {
+      if (toggleButton.checked) {
+        body.classList.add("color-blind-friendly");
+      } else {
+        body.classList.remove("color-blind-friendly");
+      }
+    });
   </script>
-  
 </body>
 </html>

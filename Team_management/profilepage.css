@@ -7,7 +7,6 @@ body {
       background-color: #DCD6F1; /* Change background color to white */
       color: #000000; /* Change text color to black */
     }
-
     .white-frame{
     background-color: white;
     padding: 20px;
@@ -31,24 +30,29 @@ body {
     
     
     .dark-blue-frame {
-    background-color: #6589AA;
+    background-color: #1f4b72;
     padding: 20px;
     margin: 10px;
-    overflow-x: auto;
-    white-space: nowrap;
     }
+
     .pink-frame {
     background-color: #E8CACA;
     padding: 20px;
     margin: 10px;
     border-radius: 5px;
     }
+
     .green-frame {
     background-color: #b5dbaf;
     padding: 20px;
     margin: 10px;
     border-radius: 5px;
     }
+
+    .color-blind-friendly .dark-blue-frame {
+      background-color: #7d82a8;
+    }
+    
     .flex {
     display: flex;
     }
@@ -59,25 +63,7 @@ body {
     flex-direction: column;
     }
     
-    .color-blind-friendly .light-blue-frame {
-      background-color: #dcd2f4;
-    }
-
-    .color-blind-friendly .light-blue-card-frame {
-      background-color: #dcd2f4;
-    }
-
-    .color-blind-friendly .dark-blue-frame {
-      background-color: #7d82a8;
-    }
-
-    .color-blind-friendly .pink-frame {
-      background-color: #e2caca;
-    }
-
-    .color-blind-friendly .green-frame {
-      background-color: #e9c9b6;
-    }
+    
     .vertical-scroll {
     display: inline-flex;
     gap: 10px;
@@ -133,9 +119,11 @@ body {
     display: block;
     }
     
-    .color-blind-friendly .add-button {
-      background-color: #0e2a45; /* Change background color to white */
+    .color-blind-friendly .add-button{
+      background-color: #0e2a45;
+      color: white;
     }
+    
     .menu-bar {
     position: relative;
     display: inline-block;
@@ -171,23 +159,22 @@ body {
     border: none;
     cursor: pointer;
     }
-    
     .color-blind-friendly .menu-bar button {
-      background-color: #887c80; /* Change menu button background color to dark gray */
-      color: #ffffff; /* Change menu button text color to white */
+      background-color: #887c80; 
+      color: #ffffff; 
     }
-
+    
     .menu-items {
     display: none;
     position: absolute;
     background-color: gray;
     padding: 5px;
     }
-    
     .color-blind-friendly .menu-items {
-      background-color: #887c80; /* Change menu button background color to dark gray */
-      color: #ffffff; /* Change menu button text color to white */
+      background-color: #887c80; 
+      color: #ffffff; 
     }
+    
     .menu-items a {
     display: block;
     color: white;
@@ -222,11 +209,9 @@ body {
     .color-blind-friendly .card {
       background-color: #fceefa;
     }
-
     .color-blind-friendly .cardview {
       background-color: #fceefa;
     }
-
     .cardview a {
     text-decoration: none;
     color: black;
@@ -239,84 +224,122 @@ body {
     }
 
 
-    /* Adjust the styles to position the custom checkbox at the top-right corner */
-.custom-checkbox {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    float: right; /* Float it to the right */
-    margin-right: 10px; /* Add margin for spacing */
-  }
-  
-  .hidden-checkbox {
-    display: none;
-  }
-  
-  .custom-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-  }
-  
-  .custom-checkbox input:checked + .checkmark {
-    background-color: #2196F3;
-  }
-  
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  .custom-checkbox input:checked + .checkmark:after {
-    display: block;
-  }
-  
-  .custom-checkbox .checkmark:after {
-    left: 7px;
-    top: 3px;
-    width: 4px;
-    height: 9px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-  }
+    .teammember {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        padding-left: 100px;
+        padding-right: 100px;
+        display: inline-flex;
+    }
+
+    .email {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        padding-left: 250px;
+        padding-right: 100px;
+        display: inline-flex;
+    }
+    
+    .managemembers {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        padding-left: 280px;
+        padding-right: 50px;
+        display: inline-block;
+    }
+    
+    .button-container {
+        text-align: right; 
+        margin-top: 5px; 
+      }
+      
+    .view-button, .create-button, .delete-button {
+        background-color: darkblue;
+        color: white;
+        text-decoration: none;
+        padding: 5px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+        width: 180px;
+        text-align: center;
+        line-height: center; 
+        margin-left: auto;
+        display: block;
+    }
+
+    .color-blind-friendly .view-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    .color-blind-friendly .create-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    
+    .color-blind-friendly .delete-button{
+      background-color: #0e2a45;
+      color: white;
+    }
     
 
-  .button-container {
-    text-align: right; 
-    margin-top: 5px; 
-  }
-  
-.delete-button {
-    background-color: darkblue;
-    color: white;
-    text-decoration: none;
-    padding: 5px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 5px;
-    width: 40px;
-    text-align: center;
-    line-height: center; 
-    margin-left: auto;
-    display: block;
-}
+    .details-frame {
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 19px;
+        margin: 5px;
+        width: 98%;
+        line-height: center;
+        margin-right: auto;
+        display: block;
+    }
+
+
+    .name-input {
+        width: 400px;
+        font-size: 20px;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .email-input {
+        font-size: 20px;
+        text-align: center;
+        display: inline-block;
+        width: 500px;
+    }
     
-.color-blind-friendly .delete-button {
-  background-color: #0e2a45; /* Change background color to white */
-}
-            /* The switch - the box around the slider */
+    .edit-input {
+
+        font-size: 20px;
+        display: inline-block;
+        padding-left: 180px;
+        text-align: center;
+    }
+
+    .edit-button {
+        background-color: darkblue;
+        color: white;
+        text-decoration: none;
+        padding: 5px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+        width: 40px;
+        text-align: center;
+        line-height: center; 
+        margin-left: auto;
+        display: block;
+    }
+    .color-blind-friendly .edit-button{
+      background-color: #0e2a45;
+      color: white;
+    }
+    
+        /* The switch - the box around the slider */
 .switch {
     position: relative;
     display: inline-block;
@@ -383,6 +406,3 @@ body {
     text-align: right;
     display: block;
   }
-    
-    
-    

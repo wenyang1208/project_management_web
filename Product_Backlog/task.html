@@ -5,20 +5,25 @@
   <link rel="stylesheet" href="task.css">
 </head>
 <body>
-
+<div class="onoffbutton">
+<label class="switch">
+  <input type="checkbox" id="toggleButton">
+  <span class="slider round"></span>
+</label>
+</div>
   <div class="white-frame">
-      <div class="previous-page">
-        <a href = "prodBacklog.html"><img src="previouspage.png" width=30px height = 30px></a>
+      <div class="previous-page" id="previous-page">
+        <a><img src="previouspage.png" width=30px height = 30px></a>
       </div>
       <div class="menu-bar">
         <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
         <div class="menu-items" id="menu-items">
-          <a href="prodBacklog.html">Product backlog</a>
-          <a href="#">Scrumboard</a>
-          <a href="#">Team management</a>
-          <a href="#">Profile</a>
-          <a href="#">Reset password</a>
-          <a href="#">Log out</a>
+          <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+            <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+            <a id="teamManagement" style="cursor: pointer;">Team management</a>
+            <a id="profile" style="cursor: pointer;">Profile</a>
+            <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+            <a id="LogOutButton" style="cursor: pointer;">Log out</a>
         </div>
       </div>
 
@@ -70,7 +75,7 @@
             <span class="text" id="status">...</span>
           </div>
           <div class="category">
-            <span class="text">Category: </span>
+            <span class="text">Task Type: </span>
             <span class="text" id="category">...</span>
           </div>
 
@@ -92,34 +97,7 @@
       
       <div class="task-description">
         <div class="text">Task description:</div>
-        <div class="description" id="task-description">Requirements:
-
-          User Registration:
-          
-          Users should be able to register for an account by providing a valid email address and a secure password.
-          Implement client-side and server-side validation to ensure data integrity.
-          Store user registration data securely in our database.
-          User Login:
-          
-          Registered users should be able to log in with their email and password.
-          Implement password hashing and salting for security.
-          Create a session or token-based authentication system.
-          Password Reset:
-          
-          Allow users to request a password reset via email if they forget their password.
-          Generate secure password reset tokens and implement a reset password flow.
-          Authentication Middleware:
-          
-          Implement authentication middleware to protect certain routes and resources.
-          Unauthorized access attempts should be redirected to the login page or return a 401 status code.
-          User Profile:
-          
-          Create a user profile page where users can view and edit their profile information.
-          Implement user authentication checks to ensure users can only edit their own profiles.
-          Security Measures:
-          
-          Implement security best practices to protect against common web vulnerabilities (e.g., Cross-Site Scripting, Cross-Site Request Forgery).
-          Regularly review and update security libraries and dependencies</div>
+        <textarea rows="8" columns="50" class="description text" id="task-description" value="..."></textarea>
       </div>
     </div>
       <div class="button-container">
@@ -134,7 +112,7 @@
   </div>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -174,9 +152,55 @@ const urlParams = new URLSearchParams(window.location.search);
 const taskId = urlParams.get("taskId");
 document.addEventListener("DOMContentLoaded", function () {
 
+
 //----------------------------------------------get data------------------------------------------------------------------
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    document.getElementById("previous-page").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`
+  })
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
     const dataRef = ref(db, "productBacklog/" + taskId);
     var task = {}
 
@@ -209,7 +233,19 @@ function displayTaskDetails(savedTasks){
             "taskTags": savedTasks["taskTags"]
         } 
         taskNameElement.textContent = task["taskName"];
-        taskDescriptionElement.textContent = task["taskDescription"];
+        taskDescriptionElement.value = task["taskDescription"];
+        if (task["taskPriority"] == "Low"){
+          taskPriorityElement.style.color = "green";
+        }
+        else if (task["taskPriority"] == "Medium"){
+          taskPriorityElement.style.color = "yellow"
+        }
+        else if (task["taskPriority"] == "Important"){
+          taskPriorityElement.style.color = "orange"
+        }
+        else if (task["taskPriority"] == "Urgent"){
+          taskPriorityElement.style.color = "red"
+        }
         taskPriorityElement.textContent = task["taskPriority"];
         storyPointsElement.textContent = task["taskStoryPoints"];
         taskStageElement.textContent = task["taskStage"];
@@ -241,9 +277,42 @@ function displayTaskDetails(savedTasks){
 
     editbutton.addEventListener("click",function(event){
         event.preventDefault()
-        window.location.href=`edittask.html?taskId=${taskId}`
+        window.location.href=`edittask.html?username=${username}&taskId=${taskId}`
     })
 });
+</script>
+
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  const colorMappings = {
+  "green": "#85682c",
+  "yellow": "#fdf5eb",
+  "orange": "#e1af3b",
+  "red": "#9b7a26",
+  "rgb(133, 104, 44)": "green",
+  "rgb(253, 245, 235)": "yellow",
+  "rgb(225, 175, 59)": "orange",
+  "rgb(155, 122, 38)": "red"
+  };
+
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      updatePriorityColor();
+    } else {
+      body.classList.remove("color-blind-friendly");
+      updatePriorityColor();
+    }
+  });
+
+  function updatePriorityColor() {
+    const taskPriorityElement = document.getElementById("taskPriority");
+    const currentColor = taskPriorityElement.style.color;
+      if (colorMappings[currentColor]) {
+        taskPriorityElement.style.color = colorMappings[currentColor];
+      }
+  }
 </script>
 </body>
 </html>

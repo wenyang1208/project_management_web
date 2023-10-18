@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task</title>
+  <link rel="stylesheet" href="addmember.css">
+</head>
+<body>
+<div class="onoffbutton">
+<label class="switch">
+  <input type="checkbox">
+  <span class="slider round"></span>
+</label>
+</div>
+  <div class="white-frame">
+      <div class="previous-page">
+        <a href = "profilepage.html"><img src="../Product_Backlog/previouspage.png" width=30px height = 30px></a>
+      </div>
+      <div class="menu-bar">
+        <button id="menu-button"><img src="../Product_Backlog/menubar.png" width=30px height=20px></button>
+        <div class="menu-items" id="menu-items">
+          <a href="../Product_Backlog/prodBacklog.html">Product backlog</a>
+          <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
+          <a href="contributionchart.html">Team management</a>
+          <a href="profilepage.html">Profile</a>
+          <a href="#">Reset password</a>
+          <a href="#">Log out</a>
+        </div>
+      </div>
+
+    <div class="light-blue-frame">
+        <header>
+            <h1>Edit existing user</h1>
+        </header>
+
+        <div class="task-description">
+            <div class="text">Please create new username:</div>
+            <textarea rows="1" class="description text" id="create_new_desc" value="..."></textarea>
+        </div>
+
+        <div class="task-description">
+            <div class="text">Please create new email:</div>
+            <textarea rows="1" class="description text" id="create_new_email" value="..."></textarea>
+        </div>
+
+        <div class="task-description">
+            <div class="text">Please create new password:</div>
+            <textarea rows="1" class="description text" id="create_new_pwd" value="..."></textarea>
+        </div>
+
+        <div class="button-container">
+          <a href="#" id="confirm-button" class="confirm-button">Confirm</a>
+          <a href="#" id="cancel-button" class="cancel-button">Cancel</a>
+        </div>
+
+        
+    </div>
+    
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getDatabase, ref, set, get, child, query, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+  const firebaseConfig = {
+      apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
+      authDomain: "project-2782373696466964042.firebaseapp.com",
+      databaseURL: "https://project-2782373696466964042-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "project-2782373696466964042",
+      storageBucket: "project-2782373696466964042.appspot.com",
+      messagingSenderId: "971400388443",
+      appId: "1:971400388443:web:fc495758d4109f4a1f847e"
+  };
+
+  const 
+    username = document.getElementById("create_new_desc"),
+    email = document.getElementById("create_new_email"),
+    password = document.getElementById("create_new_pwd"),
+
+    urlParams = new URLSearchParams(window.location.search),
+    taskId = urlParams.get("taskId");
+
+  document.addEventListener("DOMContentLoaded",function(){
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    // const username = document.getElementById("create_new_desc");
+    // const email = document.getElementById("create_new_email");
+    // const password = document.getElementById("create_new_pwd");
+
+    const dataRef = ref(db, `addMember/` + taskId);
+    const savedTasks = []
+    var task = {}
+
+    get(dataRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val())
+            console.log(Object.keys(snapshot.val()))
+            const data = snapshot.val()
+            task = data
+            console.log(task)
+            snapshot.forEach((childSnapshot) => {
+                const childData = childSnapshot.val();
+                savedTasks.push(childData)
+            });
+    }}
+    )
+    .then(()=> displayTaskDetails(task));
+
+    //----------------------------------------------display task detail------------------------------------------------------------------
+    function displayTaskDetails(savedTasks){
+        // if (taskId !== null && taskId.length >= 0) {
+            const task = {
+                "email": savedTasks["email"],
+                "password": savedTasks["password"],
+                "username": savedTasks["username"],
+            } 
+            email.textContent = task["email"];
+            password.textContent = task["password"];
+            username.value = task["username"];
+            
+        // } else {
+        //     taskNameElement.textContent = "Member not found.";
+        // }
+    }
+
+  // ------------------------------------------- Confirm button------------------------------------------------------------------
+
+    document.getElementById("confirm-button").addEventListener('click', function(e){
+
+        e.preventDefault(); // Not sure if need this line yet
+        if(username.value !== "" && email.value !== "" && password.value !== ""){
+        update(ref(db, 'addMember/' + taskId), // testing with a specific username
+        {
+          username : username.value,
+          email : email.value,
+          password : password.value,
+        })
+        .then(() => {
+            alert(' Member details have been updated. ')
+            window.location.href = "profilepage.html"});
+      }else{
+        alert("Please fill in all the member's details.");
+      }
+    })
+
+  // ------------------------------------------- Cancel button------------------------------------------------------------------
+
+    document.getElementById("cancel-button").addEventListener('click', function(e){
+        window.location.href = '../Product_Backlog/prodBacklog.html';
+      }) 
+
+  })
+
+</script>
+</body>
+</html>

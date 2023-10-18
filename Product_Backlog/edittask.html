@@ -5,7 +5,12 @@
   <link rel="stylesheet" href="edittask.css">
 </head>
 <body>
-
+<div class="onoffbutton">
+<label class="switch">
+  <input type="checkbox" id="toggleButton">
+  <span class="slider round"></span>
+</label>
+</div>
   <div class="white-frame">
       <div class="previous-page" id="previous-page">
         <img src="previouspage.png" width=30px height = 30px>
@@ -13,12 +18,12 @@
       <div class="menu-bar">
         <button id="menu-button"><img src="menubar.png" width=30px height=20px></button>
         <div class="menu-items" id="menu-items">
-          <a href="prodBacklog.html">Product backlog</a>
-          <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
-          <a href="#">Team management</a>
-          <a href="#">Profile</a>
-          <a href="#">Reset password</a>
-          <a href="#">Log out</a>
+          <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+            <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+            <a id="teamManagement" style="cursor: pointer;">Team management</a>
+            <a id="profile" style="cursor: pointer;">Profile</a>
+            <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+            <a id="LogOutButton" style="cursor: pointer;">Log out</a>
         </div>
       </div>
 
@@ -38,10 +43,10 @@
           <div class="priority">
             <span class="text">Priority: </span>
             <select name="priority" id="priorities">
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="Important">Important</option>
-                <option value="Urgent">Urgent</option>
+                <option value="Low" style="color: green;">Low</option>
+                <option value="Medium" style="color: yellow;">Medium</option>
+                <option value="Important" style="color: orange;">Important</option>
+                <option value="Urgent" style="color: red;">Urgent</option>
               </select>
           </div>
           <div class="stage-of-task">
@@ -65,13 +70,13 @@
             <span class="text">Status: </span>
             <input type="radio" id="Not Started" name="status" value="Not Started">
             <label for="Not Started"> Not Started </label>
-            <input type="radio" id="In Progress" name="status" value="In Progress">
+           <!-- <input type="radio" id="In Progress" name="status" value="In Progress">
             <label for="In Progress"> In Progress </label>
             <input type="radio" id="Completed" name="status" value="Completed">
-            <label for="Completed"> Completed</label>
+            <label for="Completed"> Completed</label>-->
           </div>
           <div class="category">
-            <span class="text">Category: </span>
+            <span class="text">Task Type: </span>
             <input type="radio" id="Story" name="category" value="Story">
             <label for="Story"> Story </label>
             <input type="radio" id="Bug" name="category" value="Bug">
@@ -121,7 +126,7 @@
 <script type="module">
 // import { displayedTasks } from "./taskManager.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, update,remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -176,6 +181,61 @@ const savebutton = document.getElementById("save-button");
   let tags = ["Frontend","Backend","API","Database","Framework","Testing","UI","UX"]
 
 document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
+  get(ref(db,`addMember`)).then((allMember)=>{
+        if (allMember.exists()) {
+            const allMemberVal = allMember.val()
+            const allMemberName = Object.keys(allMemberVal)
+            console.log(allMemberName)
+            allMemberName.forEach((member)=>{
+                let newOption = document.createElement('option');
+                newOption.value = member
+                newOption.textContent = member
+                taskAssigneeElement.appendChild(newOption)
+            })
+        }
+      })
   const dataRef = ref(db, "productBacklog/" + taskId);
   const savedTasks = []
   var task = {}
@@ -288,6 +348,14 @@ savebutton.addEventListener("click",function(event){
 
   tags = tags.filter(tag => taskTag.includes(tag));
 //--------------------------------------------------update data-----------------------------------------------------
+const taskDescription = document.querySelector("#task-description").value;
+if (taskDescription == ""){
+  alert("Task Description cannot be empty!")
+}
+else if (taskTag.length == 0){
+  alert("Task must have at least 1 tag!")
+}
+else {
     update(ref(db, 'productBacklog/' + taskId),
     {
       taskAssignee :document.querySelector("#AssigneeList").value,
@@ -300,14 +368,71 @@ savebutton.addEventListener("click",function(event){
       taskTags : taskTag
     })
 
-    .then(() => { window.location.href = `task.html?taskId=${taskId}`});
+    .then(() => { window.location.href = `task.html?username=${username}&taskId=${taskId}`});
 
+}})
+deletebutton.addEventListener("click",function(){
+  remove(ref(db,'productBacklog/' + taskId))
+  window.location.href = `prodBacklog.html?username=${username}`
 })
 previousPage.addEventListener("click",function(){
-  window.location.href = `task.html?taskId=${taskId}`
+  window.location.href = `task.html?username=${username}&taskId=${taskId}`
 })
 }
 );
+
+
+//--------------------------------------------------priority colour-----------------------------------------------------
+const prioritiesSelect = document.getElementById("priorities");
+
+    // Function to change the color of the select element
+    function changeSelectColor() {
+      const selectedOption = prioritiesSelect.options[prioritiesSelect.selectedIndex];
+      const color = window.getComputedStyle(selectedOption).color;
+      prioritiesSelect.style.color = color;
+    }
+
+    // Add an event listener to update the select element color on change
+    prioritiesSelect.addEventListener("change", changeSelectColor);
+
+    // Call the changeSelectColor function initially to set the initial color
+    changeSelectColor();
+</script>
+
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  const colorMappings = {
+  "green": "#85682c",
+  "yellow": "#fdf5eb",
+  "orange": "#e1af3b",
+  "red": "#9b7a26",
+  "rgb(133, 104, 44)": "green",
+  "rgb(253, 245, 235)": "yellow",
+  "rgb(225, 175, 59)": "orange",
+  "rgb(155, 122, 38)": "red"
+  };
+
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      updatePriorityColor();
+    } else {
+      body.classList.remove("color-blind-friendly");
+      updatePriorityColor();
+    }
+  });
+
+  function updatePriorityColor() {
+    const priorities = document.getElementById("priorities");
+    for (let i = 0; i < priorities.options.length; i++) {
+      const option = priorities.options[i];
+      const currentColor = option.style.color;
+      if (colorMappings[currentColor]) {
+        option.style.color = colorMappings[currentColor];
+      }
+    }
+  }
 </script>
 </body>
 </html>

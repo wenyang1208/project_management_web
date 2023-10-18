@@ -5,19 +5,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<div class="onoffbutton">
+<label class="switch">
+  <input type="checkbox" id="toggleButton">
+  <span class="slider round"></span>
+</label>
+</div>
   <div class="white-frame">
 
     <div class="header-menu-container">
       <div class="menu-bar">
         <button id="menu-button"><img src="menubar.png" width="45%" height="45%"></button>
         <div class="menu-items" id="menu-items">
-            <a href="prodBacklog.html">Product backlog</a>
-            <a href="../Sprint_Backlog/scrumboard.html">Scrumboard</a>
-            <a href="#">Team management</a>
-            <a href="#">Profile</a>
-            <a href="#">Reset password</a>
-            <a href="#">Log out</a>
+            <a id="prodBacklog" style="cursor: pointer;">Product backlog</a>
+            <a id="scrumboard" style="cursor: pointer;">Scrumboard</a>
+            <a id="teamManagement" style="cursor: pointer;">Team management</a>
+            <a id="profile" style="cursor: pointer;">Profile</a>
+            <a id="resetpassword" style="cursor: pointer;">Reset password</a>
+            <a id="LogOutButton" style="cursor: pointer;">Log out</a>
         </div>
       </div>
       
@@ -116,7 +121,7 @@
       <br>
 
       <div class="button-container">
-        <a href="addtask.html" id="add-button" class="add-button">Add</a>
+        <a id="add-button" class="add-button">Add</a>
         <div id="delete-button" class="delete-button">Delete</div>        
       </div>
   </div>
@@ -125,7 +130,7 @@
   </script>
   <script type="module">
        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, query, orderByChild,update } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyAk2H_8opCo31ebK1Ce_hZ5G36XNkydR1s",
     authDomain: "project-2782373696466964042.firebaseapp.com",
@@ -151,6 +156,48 @@ document.addEventListener("DOMContentLoaded", function(){
     const app = initializeApp(firebaseConfig);
 
     const db = getDatabase(app);
+    const urlParams = new URLSearchParams(window.location.search)
+    const username = urlParams.get("username")
+    document.getElementById("prodBacklog").addEventListener("click",function(){
+      window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
+    
+    document.getElementById("scrumboard").addEventListener("click",function(){
+      window.location.href= `../Sprint_Backlog/scrumboard.html?username=${username}`})
+    
+    document.getElementById("teamManagement").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("profile").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/profilepage.html?username=${username}`}})})
+    document.getElementById("resetpassword").addEventListener("click",function(){
+      window.location.href= `../Team_management/resetpassword.html?username=${username}`})
+    
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+    if (!user.exists()){
+        window.location.href = `../Login/login.html`
+    }
+      else if (user.val()["status"] != "Log in"){
+        window.location.href = `../Login/login.html`
+      }
+    })
+    document.getElementById("LogOutButton").addEventListener("click",function(){
+      update((ref(db,`addMember/${username}`)),{
+        status: "Log out"
+      })
+      window.location.href = `../Login/login.html`
+    })
     const que = query(ref(db, "productBacklog/"), orderByChild("dateAdded"));
     get(que).then((snapshot) => {
         if (snapshot.exists()) {
@@ -168,8 +215,14 @@ document.addEventListener("DOMContentLoaded", function(){
         console.error("Error getting data:", error);
     });
     console.log(savedTasks)
+    // ADD
+    if (addTaskButton !== null){    
+        addTaskButton.addEventListener("click", function () {
+          
+        window.location.href = `addtask.html?username=${username}`; 
+    });
+}
     })
-
 
     // DISPLAY
     function displayTasks(taskData) {
@@ -185,10 +238,29 @@ document.addEventListener("DOMContentLoaded", function(){
                 const taskName = document.createElement("div");
                 taskName.className = "task-name";
                 taskName.textContent = task.taskName;
-    
-                const priority = document.createElement("div");
+                
+                const prioritytitle = document.createElement("span");
+                prioritytitle.className = "priority-title";
+                prioritytitle.textContent = "Priority: "
+                const priority = document.createElement("span");
                 priority.className = "priority";
-                priority.textContent = `Priority: ${task.taskPriority}`;
+                if (task["taskPriority"] == "Low"){
+                  priority.style.color = "green";
+                }
+                else if (task["taskPriority"] == "Medium"){
+                  priority.style.color = "yellow"
+                }
+                else if (task["taskPriority"] == "Important"){
+                  priority.style.color = "orange"
+                }
+                else if (task["taskPriority"] == "Urgent"){
+                  priority.style.color = "red"
+                }
+                priority.textContent = task.taskPriority;
+                const taskPriorityElement = document.createElement("div");
+                taskPriorityElement.className="priority-element";
+                taskPriorityElement.appendChild(prioritytitle)
+                taskPriorityElement.appendChild(priority)
     
     
                 const storyPoints = document.createElement("div");
@@ -226,25 +298,22 @@ document.addEventListener("DOMContentLoaded", function(){
                 deletecheckbox.appendChild(checkmark)
     
                 taskCard.appendChild(taskName)
-                taskCard.appendChild(priority)
+                taskCard.appendChild(taskPriorityElement)
                 taskCard.appendChild(storyPoints)
                 taskCard.appendChild(tagsContainer)
                 taskCard.appendChild(deletecheckbox)
                 taskCard.addEventListener("click",function (){
-                window.location.href = `task.html?taskId=${taskName.textContent}`})
-                taskList.appendChild(taskCard);    
+                  const urlParams = new URLSearchParams(window.location.search)
+                  const username = urlParams.get("username")
+                window.location.href = `task.html?username=${username}&taskId=${taskName.textContent}`})
+                taskList.appendChild(taskCard);
+                console.log(taskList)    
             });
         }
         return taskData;
     }
 
 
-    // ADD
-    if (addTaskButton !== null){    
-        addTaskButton.addEventListener("click", function () {
-        window.location.href = "addtask.html"; 
-    });
-}
 
 
 
@@ -357,6 +426,41 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   </script>
 
+<script>
+  const toggleButton = document.getElementById("toggleButton");
+  const body = document.body;
+  const colorMappings = {
+  "green": "#85682c",
+  "yellow": "#fdf5eb",
+  "orange": "#e1af3b",
+  "red": "#9b7a26",
+  "rgb(133, 104, 44)": "green",
+  "rgb(253, 245, 235)": "yellow",
+  "rgb(225, 175, 59)": "orange",
+  "rgb(155, 122, 38)": "red"
+  };
+
+  toggleButton.addEventListener("change", function() {
+    if (toggleButton.checked) {
+      body.classList.add("color-blind-friendly");
+      updatePriorityColor();
+    } else {
+      body.classList.remove("color-blind-friendly");
+      updatePriorityColor();
+    }
+  });
+
+  function updatePriorityColor() {
+    const taskCards = document.querySelectorAll(".cardview");
+    taskCards.forEach(function (taskCard) {
+      const priorityElement = taskCard.querySelector(".priority");
+      const currentColor = priorityElement.style.color;
+      if (colorMappings[currentColor]) {
+        priorityElement.style.color = colorMappings[currentColor];
+      }
+    });
+  }
+</script>
 
 </body>
 </html>
