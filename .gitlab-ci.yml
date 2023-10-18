@@ -1,0 +1,7 @@
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: FIT2101-Team3
+    url: https://techfusion.com
