@@ -86,7 +86,7 @@
 </div>
 
 </div>
-<script>
+<script type="module">
     const toggleButton = document.getElementById("toggleButton");
     const body = document.body;
   
@@ -128,6 +128,7 @@
                 // Delete the selected members from the Firebase database
                 memberIdsToDelete.forEach(memberId => {
                 const memberRef = ref(db, `addMember/${memberId}`);
+                console.log(memberRef)
                 remove(memberRef)
                     .then(() => {
                     alert(`Member with ID ${memberId} has been deleted.`);
@@ -141,7 +142,7 @@
             }
         });
 
-        document.getElementById("cancel-button").addEventListener("click", function (e) {
+        document.getElementById("discard-button").addEventListener("click", function (e) {
             window.location.href = "profilepage.html";
         });
 
