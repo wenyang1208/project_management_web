@@ -41,7 +41,7 @@
 <div class="details-frame">
     <div class="details-container">
         <div class="checkbox">
-            <input type="checkbox">
+          <input type="checkbox" class="member-checkbox" data-username="Alice">
         </div>
         <div class="name-input">
             Alice
@@ -55,7 +55,7 @@
 <div class="details-frame">
     <div class="details-container">
         <div class="checkbox">
-            <input type="checkbox">
+            <input type="checkbox" class="member-checkbox" data-username="Bob">
         </div>
         <div class="name-input">
             Bob
@@ -69,7 +69,7 @@
 <div class="details-frame">
     <div class="details-container">
         <div class="checkbox">
-            <input type="checkbox">
+            <input type="checkbox" class="member-checkbox" data-username="Fred">
         </div>
         <div class="name-input">
             Fred
@@ -79,6 +79,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="button-container">
     <a style="cursor: pointer;" id="delete-button" class="delete-button">Delete</a>
@@ -123,6 +124,53 @@
             
         }
     })
+
+    const que = query(ref(db, "addMember/"));
+    const memberDetails = document.querySelector('.details-frame');
+    const allMemberDetails = [];
+
+    get(que).then((snapshot) => {
+      if (snapshot.exists()){
+        snapshot.forEach((childSnapshot) => {
+          const allMembers = snapshot.val();
+          allMemberDetails.push(allMembers)
+        });
+      }
+    })
+    .then(() => {console.log(allMemberDetails)})
+    .then(() => {createMemberElement(savedMemberDetails)})
+    .catch((error) => {
+        console.error("Error getting data:", error);
+    });
+
+    function displayMemberDetail(memberData) {
+        memberDetails.innerHTML = "";
+        memberData.forEach(function (member, index) {
+
+            const detailsFrame = document.createElement("div");
+            detailsFrame.classList.add("details-frame");
+            
+            const memberDetails = document.createElement("div");
+            memberDetails.className = "details-container";
+
+            const memberCheckbox = document.createElement("div");
+            memberCheckbox.innerHTML = `<input type="checkbox" class="member-checkbox" data-username="${username}">`;
+
+            const nameInput = document.createElement("div");
+            nameInput.classList.add("name-input");
+            nameInput.textContent = member.username;
+            detailsFrame.appendChild(nameInput);
+
+            const emailInput = document.createElement("div");
+            emailInput.classList.add("email-input");
+            emailInput.textContent = member.email;
+            detailsFrame.appendChild(emailInput);
+
+        });
+
+    return memberData;
+    }
+
     document.getElementById("previous-page").addEventListener("click",function(){
       window.location.href = `profilepage.html?username=${username}`
     })
@@ -173,43 +221,36 @@
       })
       window.location.href = `../Login/login.html`
     })
-
-        // Add event listener to the delete button
-        document.getElementById("delete-button").addEventListener("click", function (e) {
-            const selectedMembers = document.querySelectorAll('.details-frame input[type="checkbox"]:checked');
-
-            if (selectedMembers.length === 0) {
-            alert("Please select at least one team member to delete.");
-            } else {
-            if (confirm("Are you sure you want to delete the selected team members?")) {
-                const memberIdsToDelete = Array.from(selectedMembers).map(checkbox => checkbox.getAttribute("data-member-id"));
-        
-                // Delete the selected members from the Firebase database
-                memberIdsToDelete.forEach(memberId => {
-                const memberRef = ref(db, `addMember/${memberId}`);
-                console.log(memberRef)
-                remove(memberRef)
-                    .then(() => {
-                    alert(`Member with ID ${memberId} has been deleted.`);
-                    window.location.reload();
-                    })
-                    .catch(error => {
-                    console.error("Error deleting member:", error);
-                    });
-                });
-            }
-            }
-        });
-
-        document.getElementById("cancel-button").addEventListener("click", function (e) {
-            window.location.href = "profilepage.html";
-        });
-
-        document.querySelector(".previous-page a").addEventListener("click", function (e) {
-            e.preventDefault(); 
-            window.location.href = "profilepage.html";
-        });
     });
+
+    document.getElementById("delete-button").addEventListener("click", function(e){
+      const memberCheckboxes = document.querySelectorAll(".member-checkbox:checked");
+
+      if (memberCheckboxes.length === 0) {
+        alert("Please select at least one member to delete");
+      } else{
+        if (confirm("Are you sure you want to delete tje selected memebrs?")){
+          memberCheckboxes.forEach(function (checkbox){
+            const memberToDelete = checkbox.getAttribute("data-username");
+            deleteMember(memberToDelete);
+            checkbox.closest("details-container").remove();
+          });
+        }
+      }
+    })
+
+    function deleteMember(username) {
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const memberRef = ref(db, `addMember/${username}`);
+      remove(memberRef)
+      .then(() => {
+        console.log(`Selected member has been deleted.`);
+      })
+      .catch((error) => {
+        console.error("Error occured")
+      })
+    }
 
 
   </script>
