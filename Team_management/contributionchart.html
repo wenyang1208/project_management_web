@@ -113,7 +113,7 @@ const db = getDatabase(app);
       const assigneeList = document.getElementById("AssigneeList");
       const timeSpentHeader = document.getElementById("timeSpentHeader");
       const sprintList = document.getElementById("sprintList");
-      get(ref(db,`teamManagement`)).then((allSprint)=>{
+      get(ref(db,`newsprint`)).then((allSprint)=>{
         if (allSprint.exists()) {
             const allSprintVal = allSprint.val()
             const allSprintName = Object.keys(allSprintVal)
@@ -196,7 +196,7 @@ function getIntervalsBetweenDates(startD, endD) {
 }
     function generateChartData(color){
         const datasets = []
-      get(ref(db,`teamManagement/${sprintList.value}`)).then((sprint)=>{
+      get(ref(db,`newsprint/${sprintList.value}`)).then((sprint)=>{
         if (sprint.exists()){
             // const toggleButton = document.getElementById("toggleButton");
             const startDate = sprint.val()["startDate"]
@@ -207,7 +207,7 @@ function getIntervalsBetweenDates(startD, endD) {
             // const colorBlindness = ['#9b7a26','#204f7f','#85682c','#fdf5eb','#404c6d','#000000',
             //                         '#453e3f', '#372e25','#fae5f4']
             if (assigneeList.value == "All member"){
-                get(ref(db,`teamManagement/${sprintList.value}/taskAssignees`)).then((allMember)=>{
+                get(ref(db,`newsprint/${sprintList.value}/taskAssignees`)).then((allMember)=>{
                     if (allMember.exists()){
                         console.log(allMember.val())
                         allMember.forEach((member)=>{
@@ -228,10 +228,20 @@ function getIntervalsBetweenDates(startD, endD) {
                             generateChart(interval,datasets)
                         })
                     }
+                    else {
+                      timeSpentHeader.textContent = `The sprint ${sprintList.value} has not been started by all the members`
+                      const data = []
+                        interval.forEach((date)=>{
+                            data.push(0)
+                        })
+                        datasets.push({label:assigneeList.value,data:data,borderColor:color[datasets.length],
+                            borderWidth:2,fill:false,tension:0})
+                            generateChart(interval,datasets)
+                    }
                 })
             }
             else {
-                get(ref(db,`teamManagement/${sprintList.value}/taskAssignees/${assigneeList.value}`)).then((assignee)=>{
+                get(ref(db,`newsprint/${sprintList.value}/taskAssignees/${assigneeList.value}`)).then((assignee)=>{
                     if (assignee.exists()){
                         const assigneeData = assignee.val()
                         console.log(assigneeData)

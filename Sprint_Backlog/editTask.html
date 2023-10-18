@@ -532,7 +532,7 @@ function generateChart(data){
     if (timeSpent2 >= 0){
       const selectedDate = date1.value;
       const timeSpentRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${selectedDate}`);
-      const timeSpentRefAccordingToAssignee = ref(db,`teamManagement/${taskAssigneeElement.value}`)
+      const timeSpentRefAccordingToAssignee = ref(db,`newsprint/${sprintId}/taskAssignees/${taskAssigneeElement.value}`)
       if (duration.includes(selectedDate)){
         if (currentDate > new Date(selectedDate)){
           get(timeSpentRef)
@@ -640,11 +640,11 @@ savebutton.addEventListener("click",function(){
   logTimeSpentArray.forEach((logTimeSpent)=>{
     set(ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${logTimeSpent.date}`),logTimeSpent)// Setting reference, store log time spent (date and time) in the ref
   })
-  update(ref(db,`teamManagement/${sprintId}/taskAssignees/${taskAssigneeElement.value}`),{
+  update(ref(db,`newsprint/${sprintId}/taskAssignees/${taskAssigneeElement.value}`),{
     name: taskAssigneeElement.value
   })
   timeSpentAccordingToAssigneeArray.forEach((logTimeSpent)=>{
-    update(ref(db,`teamManagement/${sprintId}/taskAssignees/${taskAssigneeElement.value}/logTimeSpent`),logTimeSpent)
+    update(ref(db,`newsprint/${sprintId}/taskAssignees/${taskAssigneeElement.value}/logTimeSpent`),logTimeSpent)
   })
 
   logTimeSpentDataArray.forEach((logTimeSpent)=>{
