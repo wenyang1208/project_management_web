@@ -66,9 +66,9 @@
 </div> -->
 
 <div class="button-container">
-    <a href="#" id="view-button" class="view-button">View Team Contribution</a>
-    <a href="../Team_management/addmember.html" id="create-button" class="create-button">Create New Account</a>
-    <a href="deletemember.html" id="delete-button" class="delete-button">Delete Existing Account</a>
+    <a style="cursor: pointer;" id="view-button" class="view-button">View Team Contribution</a>
+    <a style="cursor: pointer;" id="create-button" class="create-button">Create New Account</a>
+    <a style="cursor: pointer;" id="delete-button" class="delete-button">Delete Existing Account</a>
     </div>
 
 </div>
@@ -97,6 +97,33 @@ document.addEventListener("DOMContentLoaded", function(){
     const db = getDatabase(app);
     const urlParams = new URLSearchParams(window.location.search)
     const username = urlParams.get("username")
+    document.getElementById("view-button").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to view the Team_Management")
+      }
+      else
+      {window.location.href= `../Team_management/contributionchart.html?username=${username}`}
+    })})
+    document.getElementById("create-button").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to add member")
+      }
+      else
+      {window.location.href= `../Team_management/addmember.html?username=${username}`}
+    })})
+    document.getElementById("delete-button").addEventListener("click",function(){
+      get(ref(db,`addMember/${username}`)).then((user)=>{
+      if (user.val()["identity"] != "admin")
+      {
+        alert("You don't have the access to delete member")
+      }
+      else
+      {window.location.href= `../Team_management/deletemember.html?username=${username}`}
+    })})
     document.getElementById("prodBacklog").addEventListener("click",function(){
       window.location.href= `../Product_Backlog/prodBacklog.html?username=${username}`})
     
