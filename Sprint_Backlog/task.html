@@ -367,7 +367,7 @@ function generateChart(data){
 
     editbutton.addEventListener("click",function(event){
         event.preventDefault()
-        window.location.href=`edittask.html?username=${username}&sprintId=${sprintId}&taskId=${taskId}`
+        window.location.href=`editTask.html?username=${username}&sprintId=${sprintId}&taskId=${taskId}`
     })
     const deletebutton = document.getElementById("delete-button")
     deletebutton.addEventListener("click",function(){
