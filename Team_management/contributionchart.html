@@ -29,7 +29,7 @@
 
     <div class="light-yellow-frame">
         <div class="white-new-frame">
-            <h2 id="timeSpentHeader">Time spent of Alice for the project on each day</h2>
+            <h2 id="timeSpentHeader">Time spent of "" for the sprint "" on each day</h2>
             <canvas id="lineChart1"></canvas>
         </div>
         <div class="assignee">
@@ -213,6 +213,7 @@ function getIntervalsBetweenDates(startD, endD) {
                         allMember.forEach((member)=>{
                             const assignee = member.val()
                             const data = []
+                            if (assignee.logTimeSpent != null){
                             const dateList = Object.keys(assignee.logTimeSpent)
                             const timeSpentList = Object.values(assignee.logTimeSpent)
                             interval.forEach((date)=>{
@@ -223,6 +224,12 @@ function getIntervalsBetweenDates(startD, endD) {
                                     data.push(0)
                                 }
                             })
+                          }
+                          else {
+                            interval.forEach((date)=>{
+                              data.push(0)
+                            })
+                          }
                                 datasets.push({label:`${assignee.name}`,data:data,borderColor:color[datasets.length],
                             borderWidth:2,fill:false,tension:0})
                             generateChart(interval,datasets)
@@ -246,6 +253,7 @@ function getIntervalsBetweenDates(startD, endD) {
                         const assigneeData = assignee.val()
                         console.log(assigneeData)
                         const data = []
+                        if (assigneeData.logTimeSpent != null){
                             const dateList = Object.keys(assigneeData.logTimeSpent)
                             const timeSpentList = Object.values(assigneeData.logTimeSpent)
                             interval.forEach((date)=>{
@@ -256,6 +264,12 @@ function getIntervalsBetweenDates(startD, endD) {
                                     data.push(0)
                                 }
                             })
+                          }
+                          else {
+                            interval.forEach((date)=>{
+                              data.push(0)
+                            })
+                          }
                             datasets.push({label:assigneeData.name,data:data,borderColor:color[datasets.length],
                             borderWidth:2,fill:false,tension:0})
                             generateChart(interval,datasets)

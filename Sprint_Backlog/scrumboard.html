@@ -165,8 +165,29 @@ document.addEventListener("DOMContentLoaded",function(){
                 
                 const status = document.createElement("div");
                 status.classList.add("status");
+                const currentDate = new Date()
+                const startDate2 = new Date(sprintData.startDate)
+                const endDate2 = new Date(sprintData.endDate)
+                console.log(currentDate <= startDate2)
                 status.textContent = `Status: ${sprintData.selectedStatus}`;
-
+                if (currentDate < startDate2){
+                  status.textContent = `Status: Not Started`;
+                  update(ref(db,`newsprint/${sprintData.sprint}`),{
+                    selectedStatus: "Not Started"
+                  })
+                }
+                else if (startDate2 <= currentDate && currentDate <= endDate2){
+                  status.textContent = `Status: Active`;
+                  update(ref(db,`newsprint/${sprintData.sprint}`),{
+                    selectedStatus: "Active"
+                  })
+                }
+                else if (startDate2 <= currentDate && currentDate > endDate2){
+                  status.textContent = `Status: Completed`;
+                  update(ref(db,`newsprint/${sprintData.sprint}`),{
+                    selectedStatus: "Completed"
+                  })
+                }
                 const deletecheckbox = document.createElement("label")
                 deletecheckbox.classList.add("custom-checkbox")
                 deletecheckbox.classList.add("hidden-checkbox")
