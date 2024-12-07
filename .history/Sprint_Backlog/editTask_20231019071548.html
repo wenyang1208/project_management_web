@@ -526,7 +526,7 @@ function generateChart(data){
     let flag2 = false
 
     if (timeSpent2 >= 0){
-      const selectedDate = date1.value.replace(/-0(\d)$/, '-$1');
+      const selectedDate = date1.value;
       const timeSpentRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${selectedDate}`);
       const timeSpentRefAccordingToAssignee = ref(db,`newsprint/${sprintId}/taskAssignees/${taskAssigneeElement.value}`)
       if (duration.includes(selectedDate)){
@@ -538,7 +538,6 @@ function generateChart(data){
               existingTimeSpent = snapshot.val().timeSpent
               timeSpent2 = parseFloat(existingTimeSpent) + parseFloat(timeSpent2);
             }
-            // add the log time on the same date (unsaved)
             logTimeSpentArray.forEach((logTime)=>{
               if(selectedDate === logTime.date){
                 logTime.timeSpent = parseFloat(timeSpent2) + parseFloat(logTime.timeSpent)
@@ -553,7 +552,6 @@ function generateChart(data){
           logTimeSpentArray.push(logTimeSpent)
           console.log(logTimeSpentArray)
             }
-          // accumulation time
           accTime.textContent = parseFloat(accTime.textContent) + parseFloat(timeSpent3);
           }
         
@@ -587,8 +585,6 @@ function generateChart(data){
         }
       }
       else{
-        console.log(duration)
-        console.log(selectedDate)
         alert('Please enter the date within the start and end date')
       }
     }

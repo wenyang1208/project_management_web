@@ -526,9 +526,10 @@ function generateChart(data){
     let flag2 = false
 
     if (timeSpent2 >= 0){
-      const selectedDate = date1.value.replace(/-0(\d)$/, '-$1');
+      const selectedDate = date1.valuereplace(/-0(\d)$/, '-$1');
       const timeSpentRef = ref(db, `newsprint/${sprintId}/selectedTasks/${taskId}/logTimeSpent/${selectedDate}`);
       const timeSpentRefAccordingToAssignee = ref(db,`newsprint/${sprintId}/taskAssignees/${taskAssigneeElement.value}`)
+      const formattedDate = dateStr.replace(/-0(\d)$/, '-$1');
       if (duration.includes(selectedDate)){
         if (currentDate > new Date(selectedDate)){
           get(timeSpentRef)
